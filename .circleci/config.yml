@@ -1,0 +1,83 @@
+version: 2.1
+jobs:
+
+  fyi-iapetus-plugins-compile:
+    executor: server
+    steps:
+      - server
+
+  fyi-iapetus-plugins-deploy:
+    executor: server
+    steps:
+      - server:
+          release: "true"
+
+
+executors:
+
+  server:
+    docker:
+      - image: remie/circleci-collabsoft-addons
+    resource_class: large
+    working_directory: ~/acpolyfill
+      
+commands:
+
+  prepare:
+    steps:
+      - checkout:
+          path: ~/acpolyfill
+
+      - run:
+          name: Setup environment
+          command: |
+            npm install --prefix=$HOME/.local yarn@berry -g
+            yarn --version
+
+      - run: 
+          name: Install dependencies
+          command: yarn install --immutable
+
+  server:
+    parameters:
+      release:
+        type: string
+        default: "false"
+    steps:
+      - prepare
+
+      - run:
+          name: Publish to Maven Repository
+          command: |
+            atlas-mvn clean deploy -DskipTests -Drelease=<< parameters.release >>
+            atlas-mvn clean deploy -P jira -DskipTests -Drelease=<< parameters.release >>
+            atlas-mvn clean deploy -P confluence -DskipTests -Drelease=<< parameters.release >>
+          no_output_timeout: 60m
+
+workflows:
+  deploy:
+    jobs:
+
+      - fyi-iapetus-plugins-compile:
+          name: Atlassian Connect Polyfill - Development
+          filters:
+            branches:
+              ignore: main
+
+      - fyi-iapetus-plugins-release:
+          name: Atlassian Connect Polyfill - Release
+          type: approval
+          filters:
+            branches:
+              only: main
+
+      - fyi-iapetus-plugins-deploy:
+          name: Atlassian Connect Polyfill - Deploy
+          requires:
+            - Atlassian Connect Polyfill - Release
+          filters:
+            branches:
+              only: main
+
+
+
