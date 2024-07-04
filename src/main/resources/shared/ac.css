@@ -1,0 +1,48 @@
+
+
+/******************************************************
+            Atlassian Connect Polyfill 
+                    CSS Reset
+*******************************************************/
+
+/*//////////////////////////////////////////////////////
+    Jira 
+//////////////////////////////////////////////////////*/
+
+/* Remove padding to emulate the Atlassian Connect experience */
+.aui-page-panel-content:has(iframe[data-ap-key]) {
+    padding: 0;
+}
+
+/* If the .page-type-connect class is set, adjust the height of the panel */
+.page-type-connect .aui-page-panel-content:has(iframe[data-ap-key]) {
+    height: calc(100vh - var(--content-panel-offset, 0px));
+}
+
+/* If the .page-type-connect class is set, hide the footer */
+.page-type-connect #footer {
+    display: none;
+}
+
+/*//////////////////////////////////////////////////////
+    Confluence 
+//////////////////////////////////////////////////////*/
+
+/* 
+The left-side navigation of Confluence administration
+pages is set to `display: table-cell`, but the vertical
+alignment of the table is not set
+*/
+#main .pagecontent > div {
+    vertical-align: top;
+}
+
+/* Remove padding to emulate the Atlassian Connect experience */
+#main #admin-content:has(iframe[data-ap-key]) {
+    padding: 0;
+}
+
+/* Remove logo heading block to emulate the Atlassian Connect experience */
+#main #admin-content:has(iframe[data-ap-key]) .logo-heading-block {
+    display: none;
+}

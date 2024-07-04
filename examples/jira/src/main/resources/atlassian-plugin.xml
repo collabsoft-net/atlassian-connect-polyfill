@@ -1,0 +1,67 @@
+<atlassian-plugin key="${atlassian.plugin.key}" name="${project.name}" plugins-version="2">
+    <plugin-info>
+        <description>${project.description}</description>
+        <version>${project.version}</version>
+        <vendor name="${project.organization.name}" url="${project.organization.url}" />
+        <param name="plugin-icon">images/pluginIcon.png</param>
+        <param name="plugin-logo">images/pluginLogo.png</param>
+
+        <!-- Atlassian Connect Polyfill -->
+        <param name="ac.baseurl">/plugins/servlet/jira-example/</param>
+        <param name="ac.context">jira-example-atlassian-connect</param>
+    </plugin-info>
+
+    <!-- ####################################################################################
+         Manage Apps > App section
+    ##################################################################################### -->
+
+    <web-section key="fyi-iapetus-examples-web-section" location="admin_plugins_menu" weight="60">
+        <label key="${project.name}"/>
+    </web-section>
+
+    <web-item key="fyi-iapetus-examples-hello-world" section="admin_plugins_menu/fyi-iapetus-examples-web-section" weight="10">
+        <label key="Hello World" />
+        <link linkId="helloworld">/plugins/servlet/atlassian-connect/${atlassian.plugin.key}/fyi-iapetus-examples-hello-world</link>
+        <param name="title" value="Hello World" />
+        <param name="decorator" value="atl.admin" />
+        <param name="url" value="/hello-world" />
+    </web-item>
+
+    <!-- ####################################################################################
+         Project Panel
+    ##################################################################################### -->
+
+    <web-panel key="fyi-iapetus-examples-project-panel-key" location="${atlassian.plugin.key}:fyi-iapetus-examples-project-panel" class="fyi.iapetus.examples.ACWebPanel">
+        <context-provider class="fyi.iapetus.examples.ACContextProvider">
+            <param name="url" value="/project-panel" />
+        </context-provider>
+    </web-panel>
+
+    <web-item key="fyi-iapetus-examples-project-panel" section="jira.project.sidebar.plugins.navigation" weight="10">
+        <label key="Jira Example" />
+        <link linkId="projects">/projects/$pathEncodedProjectKey?selectedItem=${atlassian.plugin.key}:fyi-iapetus-examples-project-panel&amp;ac.pid=${helper.projectObject.id}&amp;ac.projectKey=${helper.projectObject.key}</link>
+        <param name="iconClass" value="aui-icon-large icon-sidebar-add-ons"/>
+    </web-item>
+
+    <!-- ####################################################################################
+         Issue Panel
+    ##################################################################################### -->
+
+    <web-panel key="fyi-iapetus-examples-issue-panel" location="atl.jira.view.issue.left.context" weight="250" class="fyi.iapetus.examples.ACWebPanel">
+        <label key="Jira Example" />
+        <context-provider class="fyi.iapetus.examples.ACContextProvider">
+            <param name="ac.plugin.key" value="${atlassian.plugin.key}" />
+            <param name="ac.moduleKey" value="fyi-iapetus-examples-issue-panel" />
+            <param name="url" value="/issue-panel" />
+        </context-provider>
+    </web-panel>
+
+    <!-- ####################################################################################
+         Servlet
+    ##################################################################################### -->
+
+    <servlet key="ACServlet" class="fyi.iapetus.examples.ACServlet">
+        <url-pattern>/jira-example/*</url-pattern>
+    </servlet>
+
+</atlassian-plugin>

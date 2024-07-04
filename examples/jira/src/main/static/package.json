@@ -1,0 +1,46 @@
+{
+  "private": true,
+  "name": "@jira-example/p2",
+  "version": "0.0.0",
+  "scripts": {
+    "clean": "rm -rf dist/ && rm -rf ../resources/static && rm -rf ../resources/META-INF/plugin-descriptors && rm -rf ../../../target/classes/static && rm -rf ../../../target/classes/META-INF/plugin-descriptors",
+    "lint": "yarn run eslint .",
+    "build": "yarn clean && yarn lint && yarn run webpack --config ./webpack.config.js",
+    "reinstall": "rm -rf node_modules && yarn install"
+  },
+  "devDependencies": {
+    "@types/js-cookie": "^3",
+    "@types/node": "^20.14.9",
+    "@types/react": "^18",
+    "@types/react-dom": "^18",
+    "@types/uniqid": "^5",
+    "@typescript-eslint/eslint-plugin": "^7.14.1",
+    "@typescript-eslint/parser": "^7.14.1",
+    "atlassian-webresource-webpack-plugin": "^6.0.3",
+    "browserify-zlib": "^0.2.0",
+    "crypto-browserify": "^3.12.0",
+    "eslint": "^9.6.0",
+    "eslint-plugin-simple-import-sort": "^12.1.0",
+    "https-browserify": "^1.0.0",
+    "os-browserify": "^0.3.0",
+    "stream-http": "^3.2.0",
+    "ts-loader": "^9.5.1",
+    "typescript": "^5.5.2",
+    "web-streams-polyfill": "^4.0.0",
+    "webpack": "^5.92.1",
+    "webpack-cli": "^5.1.4"
+  },
+  "dependencies": {
+    "@collabsoft-net/connect": "^1.1.2-alpha.52",
+    "@collabsoft-net/helpers": "^1.1.2-alpha.46",
+    "@collabsoft-net/inversify": "^1.1.2-alpha.7",
+    "inversify": "^6.0.2",
+    "inversify-inject-decorators": "^3.1.0",
+    "js-cookie": "^3.0.5",
+    "process": "^0.11.10",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1",
+    "uniqid": "^5.4.0"
+  },
+  "packageManager": "yarn@4.3.1"
+}

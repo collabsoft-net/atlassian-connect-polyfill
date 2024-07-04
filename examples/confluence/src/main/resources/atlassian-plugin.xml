@@ -1,0 +1,54 @@
+<atlassian-plugin key="${atlassian.plugin.key}" name="${project.name}" plugins-version="2">
+    <plugin-info>
+        <description>${project.description}</description>
+        <version>${project.version}</version>
+        <vendor name="${project.organization.name}" url="${project.organization.url}" />
+        <param name="plugin-icon">images/pluginIcon.png</param>
+        <param name="plugin-logo">images/pluginLogo.png</param>
+
+        <!-- Atlassian Connect Polyfill -->
+        <param name="ac.baseurl">/plugins/servlet/confluence-example/</param>
+        <param name="ac.context">confluence-example-atlassian-connect</param>
+    </plugin-info>
+
+    <resource type="i18n" name="i18n" location="i18n.properties" />
+
+    <!-- ####################################################################################
+         Manage Apps > App section
+    ##################################################################################### -->
+
+    <web-section key="fyi-iapetus-examples-web-section" location="system.admin" weight="10">
+        <label key="${project.name}"/>
+    </web-section>
+
+    <web-item key="fyi-iapetus-examples-hello-world" section="system.admin/fyi-iapetus-examples-web-section" weight="10">
+        <label key="Hello World" />
+        <link linkId="helloworld">/plugins/servlet/atlassian-connect/${atlassian.plugin.key}/fyi-iapetus-examples-hello-world</link>
+        <param name="title" value="Hello World" />
+        <param name="decorator" value="atl.admin" />
+        <param name="url" value="/hello-world" />
+    </web-item>
+
+    <!-- ####################################################################################
+         Macro
+    ##################################################################################### -->
+
+    <xhtml-macro name="confluence-example-macro" key="fyi-iapetus-examples-macro" class="fyi.iapetus.examples.ACMacro">
+        <param name="url" value="/macro" />
+
+        <description key="Atlassian Connect Polyfill example macro" />
+        <category name="external-content"/>
+        <parameters>
+            <parameter name="name" type="string" required="false" multiple="false" />
+        </parameters>
+    </xhtml-macro>
+
+    <!-- ####################################################################################
+         Servlet
+    ##################################################################################### -->
+
+    <servlet key="ACServlet" class="fyi.iapetus.examples.ACServlet">
+        <url-pattern>/confluence-example/*</url-pattern>
+    </servlet>
+
+</atlassian-plugin>

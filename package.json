@@ -1,0 +1,16 @@
+{
+  "private": true,
+  "name": "atlassian-connect-polyfill",
+  "version": "0.0.0",
+  "license": "Apache-2.0",
+  "scripts": {
+    "build": "yarn build:servlet && yarn build:jira && yarn build:confluence",
+    "build:servlet": "mvn clean && mvn install",
+    "build:jira": "mvn clean && mvn install -P jira",
+    "build:confluence": "mvn clean && mvn install -P confluence",
+    "upgrade-iapetus": "yarn up -E \"@collabsoft-net/*\""
+  },
+  "dependencies": {
+    "@collabsoft-net/connect": "1.1.2-alpha.54"
+  }
+}

@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<atlassian-plugin key="fyi.iapetus.plugins.acpolyfill" name="Iapetus - Atlassian Connect Polyfill" plugins-version="2">
+    <plugin-info>
+        <description>
+            This is the Atlassian Connect Polyfill, a utility plugin used by other apps to achieve feature parity between
+            Atlassian Data Center and Atlassian Cloud. Multiple apps may depend on this plugin. Please do not disable or
+            uninstall it unless instructed to do so by an app vendor support team, or unless you've uninstalled any app
+            that depends on it.
+        </description>
+        <version>${project.version}</version>
+        <vendor name="${project.organization.name}" url="${project.organization.url}" />
+
+        <!-- DC compatibility -->
+        <param name="atlassian-data-center-status">compatible</param>
+        <param name="atlassian-data-center-compatible">true</param>
+        <param name="plugin-type">both</param>
+        
+        <!-- Support for the following marketing assets has been implemented -->
+        <param name="plugin-icon">/assets/icon.png</param>
+        <param name="plugin-logo">/assets/icon.png</param>
+
+        <!-- Support for the following marketing assets will be implemented soon -->
+        <param name="vendor-icon">/assets/vendor.png</param>
+        <param name="vendor-logo">/assets/vendor.png</param>
+    </plugin-info>
+
+    <web-resource key="acpolyfill-css-reset" name="Iapetus - Atlassian Connect Polyfill - CSS Reset">
+        <resource type="download" name="ac.css" location="/ac.css">
+            <param name="content-type" value="text/css" />
+        </resource>
+        <resource type="download" name="ac.js" location="/ac.js">
+            <param name="content-type" value="text/javascript" />
+        </resource>
+        <context>atl.general</context>
+        <context>atl.admin</context>
+        <context>atl.userprofile</context>
+        <context>atl.popup</context>
+    </web-resource>
+
+    <servlet key="acpolyfill-servlet" name="Iapetus - Atlassian Connect Polyfill - Servlet" class="fyi.iapetus.plugins.acpolyfill.ACServlet">
+        <url-pattern>/atlassian-connect/*</url-pattern>
+    </servlet>
+</atlassian-plugin>
