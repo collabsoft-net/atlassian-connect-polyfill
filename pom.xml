@@ -414,6 +414,8 @@
                                 <exclude>**/fyi/iapetus/plugins/acpolyfill/*.java</exclude>
                                 <exclude>**/fyi/iapetus/plugins/acpolyfill/jira/**/*.java</exclude>
                             </excludes>
+                            <source>8</source>
+                            <target>8</target>
                         </configuration>
                     </plugin>
                     <plugin>
@@ -493,6 +495,8 @@
                                 <exclude>**/fyi/iapetus/plugins/acpolyfill/*.java</exclude>
                                 <exclude>**/fyi/iapetus/plugins/acpolyfill/confluence/**/*.java</exclude>
                             </excludes>
+                            <source>8</source>
+                            <target>8</target>
                         </configuration>
                     </plugin>
                     <plugin>
