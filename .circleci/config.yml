@@ -49,7 +49,7 @@ commands:
       - run:
           name: Publish to Maven Repository
           command: |
-            atlas-mvn clean deploy -DskipTests -Drelease=<< parameters.release >>
+            atlas-mvn clean deploy -P servlet -DskipTests -Drelease=<< parameters.release >>
             atlas-mvn clean deploy -P jira -DskipTests -Drelease=<< parameters.release >>
             atlas-mvn clean deploy -P confluence -DskipTests -Drelease=<< parameters.release >>
           no_output_timeout: 60m
