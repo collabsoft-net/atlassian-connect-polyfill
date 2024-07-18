@@ -75,7 +75,7 @@ commands:
       - run:
           name: Update S3 caching headers
           command: |
-            aws s3 cp s3://repository.collabsoft.net/ s3://repository.collabsoft.net/ --dryrun --exclude "*" --include "*.xml" \
+            aws s3 cp s3://repository.collabsoft.net/ s3://repository.collabsoft.net/ --exclude "*" --include "*.xml" \
             --recursive --metadata-directive REPLACE --expires 1970-01-01T00:00:00Z --acl public-read \
             --cache-control max-age=0,private,no-cache
 
