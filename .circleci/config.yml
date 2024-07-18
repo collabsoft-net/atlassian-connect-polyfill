@@ -43,7 +43,8 @@ commands:
           command: yarn install --immutable
 
       - aws-cli/install
-      - aws-cli/setup
+      - aws-cli/setup:
+          region: 'us-east-1'
 
   server:
     parameters:
