@@ -47,11 +47,21 @@ commands:
       - prepare
 
       - run:
-          name: Publish to Maven Repository
+          name: Publish Atlassian Connect Polyfill helper classes for Jira
+          command: |
+            atlas-mvn clean deploy -P jira -DskipTests -Drelease=<< parameters.release >>
+          no_output_timeout: 60m
+
+      - run:
+          name: Publish Atlassian Connect Polyfill helper classes for Confluence
+          command: |
+            atlas-mvn clean deploy -P confluence -DskipTests -Drelease=<< parameters.release >>
+          no_output_timeout: 60m
+
+      - run:
+          name: Publish Atlassian Connect Polyfill
           command: |
             atlas-mvn clean deploy -P servlet -DskipTests -Drelease=<< parameters.release >>
-            atlas-mvn clean deploy -P jira -DskipTests -Drelease=<< parameters.release >>
-            atlas-mvn clean deploy -P confluence -DskipTests -Drelease=<< parameters.release >>
           no_output_timeout: 60m
 
 workflows:
