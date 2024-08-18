@@ -40,7 +40,6 @@ public class ACServlet extends HttpServlet {
     private final WebSudoManager webSudoManager;
     private final LoginUriProvider loginUriProvider;
     private final UserManager userManager;
-    private final ApplicationProperties applicationProperties;
 
     ACServlet(
         @ComponentImport WebSudoManager webSudoManager,
@@ -59,7 +58,6 @@ public class ACServlet extends HttpServlet {
         this.webSudoManager = webSudoManager;
         this.loginUriProvider = loginUriProvider;
         this.userManager = userManager;
-        this.applicationProperties = applicationProperties;
     }
 
     @Override
