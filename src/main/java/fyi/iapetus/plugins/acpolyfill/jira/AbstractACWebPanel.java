@@ -73,7 +73,9 @@ public abstract class AbstractACWebPanel implements WebPanel {
 
             // Add some additional META information
             Optional<String> userKey = Optional.of(Objects.requireNonNull(userManager.getRemoteUserKey()).getStringValue());
+            params.put("remote-user-key", userKey.orElse(""));
             params.put("ajs-remote-user-key", userKey.orElse(""));
+            params.put("product-name", platformHelper.getPlatformName());
             params.put("atl-product-name", platformHelper.getPlatformName());
 
             String moduleUrl = params.getOrDefault("url", "/");

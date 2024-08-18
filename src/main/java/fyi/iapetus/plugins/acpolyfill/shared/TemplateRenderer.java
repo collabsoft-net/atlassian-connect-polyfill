@@ -72,7 +72,9 @@ public class TemplateRenderer {
         // Get descriptor metadata
         Map<String, String> params = pluginHelper.getModuleParams(plugin, moduleKey);
         Optional<String> userKey = Optional.of(Objects.requireNonNull(userManager.getRemoteUserKey()).getStringValue());
+        params.put("remote-user-key", userKey.orElse(""));
         params.put("ajs-remote-user-key", userKey.orElse(""));
+        params.put("product-name", platformHelper.getPlatformName());
         params.put("atl-product-name", platformHelper.getPlatformName());
         params.put(String.format("%s-lic", plugin.getKey()), pluginHelper.getLicenseState(plugin));
 
