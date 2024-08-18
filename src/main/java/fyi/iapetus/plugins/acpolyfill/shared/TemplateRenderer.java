@@ -115,7 +115,7 @@ public class TemplateRenderer {
         sb.append(resources);
         sb.append("</head>");
         sb.append("<body>");
-        sb.append(String.format("<iframe src=\"%1$s%2$s\" style=\"border:none; overflow: hidden; width: 100%%;\" data-ap-appkey=\"%3$s\" data-ap-key=\"%4$s\"></iframe>", urlPrefix, urlSuffix, plugin.getKey(), moduleKey));
+        sb.append(String.format("<iframe src=\"%1$s%2$s\" style=\"border:none; overflow: hidden; width: 100%;\" data-ap-appkey=\"%3$s\" data-ap-key=\"%4$s\"></iframe>", urlPrefix, urlSuffix, plugin.getKey(), moduleKey));
         sb.append("</body>");
 
         return sb.toString();
