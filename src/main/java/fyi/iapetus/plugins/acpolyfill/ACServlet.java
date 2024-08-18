@@ -49,11 +49,12 @@ public class ACServlet extends HttpServlet {
         @ComponentImport ApplicationProperties applicationProperties,
         @ComponentImport PageBuilderService pageBuilderService,
         @ComponentImport PluginAccessor pluginAccessor,
-        @ComponentImport PluginLicenseManager pluginLicenseManager
+        @ComponentImport PluginLicenseManager pluginLicenseManager,
+        @ComponentImport WebResourceAssemblerFactory webResourceAssemblerFactory
     ) {
         this.pluginHelper = new PluginHelper(pluginAccessor, pluginLicenseManager);
         this.urlHelper = new UrlHelper(this.pluginHelper, applicationProperties);
-        this.templateRenderer = new TemplateRenderer(pluginHelper, applicationProperties, userManager, pageBuilderService);
+        this.templateRenderer = new TemplateRenderer(pluginHelper, applicationProperties, userManager, pageBuilderService, webResourceAssemblerFactory);
         this.platformHelper = new PlatformHelper(applicationProperties);
         this.webSudoManager = webSudoManager;
         this.loginUriProvider = loginUriProvider;

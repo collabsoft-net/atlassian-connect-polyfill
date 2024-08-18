@@ -17,6 +17,7 @@ import com.atlassian.sal.api.ApplicationProperties;
 import com.atlassian.sal.api.user.UserManager;
 import com.atlassian.upm.api.license.PluginLicenseManager;
 import com.atlassian.webresource.api.assembler.PageBuilderService;
+import com.atlassian.webresource.api.assembler.WebResourceAssemblerFactory;
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import fyi.iapetus.plugins.acpolyfill.shared.PluginHelper;
 import fyi.iapetus.plugins.acpolyfill.shared.TemplateRenderer;
@@ -39,10 +40,11 @@ public abstract class AbstractACMacro implements Macro {
             PluginRetrievalService pluginRetrievalService,
             PluginAccessor pluginAccessor,
             ApplicationProperties applicationProperties,
-            PageBuilderService pageBuilderService
+            PageBuilderService pageBuilderService,
+            WebResourceAssemblerFactory webResourceAssemblerFactory
     ) {
         this.pluginHelper = new PluginHelper(pluginRetrievalService, pluginAccessor, pluginLicenseManager);
-        this.templateRenderer = new TemplateRenderer(pluginHelper, applicationProperties, userManager, pageBuilderService);
+        this.templateRenderer = new TemplateRenderer(pluginHelper, applicationProperties, userManager, pageBuilderService, webResourceAssemblerFactory);
         this.httpContext = httpContext;
     }
 
