@@ -59,7 +59,7 @@
             <snapshots>
                 <enabled>false</enabled>
             </snapshots>
-            <url>http://repository.collabsoft.net/releases</url>
+            <url>https://repository.collabsoft.net/releases</url>
         </repository>
     </repositories>
 
@@ -240,6 +240,7 @@
                     <productVersion>${confluence.version}</productVersion>
                     <productDataVersion>${confluence.data.version}</productDataVersion>
                     <compressResources>false</compressResources>
+                    <extractDependencies>false</extractDependencies>
 
                     <pluginDependencies>
                         <pluginDependency>
@@ -248,8 +249,16 @@
                         </pluginDependency>
                     </pluginDependencies>
 
+                    <banningExcludes>
+                        <exclude>com.google.guava:guava</exclude>
+                        <exclude>com.google.code.findbugs:jsr305</exclude>
+                    </banningExcludes>
+
                     <instructions>
                         <Bundle-SymbolicName>${atlassian.plugin.key}</Bundle-SymbolicName>
+                        <Bundle-ClassPath>.,{maven-dependencies}</Bundle-ClassPath>
+                        <Embed-Dependency>*;scope=runtime</Embed-Dependency>
+                        <Embed-Directory>META-INF/lib</Embed-Directory>
                         <Atlassian-Plugin-Key>${atlassian.plugin.key}</Atlassian-Plugin-Key>
                         <Atlassian-Scan-Folders>META-INF/plugin-descriptors</Atlassian-Scan-Folders>
                         <Spring-Context>*;timeout:=60</Spring-Context>
