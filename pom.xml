@@ -97,6 +97,13 @@
     </pluginRepositories>
 
     <dependencies>
+
+        <dependency>
+            <groupId>com.google.guava</groupId>
+            <artifactId>guava</artifactId>
+            <version>33.2.0-jre</version>
+        </dependency>
+
         <!-- The Atlassian maven plugin copies all dependencies with compile/runtime scope -->
         <!-- These dependencies should not be included because it breaks the app, therefore scope is set to 'provided' -->
         <dependency>
@@ -341,9 +348,19 @@
                         <extensions>true</extensions>
                         <configuration>
                             <compressResources>false</compressResources>
+                            <extractDependencies>false</extractDependencies>
+
+                            <banningExcludes>
+                                <exclude>com.google.guava:guava</exclude>
+                                <exclude>com.google.code.findbugs:jsr305</exclude>
+                            </banningExcludes>
+
                             <instructions>
                                 <Bundle-Name>Atlassian Connect - Polyfill</Bundle-Name>
                                 <Bundle-SymbolicName>fyi.iapetus.plugins.acpolyfill</Bundle-SymbolicName>
+                                <Bundle-ClassPath>.,{maven-dependencies}</Bundle-ClassPath>
+                                <Embed-Dependency>*;scope=runtime</Embed-Dependency>
+                                <Embed-Directory>META-INF/lib</Embed-Directory>
                                 <Atlassian-Plugin-Key>fyi.iapetus.plugins.acpolyfill</Atlassian-Plugin-Key>
                                 <Spring-Context>*;timeout:=60</Spring-Context>
                                 <Require-Capability>osgi.ee;filter:="(osgi.ee=*)"</Require-Capability>
