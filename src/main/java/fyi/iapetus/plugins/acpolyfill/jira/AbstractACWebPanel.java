@@ -97,7 +97,7 @@ public abstract class AbstractACWebPanel implements WebPanel {
                 }
             });
 
-            sb.append(String.format("<iframe src=\"%1$s%2$s\" style=\"border:none; overflow: hidden; width: 100%;\" data-ap-appkey=\"%3$s\" data-ap-key=\"%4$s\"></iframe>", urlPrefix, urlSuffix, appKey, moduleKey));
+            sb.append(String.format("<iframe src=\"%1$s%2$s\" style=\"border:none; overflow: hidden; width: 100%%;\" data-ap-appkey=\"%3$s\" data-ap-key=\"%4$s\"></iframe>", urlPrefix, urlSuffix, appKey, moduleKey));
             return sb.toString();
         } catch (IOException err) {
             return String.format("<html><body>%s</body></html>", err.getMessage());
