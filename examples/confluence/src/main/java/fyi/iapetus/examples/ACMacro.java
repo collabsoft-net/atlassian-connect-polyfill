@@ -9,6 +9,7 @@ import com.atlassian.sal.api.ApplicationProperties;
 import com.atlassian.sal.api.user.UserManager;
 import com.atlassian.upm.api.license.PluginLicenseManager;
 import com.atlassian.webresource.api.assembler.PageBuilderService;
+import com.atlassian.webresource.api.assembler.WebResourceAssemblerFactory;
 import fyi.iapetus.plugins.acpolyfill.confluence.AbstractACMacro;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -23,9 +24,10 @@ public class ACMacro extends AbstractACMacro {
             @ComponentImport PluginRetrievalService pluginRetrievalService,
             @ComponentImport PluginAccessor pluginAccessor,
             @ComponentImport ApplicationProperties applicationProperties,
-            @ComponentImport PageBuilderService pageBuilderService
-    ) {
-        super(httpContext, pluginLicenseManager, userManager, pluginRetrievalService, pluginAccessor, applicationProperties, pageBuilderService);
+            @ComponentImport PageBuilderService pageBuilderService,
+            @ComponentImport WebResourceAssemblerFactory webResourceAssemblerFactory
+            ) {
+        super(httpContext, pluginLicenseManager, userManager, pluginRetrievalService, pluginAccessor, applicationProperties, pageBuilderService, webResourceAssemblerFactory);
     }
 
 }
