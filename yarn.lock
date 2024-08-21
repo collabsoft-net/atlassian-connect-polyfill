@@ -5,9 +5,9 @@ __metadata:
   version: 6
   cacheKey: 8
 
-"@collabsoft-net/connect@npm:1.1.2-alpha.63":
-  version: 1.1.2-alpha.63
-  resolution: "@collabsoft-net/connect@npm:1.1.2-alpha.63::__archiveUrl=https%3A%2F%2Fnpm.pkg.github.com%2Fdownload%2F%40collabsoft-net%2Fconnect%2F1.1.2-alpha.63%2Fe8ee43576a458c77a4592a6cedadfc3707b7ca9c"
+"@collabsoft-net/connect@npm:1.1.2-alpha.64":
+  version: 1.1.2-alpha.64
+  resolution: "@collabsoft-net/connect@npm:1.1.2-alpha.64::__archiveUrl=https%3A%2F%2Fnpm.pkg.github.com%2Fdownload%2F%40collabsoft-net%2Fconnect%2F1.1.2-alpha.64%2F1fde4fd22a1eb0ff9ec7bb1d5f0d50721f95a565"
   peerDependencies:
     "@atlaskit/modal-dialog": "*"
     "@collabsoft-net/helpers": "*"
@@ -17,7 +17,7 @@ __metadata:
     react: <17.0.0
     react-dom: <17.0.0
     styled-components: 3.2.6
-  checksum: 913de132e7591d500d97666b7d041015070db4c8bdd4242a86b9d5fc1785489dc7e42642e8bc18fc40ac7428fd93159bdc95b85aa885c23f831fa23c368fa89a
+  checksum: 9a0b07fecd59bf6f2e3acfccccc3963936bc376b850707f6a442122c7d6d328acc9be3c9646bb0c8e26cb99ca6b52e996728e56233218283a408251e46757d7f
   languageName: node
   linkType: hard
 
@@ -25,6 +25,6 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "atlassian-connect-polyfill@workspace:."
   dependencies:
-    "@collabsoft-net/connect": 1.1.2-alpha.63
+    "@collabsoft-net/connect": 1.1.2-alpha.64
   languageName: unknown
   linkType: soft
