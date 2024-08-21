@@ -29,6 +29,8 @@ public class TemplateRenderer {
     private final PageBuilderService pageBuilderService;
     private final WebResourceAssemblerFactory webResourceAssemblerFactory;
 
+    public enum RenderType { NORMAL, EMBEDDED }
+
     public TemplateRenderer(
             PluginHelper pluginHelper,
             ApplicationProperties applicationProperties,
@@ -45,11 +47,19 @@ public class TemplateRenderer {
     }
 
     public String renderAtlassianConnectHost(HttpServletRequest req) throws IOException {
+        return this.renderAtlassianConnectHost(req, RenderType.NORMAL);
+    }
+
+    public String renderAtlassianConnectHost(HttpServletRequest req, RenderType type) throws IOException {
         String moduleKey = urlHelper.getModuleKey(req);
-        return this.renderAtlassianConnectHost(req, moduleKey, new String[]{});
+        return this.renderAtlassianConnectHost(req, moduleKey, new String[]{}, type);
     }
 
     public String renderAtlassianConnectHost(HttpServletRequest req, String moduleKey, String[] parameters) throws IOException {
+        return this.renderAtlassianConnectHost(req, moduleKey, parameters, RenderType.NORMAL);
+    }
+
+    public String renderAtlassianConnectHost(HttpServletRequest req, String moduleKey, String[] parameters, RenderType type) throws IOException {
         StringBuilder sb = new StringBuilder();
 
         // Get the plugin from the OSGi bridge
@@ -89,30 +99,30 @@ public class TemplateRenderer {
             throw new IOException("Parameter 'ac.baseurl' is required. Please make sure to add this to the `plugin-info` section of the atlassian-plugin.xml");
         }
 
+        // Generate the url prefix and suffix, based on the context path and the query string parameters
         String urlPrefix = null != req.getContextPath() ? Paths.get(req.getContextPath(), baseUrl).toString() : baseUrl;
         String urlSuffix = String.format("%s%s%s", moduleUrl, moduleUrl.contains("?") ? "&" : "?", String.join("&", queryStringParameters));
 
-        // If provided, add the AC context to the page builder service assembler
-        String resourceContext = pluginHelper.getContext(plugin);
-
-        // If we do not have a page decorator, the page is probably not going to have a pageBuilderService
-        // We should inject the resourceContext into the HTML instead
-        String decorator = params.getOrDefault("decorator", "none");
-        HtmlFragment resources = new HtmlFragment("");
+        // Start constructing the template
+        sb.append("<html>");
+        sb.append("<head>");
+        params.forEach((k, v) -> sb.append(String.format("<meta name=\"%s\" content=\"%s\">", k, v)));
 
         // Check if we have a resourceContext. If so, either inject it through the pageBuilderService, or into the HTML
+        String resourceContext = pluginHelper.getContext(plugin);
         if (null != resourceContext) {
-            if (decorator.equalsIgnoreCase("none")) {
-                resources = this.getResources(resourceContext);
+
+            // Sometimes the iframe is injected into the page to emulate Atlassian Connect
+            // This embedded view does not have access to the PageBuilderService as the page was already built
+            // We should inject the resourceContext into the HTML instead
+            if (type == RenderType.EMBEDDED) {
+                HtmlFragment resources = this.getResources(resourceContext);
+                sb.append(resources);
             } else {
                 pageBuilderService.assembler().resources().requireContext(ResourcePhase.DEFER, resourceContext);
             }
         }
 
-        sb.append("<html>");
-        sb.append("<head>");
-        params.forEach((k, v) -> sb.append(String.format("<meta name=\"%s\" content=\"%s\">", k, v)));
-        sb.append(resources);
         sb.append("</head>");
         sb.append("<body>");
         sb.append(String.format("<iframe src=\"%1$s%2$s\" style=\"border:none; overflow: hidden; width: 100%;\" data-ap-appkey=\"%3$s\" data-ap-key=\"%4$s\"></iframe>", urlPrefix, urlSuffix, plugin.getKey(), moduleKey));

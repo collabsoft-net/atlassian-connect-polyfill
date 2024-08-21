@@ -73,6 +73,8 @@ public class ACServlet extends HttpServlet {
                 if (path.startsWith("/all.js")) {
                     resp.setContentType("application/javascript; charset=utf-8");
                     response = getJavascriptAPI();
+                } else if (path.startsWith("/embedded")) {
+                    response = templateRenderer.renderAtlassianConnectHost(req, TemplateRenderer.RenderType.EMBEDDED);
                 } else {
                     response = templateRenderer.renderAtlassianConnectHost(req);
                 }

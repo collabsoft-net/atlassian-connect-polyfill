@@ -40,7 +40,7 @@ public class UrlHelper {
 
                 if (path.startsWith("/all.js")) {
                     return null;
-                } else if (path.startsWith("/embed") || path.startsWith("/macro")) {
+                } else if (path.startsWith("/embedded")) {
                     return pathElements[1];
                 } else {
                     return pathElements[0];
@@ -57,7 +57,7 @@ public class UrlHelper {
 
             if (path.startsWith("/all.js")) {
                 return null;
-            } else if (path.startsWith("/embed")) {
+            } else if (path.startsWith("/embedded")) {
                 return pathElements[2];
             } else {
                 return pathElements[1];
