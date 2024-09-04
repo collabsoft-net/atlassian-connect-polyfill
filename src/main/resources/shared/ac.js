@@ -2,12 +2,12 @@
 new MutationObserver((mutation, observer) => {
   const hasStyle = document.getElementById('ac-polyfill-css-reset') !== null;
   if (!hasStyle) {
-    const contentPanel = document.querySelector('.page-type-connect .aui-page-panel-content');
+    const contentPanel = document.querySelector('.page-type-connect .aui-page-panel');
     if (contentPanel) {
       const template = `
 <style id="ac-polyfill-css-reset">
   :root {
-    --content-panel-offset: ${contentPanel.getBoundingClientRect().top}px;
+    --content-panel-height: ${contentPanel.clientHeight}px;
   }
 </style>`
       const html = new DOMParser().parseFromString(template, 'text/html');
