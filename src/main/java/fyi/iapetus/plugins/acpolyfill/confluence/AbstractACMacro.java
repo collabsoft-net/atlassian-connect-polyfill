@@ -23,6 +23,7 @@ import fyi.iapetus.plugins.acpolyfill.shared.PluginHelper;
 import fyi.iapetus.plugins.acpolyfill.shared.TemplateRenderer;
 
 import javax.servlet.http.HttpServletRequest;
+import java.net.URLEncoder;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -61,7 +62,7 @@ public abstract class AbstractACMacro implements Macro {
                             .stream()
                             .filter(item -> !params.containsKey(item.getName()) && !(null == item.getDefaultValue() || item.getDefaultValue().isEmpty()))
                             .collect(Collectors.toList());
-                    macroParameters.forEach(item -> params.put(item.getName(), item.getDefaultValue()));
+                    macroParameters.forEach(item -> params.put(item.getName(), URLEncoder.encode(item.getDefaultValue())));
                 }
             }
 
@@ -111,7 +112,7 @@ public abstract class AbstractACMacro implements Macro {
                 .entrySet()
                 .stream()
                 .filter((entry) -> !entry.getKey().equals(": = | RAW | = :"))
-                .map(entry -> String.format("%s=%s", entry.getKey(), entry.getValue()))
+                .map(entry -> String.format("%s=%s", entry.getKey(), URLEncoder.encode(entry.getValue())))
                 .toArray(String[]::new);
     }
 

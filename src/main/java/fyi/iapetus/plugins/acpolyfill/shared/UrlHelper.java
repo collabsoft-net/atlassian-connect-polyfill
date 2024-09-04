@@ -6,6 +6,7 @@ import org.springframework.util.ReflectionUtils;
 
 import javax.servlet.http.HttpServletRequest;
 import java.lang.reflect.Method;
+import java.net.URLEncoder;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
@@ -81,7 +82,7 @@ public class UrlHelper {
         req.getParameterMap().forEach((key, v) -> {
             if (key.startsWith(("ac."))) {
                 String value = req.getParameter(key);
-                parameters.put(key.substring(3), value);
+                parameters.put(key.substring(3), URLEncoder.encode(value));
             }
         });
 
