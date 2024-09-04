@@ -23,6 +23,8 @@ import fyi.iapetus.plugins.acpolyfill.shared.PluginHelper;
 import fyi.iapetus.plugins.acpolyfill.shared.TemplateRenderer;
 
 import javax.servlet.http.HttpServletRequest;
+import java.io.IOException;
+import java.net.URISyntaxException;
 import java.net.URLEncoder;
 import java.util.*;
 import java.util.stream.Collectors;
@@ -96,8 +98,8 @@ public abstract class AbstractACMacro implements Macro {
             }
 
             return templateRenderer.renderAtlassianConnectHost(req, moduleKey, getMacroParameters(req, params));
-        } catch (Exception exp) {
-            throw new MacroExecutionException(exp);
+        } catch (IOException | URISyntaxException e) {
+            throw new MacroExecutionException(e);
         }
     }
 

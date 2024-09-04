@@ -16,6 +16,9 @@ import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
 import java.io.StringWriter;
 import java.io.Writer;
+import java.net.URI;
+import java.net.URISyntaxException;
+import java.net.URL;
 import java.nio.file.Paths;
 import java.util.*;
 
@@ -46,20 +49,20 @@ public class TemplateRenderer {
         this.webResourceAssemblerFactory = webResourceAssemblerFactory;
     }
 
-    public String renderAtlassianConnectHost(HttpServletRequest req) throws IOException {
+    public String renderAtlassianConnectHost(HttpServletRequest req) throws IOException, URISyntaxException {
         return this.renderAtlassianConnectHost(req, RenderType.NORMAL);
     }
 
-    public String renderAtlassianConnectHost(HttpServletRequest req, RenderType type) throws IOException {
+    public String renderAtlassianConnectHost(HttpServletRequest req, RenderType type) throws IOException, URISyntaxException {
         String moduleKey = urlHelper.getModuleKey(req);
         return this.renderAtlassianConnectHost(req, moduleKey, new String[]{}, type);
     }
 
-    public String renderAtlassianConnectHost(HttpServletRequest req, String moduleKey, String[] parameters) throws IOException {
+    public String renderAtlassianConnectHost(HttpServletRequest req, String moduleKey, String[] parameters) throws IOException, URISyntaxException {
         return this.renderAtlassianConnectHost(req, moduleKey, parameters, RenderType.NORMAL);
     }
 
-    public String renderAtlassianConnectHost(HttpServletRequest req, String moduleKey, String[] parameters, RenderType type) throws IOException {
+    public String renderAtlassianConnectHost(HttpServletRequest req, String moduleKey, String[] parameters, RenderType type) throws IOException, URISyntaxException {
         StringBuilder sb = new StringBuilder();
 
         // Get the plugin from the OSGi bridge
@@ -92,16 +95,28 @@ public class TemplateRenderer {
         String[] queryStringParameters = Arrays.copyOf(defaultQueryStringParameters, defaultQueryStringParameters.length + parameters.length);
         System.arraycopy(parameters, 0, queryStringParameters, defaultQueryStringParameters.length, parameters.length);
 
-        String baseUrl = pluginHelper.getBaseUrl(plugin);
-        String moduleUrl = params.getOrDefault("url", "/");
+        URI baseUrl = getBaseUrl(plugin);
+        URI moduleUrl = new URI(params.getOrDefault("url", "/"));
 
         if (null == baseUrl) {
             throw new IOException("Parameter 'ac.baseurl' is required. Please make sure to add this to the `plugin-info` section of the atlassian-plugin.xml");
         }
 
         // Generate the url prefix and suffix, based on the context path and the query string parameters
-        String urlPrefix = null != req.getContextPath() ? Paths.get(req.getContextPath(), baseUrl).toString() : baseUrl;
-        String urlSuffix = String.format("%s%s%s", moduleUrl, moduleUrl.contains("?") ? "&" : "?", String.join("&", queryStringParameters));
+        String urlPrefix = moduleUrl.isAbsolute()
+                ? moduleUrl.toString()
+                : baseUrl.isAbsolute()
+                    ? baseUrl.toString()
+                    : null != req.getContextPath()
+                        ? Paths.get(req.getContextPath(), baseUrl.toString()).toString()
+                        : baseUrl.toString();
+
+        String includeQueryString = params.getOrDefault("ac.include.querystring", "false");
+        String urlSuffix = !moduleUrl.isAbsolute()
+            ? String.format("%s%s%s", moduleUrl, moduleUrl.toString().contains("?") ? "&" : "?", String.join("&", queryStringParameters))
+            : includeQueryString.equalsIgnoreCase("true")
+                ? String.format("%s%s", moduleUrl.toString().contains("?") ? "&" : "?", String.join("&", queryStringParameters))
+                : "";
 
         // Start constructing the template
         sb.append("<html>");
@@ -140,6 +155,15 @@ public class TemplateRenderer {
 
         writer.flush();
         return new HtmlFragment(writer.toString());
+    }
+
+    private URI getBaseUrl(Plugin plugin) {
+        try {
+            String baseUrl = pluginHelper.getBaseUrl(plugin);
+            return new URI(baseUrl);
+        } catch (URISyntaxException ignored) {
+            return null;
+        }
     }
 
 }
