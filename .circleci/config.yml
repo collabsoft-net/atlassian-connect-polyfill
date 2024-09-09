@@ -39,7 +39,7 @@ commands:
       - run:
           name: Setup environment
           command: |
-            npm install --prefix=$HOME/.local yarn@berry -g
+            npm install -g yarn@berry
             yarn --version
 
       - run: 
