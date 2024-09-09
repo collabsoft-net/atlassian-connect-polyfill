@@ -18,7 +18,7 @@
 
     <properties>
         <packaging>pom</packaging>
-        <jira.version>9.0.0</jira.version>
+        <jira.version>9.17.0</jira.version>
         <confluence.version>8.5.0</confluence.version>
         <upm.version>6.5.7</upm.version>
         <amps.version>8.15.1</amps.version>
