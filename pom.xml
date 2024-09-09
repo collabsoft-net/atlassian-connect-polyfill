@@ -104,6 +104,18 @@
             <version>33.2.0-jre</version>
             <scope>provided</scope>
         </dependency>
+        <dependency>
+            <groupId>commons-codec</groupId>
+            <artifactId>commons-codec</artifactId>
+            <version>1.15</version>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>com.atlassian.extras</groupId>
+            <artifactId>atlassian-extras</artifactId>
+            <version>3.4.6</version>
+            <scope>provided</scope>
+        </dependency>
 
         <!-- The Atlassian maven plugin copies all dependencies with compile/runtime scope -->
         <!-- These dependencies should not be included because it breaks the app, therefore scope is set to 'provided' -->
@@ -365,6 +377,9 @@
                                 <Atlassian-Plugin-Key>fyi.iapetus.plugins.acpolyfill</Atlassian-Plugin-Key>
                                 <Spring-Context>*;timeout:=60</Spring-Context>
                                 <Require-Capability>osgi.ee;filter:="(osgi.ee=*)"</Require-Capability>
+                                <Export-Package>
+                                    fyi.iapetus.plugins.acpolyfill,
+                                </Export-Package>
                                 <Import-Package>
                                     *;resolution:=optional
                                 </Import-Package>
