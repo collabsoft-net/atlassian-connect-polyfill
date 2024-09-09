@@ -25,6 +25,7 @@ import java.util.*;
 @SuppressFBWarnings("EI_EXPOSE_REP2")
 public class TemplateRenderer {
 
+    private final LicenseHelper licenseHelper;
     private final PluginHelper pluginHelper;
     private final UrlHelper urlHelper;
     private final PlatformHelper platformHelper;
@@ -35,14 +36,16 @@ public class TemplateRenderer {
     public enum RenderType { NORMAL, EMBEDDED }
 
     public TemplateRenderer(
+            LicenseHelper licenseHelper,
             PluginHelper pluginHelper,
             ApplicationProperties applicationProperties,
             UserManager userManager,
             PageBuilderService pageBuilderService,
             WebResourceAssemblerFactory webResourceAssemblerFactory
     ) {
+        this.licenseHelper = licenseHelper;
         this.pluginHelper = pluginHelper;
-        this.urlHelper = new UrlHelper(pluginHelper, applicationProperties);
+        this.urlHelper = new UrlHelper(licenseHelper, applicationProperties);
         this.platformHelper = new PlatformHelper(applicationProperties);
         this.userManager = userManager;
         this.pageBuilderService = pageBuilderService;
@@ -89,7 +92,7 @@ public class TemplateRenderer {
         params.put("ajs-remote-user-key", userKey.orElse(""));
         params.put("product-name", platformHelper.getPlatformName());
         params.put("atl-product-name", platformHelper.getPlatformName());
-        params.put(String.format("%s-lic", plugin.getKey()), pluginHelper.getLicenseState(plugin));
+        params.put(String.format("%s-lic", plugin.getKey()), licenseHelper.getLicenseState(plugin));
 
         String[] defaultQueryStringParameters = urlHelper.getDefaultQueryStringParameters(req, plugin);
         String[] queryStringParameters = Arrays.copyOf(defaultQueryStringParameters, defaultQueryStringParameters.length + parameters.length);

@@ -17,20 +17,20 @@ import java.util.Map;
 
 public abstract class AbstractACContextProvider extends AbstractJiraContextProvider {
 
+    private final PluginLicenseManager pluginLicenseManager;
     private final PluginRetrievalService pluginRetrievalService;
     private final PluginAccessor pluginAccessor;
-    private final PluginLicenseManager pluginLicenseManager;
     private final ApplicationProperties applicationProperties;
 
     public AbstractACContextProvider(
+        PluginLicenseManager pluginLicenseManager,
         PluginRetrievalService pluginRetrievalService,
         PluginAccessor pluginAccessor,
-        ApplicationProperties applicationProperties,
-        PluginLicenseManager pluginLicenseManager
+        ApplicationProperties applicationProperties
     ) {
+        this.pluginLicenseManager = pluginLicenseManager;
         this.pluginRetrievalService = pluginRetrievalService;
         this.pluginAccessor = pluginAccessor;
-        this.pluginLicenseManager = pluginLicenseManager;
         this.applicationProperties = applicationProperties;
     }
 
@@ -48,7 +48,7 @@ public abstract class AbstractACContextProvider extends AbstractJiraContextProvi
     @SuppressFBWarnings("THROWS_METHOD_THROWS_RUNTIMEEXCEPTION")
     public Map getContextMap(ApplicationUser applicationUser, JiraHelper jiraHelper) {
         try {
-            ContextProviderHelper helper = new ContextProviderHelper(jiraHelper.getRequest(), pluginRetrievalService, pluginAccessor, pluginLicenseManager, applicationProperties);
+            ContextProviderHelper helper = new ContextProviderHelper(jiraHelper.getRequest(), pluginLicenseManager, pluginRetrievalService, pluginAccessor, applicationProperties);
             return helper.getContextMap(this.params);
         } catch (IOException e) {
             throw new RuntimeException(e);

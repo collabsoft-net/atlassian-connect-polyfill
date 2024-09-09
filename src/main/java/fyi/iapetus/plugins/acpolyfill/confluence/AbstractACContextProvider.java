@@ -17,22 +17,22 @@ import java.util.Map;
 public abstract class AbstractACContextProvider implements ContextProvider {
 
     private final HttpContext httpContext;
+    private final PluginLicenseManager pluginLicenseManager;
     private final PluginRetrievalService pluginRetrievalService;
     private final PluginAccessor pluginAccessor;
-    private final PluginLicenseManager pluginLicenseManager;
     private final ApplicationProperties applicationProperties;
 
     public AbstractACContextProvider(
             HttpContext httpContext,
+            PluginLicenseManager pluginLicenseManager,
             PluginRetrievalService pluginRetrievalService,
             PluginAccessor pluginAccessor,
-            ApplicationProperties applicationProperties,
-            PluginLicenseManager pluginLicenseManager
+            ApplicationProperties applicationProperties
     ) {
         this.httpContext = httpContext;
+        this.pluginLicenseManager = pluginLicenseManager;
         this.pluginRetrievalService = pluginRetrievalService;
         this.pluginAccessor = pluginAccessor;
-        this.pluginLicenseManager = pluginLicenseManager;
         this.applicationProperties = applicationProperties;
     }
 
@@ -50,7 +50,7 @@ public abstract class AbstractACContextProvider implements ContextProvider {
     @SuppressFBWarnings("THROWS_METHOD_THROWS_RUNTIMEEXCEPTION")
     public Map getContextMap(Map<String, Object> context) {
         try {
-            ContextProviderHelper helper = new ContextProviderHelper(httpContext.getRequest(), pluginRetrievalService, pluginAccessor, pluginLicenseManager, applicationProperties);
+            ContextProviderHelper helper = new ContextProviderHelper(httpContext.getRequest(), pluginLicenseManager, pluginRetrievalService, pluginAccessor, applicationProperties);
             return helper.getContextMap(this.params);
         } catch (IOException e) {
             throw new RuntimeException(e);

@@ -5,28 +5,24 @@ import com.atlassian.plugin.Plugin;
 import com.atlassian.plugin.PluginAccessor;
 import com.atlassian.plugin.osgi.bridge.external.PluginRetrievalService;
 import com.atlassian.upm.api.license.PluginLicenseManager;
-import com.atlassian.upm.api.license.entity.PluginLicense;
-import com.atlassian.upm.api.util.Option;
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Optional;
 
+@SuppressFBWarnings("EI_EXPOSE_REP2")
 public class PluginHelper {
 
     private final PluginAccessor pluginAccessor;
-    private final PluginLicenseManager pluginLicenseManager;
     private PluginRetrievalService pluginRetrievalService;
 
-    public PluginHelper(PluginAccessor pluginAccessor, PluginLicenseManager pluginLicenseManager) {
+    public PluginHelper(PluginAccessor pluginAccessor) {
         this.pluginAccessor = pluginAccessor;
-        this.pluginLicenseManager = pluginLicenseManager;
     }
 
-    public PluginHelper(PluginRetrievalService pluginRetrievalService, PluginAccessor pluginAccessor, PluginLicenseManager pluginLicenseManager) {
+    public PluginHelper(PluginRetrievalService pluginRetrievalService, PluginAccessor pluginAccessor) {
         this.pluginRetrievalService = pluginRetrievalService;
         this.pluginAccessor = pluginAccessor;
-        this.pluginLicenseManager = pluginLicenseManager;
     }
 
     public Plugin getPlugin() {
@@ -69,22 +65,6 @@ public class PluginHelper {
                 .getPluginInformation()
                 .getParameters();
         return params.getOrDefault("ac.context", null);
-    }
-
-    public String getLicenseState(Plugin plugin) {
-        if(!isLicenseEnabled(plugin)) {
-            return "active";
-        } else {
-            Option<PluginLicense> license = this.pluginLicenseManager.getLicense();
-            return (license.isDefined() && license.get().isValid()) ? "active" : "none";
-        }
-    }
-
-    private boolean isLicenseEnabled(Plugin plugin) {
-        Map<String, String> params = plugin
-                .getPluginInformation()
-                .getParameters();
-        return !params.containsKey("atlassian-licensing-enabled") || Boolean.parseBoolean(params.get("atlassian-licensing-enabled"));
     }
 
 }

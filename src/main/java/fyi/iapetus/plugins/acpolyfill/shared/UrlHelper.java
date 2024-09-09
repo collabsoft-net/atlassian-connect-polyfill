@@ -13,11 +13,11 @@ import java.util.Map;
 
 public class UrlHelper {
 
-    private final PluginHelper pluginHelper;
+    private final LicenseHelper licenseHelper;
     private final ApplicationProperties applicationProperties;
 
-    public UrlHelper(PluginHelper pluginHelper, ApplicationProperties applicationProperties) {
-        this.pluginHelper = pluginHelper;
+    public UrlHelper(LicenseHelper licenseHelper, ApplicationProperties applicationProperties) {
+        this.licenseHelper = licenseHelper;
         this.applicationProperties = applicationProperties;
     }
 
@@ -75,7 +75,7 @@ public class UrlHelper {
 
         String contextPath = this.applicationProperties.getBaseUrl(com.atlassian.sal.api.UrlMode.RELATIVE_CANONICAL);
         parameters.put("cp", contextPath);
-        parameters.put("lic", this.pluginHelper.getLicenseState(plugin));
+        parameters.put("lic", this.licenseHelper.getLicenseState(plugin));
         parameters.put("xdm_c", "DO_NOT_USE");
         parameters.put("cv", "DO_NOT_USE");
 

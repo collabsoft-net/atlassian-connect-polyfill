@@ -5,19 +5,16 @@ import com.atlassian.plugin.PluginAccessor;
 import com.atlassian.plugin.spring.scanner.annotation.imports.ComponentImport;
 import com.atlassian.sal.api.ApplicationProperties;
 import com.atlassian.sal.api.auth.LoginUriProvider;
+import com.atlassian.sal.api.pluginsettings.PluginSettingsFactory;
 import com.atlassian.sal.api.user.UserManager;
 import com.atlassian.sal.api.user.UserProfile;
 import com.atlassian.sal.api.websudo.WebSudoManager;
 import com.atlassian.sal.api.websudo.WebSudoSessionException;
-import com.atlassian.upm.api.license.PluginLicenseManager;
 import com.atlassian.webresource.api.assembler.*;
 import com.google.common.io.Resources;
 import com.google.common.base.Strings;
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
-import fyi.iapetus.plugins.acpolyfill.shared.PlatformHelper;
-import fyi.iapetus.plugins.acpolyfill.shared.PluginHelper;
-import fyi.iapetus.plugins.acpolyfill.shared.TemplateRenderer;
-import fyi.iapetus.plugins.acpolyfill.shared.UrlHelper;
+import fyi.iapetus.plugins.acpolyfill.shared.*;
 import org.springframework.stereotype.Component;
 
 import javax.servlet.http.HttpServlet;
@@ -42,18 +39,20 @@ public class ACServlet extends HttpServlet {
     private final UserManager userManager;
 
     ACServlet(
+        PluginLicenseRepository pluginLicenseRepository,
         @ComponentImport WebSudoManager webSudoManager,
         @ComponentImport LoginUriProvider loginUriProvider,
         @ComponentImport UserManager userManager,
         @ComponentImport ApplicationProperties applicationProperties,
         @ComponentImport PageBuilderService pageBuilderService,
         @ComponentImport PluginAccessor pluginAccessor,
-        @ComponentImport PluginLicenseManager pluginLicenseManager,
+        @ComponentImport PluginSettingsFactory pluginSettingsFactory,
         @ComponentImport WebResourceAssemblerFactory webResourceAssemblerFactory
     ) {
-        this.pluginHelper = new PluginHelper(pluginAccessor, pluginLicenseManager);
-        this.urlHelper = new UrlHelper(this.pluginHelper, applicationProperties);
-        this.templateRenderer = new TemplateRenderer(pluginHelper, applicationProperties, userManager, pageBuilderService, webResourceAssemblerFactory);
+        LicenseHelper licenseHelper = new LicenseHelper(pluginLicenseRepository, pluginSettingsFactory);
+        this.pluginHelper = new PluginHelper(pluginAccessor);
+        this.urlHelper = new UrlHelper(licenseHelper, applicationProperties);
+        this.templateRenderer = new TemplateRenderer(licenseHelper, pluginHelper, applicationProperties, userManager, pageBuilderService, webResourceAssemblerFactory);
         this.platformHelper = new PlatformHelper(applicationProperties);
         this.webSudoManager = webSudoManager;
         this.loginUriProvider = loginUriProvider;

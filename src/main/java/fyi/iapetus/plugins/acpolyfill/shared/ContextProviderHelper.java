@@ -19,14 +19,14 @@ public class ContextProviderHelper {
 
     public ContextProviderHelper(
             HttpServletRequest httpServletRequest,
+            PluginLicenseManager pluginLicenseManager,
             PluginRetrievalService pluginRetrievalService,
             PluginAccessor pluginAccessor,
-            PluginLicenseManager pluginLicenseManager,
             ApplicationProperties applicationProperties
     ) {
         this.httpServletRequest = httpServletRequest;
-        this.pluginHelper = new PluginHelper(pluginRetrievalService, pluginAccessor, pluginLicenseManager);
-        this.urlHelper = new UrlHelper(pluginHelper, applicationProperties);
+        this.pluginHelper = new PluginHelper(pluginRetrievalService, pluginAccessor);
+        this.urlHelper = new UrlHelper(new LicenseHelper(pluginLicenseManager), applicationProperties);
     }
 
     public Map getContextMap(Map<String, Object> params) throws IOException {
