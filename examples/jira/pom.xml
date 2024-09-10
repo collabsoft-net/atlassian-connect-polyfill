@@ -136,6 +136,12 @@
             <scope>provided</scope>
         </dependency>
         <dependency>
+            <groupId>com.atlassian.plugins</groupId>
+            <artifactId>atlassian-plugins-osgi-bridge</artifactId>
+            <version>7.4.0</version>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
             <groupId>com.atlassian.upm</groupId>
             <artifactId>licensing-api</artifactId>
             <version>${upm.license.compatibility.version}</version>
