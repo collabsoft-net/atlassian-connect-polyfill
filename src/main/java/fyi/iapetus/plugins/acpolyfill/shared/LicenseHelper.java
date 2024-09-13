@@ -70,26 +70,40 @@ public class LicenseHelper {
             return "active";
         } else {
             if (null != this.pluginLicenseManager && plugin.getKey().equals(this.pluginLicenseManager.getPluginKey())) {
-                Option<PluginLicense> license = this.pluginLicenseManager.getLicense();
-                return (null != license && (license.isDefined() && license.get().isValid())) ? "active" : "none";
+                try {
+                    Option<PluginLicense> license = this.pluginLicenseManager.getLicense();
+                    return (null != license && (license.isDefined() && license.get().isValid())) ? "active" : "none";
+                } catch (Exception _ignored) {
+                    // If an exception is thrown, assume that the license isn't valid
+                }
             }
 
             if (null != this.pluginLicenseRepository && this.pluginLicenseRepository.has(plugin)) {
-                Optional<PluginLicenseManager> licenseManager = this.pluginLicenseRepository.get(plugin);
-                if (licenseManager.isPresent()) {
-                    PluginLicenseManager manager = licenseManager.get();
-                    Option<PluginLicense> license = manager.getLicense();
-                    return (null != license && (license.isDefined() && license.get().isValid())) ? "active" : "none";
+                try {
+                    Optional<PluginLicenseManager> licenseManager = this.pluginLicenseRepository.get(plugin);
+                    if (licenseManager.isPresent()) {
+                        PluginLicenseManager manager = licenseManager.get();
+                        Option<PluginLicense> license = manager.getLicense();
+                        return (null != license && (license.isDefined() && license.get().isValid())) ? "active" : "none";
+                    }
+                } catch (Exception _ignored) {
+                    // If an exception is thrown, assume that the license isn't valid
                 }
             }
 
             if (null != this.licenseManager) {
-                Product product = new Product(plugin.getKey(), plugin.getKey(), true);
-                String rawLicense = this.getRawLicense(plugin);
-                AtlassianLicense atlassianLicense = licenseManager.getLicense(rawLicense);
-                ProductLicense license = atlassianLicense.getProductLicense(product);
-                boolean isValid = null != license && !license.isExpired();
-                return isValid ? "active" : "none";
+                try {
+                    Product product = new Product(plugin.getKey(), plugin.getKey(), true);
+                    String rawLicense = this.getRawLicense(plugin);
+                    if (null != rawLicense) {
+                        AtlassianLicense atlassianLicense = licenseManager.getLicense(rawLicense);
+                        ProductLicense license = atlassianLicense.getProductLicense(product);
+                        boolean isValid = null != license && !license.isExpired();
+                        return isValid ? "active" : "none";
+                    }
+                } catch (Exception _ignored) {
+                    // If an exception is thrown, assume that the license isn't valid
+                }
             }
 
             return "none";
