@@ -40,6 +40,14 @@
             </releases>
         </repository>
         <repository>
+            <id>atlassian-3rdparty</id>
+            <url>https://packages.atlassian.com/maven-3rdparty/</url>
+            <releases>
+                <enabled>true</enabled>
+                <checksumPolicy>warn</checksumPolicy>
+            </releases>
+        </repository>
+        <repository>
             <id>jitpack.io</id>
             <url>https://jitpack.io</url>
         </repository>
