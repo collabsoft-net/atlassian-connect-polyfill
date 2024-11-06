@@ -4,10 +4,17 @@ new MutationObserver((mutation, observer) => {
   if (!hasStyle) {
     const contentPanel = document.querySelector('.page-type-connect .aui-page-panel');
     if (contentPanel) {
+
+      const scrollTop = window.scrollY;
+      const viewportHeight = document.documentElement.clientHeight;
+      const offsetTop = contentPanel.getBoundingClientRect().top;
+      const visibleHeaderHeight = Math.max(0, offsetTop - scrollTop);
+      const contentHeight = viewportHeight - visibleHeaderHeight;
+
       const template = `
 <style id="ac-polyfill-css-reset">
   :root {
-    --content-panel-height: ${contentPanel.clientHeight}px;
+    --content-panel-height: ${contentHeight}px;
   }
 </style>`
       const html = new DOMParser().parseFromString(template, 'text/html');

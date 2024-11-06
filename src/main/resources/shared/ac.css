@@ -18,11 +18,22 @@
     padding-right: 0;
 }
 
-/* If the .page-type-connect class is set, adjust the height of the panel */
+/* 
+If the .page-type-connect class is set, adjust the height of the panel 
+The display needs to be set to "block" because "table-cell" adds
+border spacing of 5px
+*/
 .page-type-connect .aui-page-panel-content:has(iframe[data-ap-key]),
 .page-type-connect #admin-body-content:has(iframe[data-ap-key]) {
+    display: block;
     height: var(--content-panel-height, 100vh);
 }
+
+/* If the .page-type-connect class is set, remove the border */
+.page-type-connect .aui-page-panel:has(iframe[data-ap-key]) {
+    border: none;
+}
+
 
 /* If the .page-type-connect class is set, hide the footer */
 .page-type-connect #footer {
