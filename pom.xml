@@ -28,13 +28,15 @@
     <repositories>
         <repository>
             <id>atlassian</id>
-            <name>Atlassian Repository</name>
-            <url>https://maven.atlassian.com/content/groups/public/</url>
+            <url>https://packages.atlassian.com/mvn/maven-atlassian-all/</url>
             <snapshots>
                 <enabled>true</enabled>
+                <updatePolicy>never</updatePolicy>
+                <checksumPolicy>warn</checksumPolicy>
             </snapshots>
             <releases>
                 <enabled>true</enabled>
+                <checksumPolicy>warn</checksumPolicy>
             </releases>
         </repository>
         <repository>
