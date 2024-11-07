@@ -53,8 +53,10 @@ commands:
       - run: 
           name: Setup Atlassian SDK
           command: |
-            atlas-version
-            /opt/atlassian-plugin-sdk/bin/atlas-mvn install:install-file -DgroupId=jndi -DartifactId=jndi -Dversion=1.2.1 -Dpackaging=jar -Dfile=/opt/atlassian-plugin-sdk/repository/jndi/jndi/1.2.1/jndi-1.2.1.jar
+            atlas-version;
+            /opt/atlassian-plugin-sdk/bin/atlas-mvn install:install-file -DgroupId=jndi -DartifactId=jndi -Dversion=1.2.1 -Dpackaging=jar -Dfile=/opt/atlassian-plugin-sdk/repository/jndi/jndi/1.2.1/jndi-1.2.1.jar;
+            wget https://repository.collabsoft.net/external/xmlrpc/xmlrpc/2.0%2Bxmlrpc61.1%2Bsbfix/xmlrpc-2.0%2Bxmlrpc61.1%2Bsbfix.jar -O /tmp/xmlrpc-2.0+xmlrpc61.1+sbfix.jar;
+            /opt/atlassian-plugin-sdk/bin/atlas-mvn install:install-file -DgroupId=xmlrpc -DartifactId=xmlrpc -Dversion=2.0+xmlrpc61.1+sbfix -Dpackaging=jar -Dfile=/tmp/xmlrpc-2.0+xmlrpc61.1+sbfix.jar;
 
   server:
     parameters:
