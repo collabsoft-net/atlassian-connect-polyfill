@@ -54,7 +54,6 @@ commands:
           name: Setup Atlassian SDK
           command: |
             atlas-version
-            rm -R ~/.m2/repository/jndi
             /opt/atlassian-plugin-sdk/bin/atlas-mvn install:install-file -DgroupId=jndi -DartifactId=jndi -Dversion=1.2.1 -Dpackaging=jar -Dfile=/opt/atlassian-plugin-sdk/repository/jndi/jndi/1.2.1/jndi-1.2.1.jar
 
   server:
