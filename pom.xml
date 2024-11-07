@@ -78,6 +78,14 @@
             </snapshots>
             <url>https://repository.collabsoft.net/snapshots</url>
         </repository>
+        <repository>
+            <id>CollabSoft Maven Repository - External</id>
+            <name>CollabSoft Maven Repository - External</name>
+            <releases>
+                <enabled>true</enabled>
+            </releases>
+            <url>https://repository.collabsoft.net/external</url>
+        </repository>
     </repositories>
 
     <distributionManagement>
