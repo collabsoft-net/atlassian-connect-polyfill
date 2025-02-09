@@ -2,8 +2,10 @@ package fyi.iapetus.plugins.acpolyfill.shared;
 
 import com.atlassian.plugin.Plugin;
 import com.atlassian.sal.api.ApplicationProperties;
+import com.atlassian.sal.api.UrlMode;
 import org.springframework.util.ReflectionUtils;
 
+import javax.annotation.Nullable;
 import javax.servlet.http.HttpServletRequest;
 import java.lang.reflect.Method;
 import java.net.URLEncoder;
@@ -21,6 +23,15 @@ public class UrlHelper {
         this.applicationProperties = applicationProperties;
     }
 
+    public String getBaseUrl() {
+        return this.applicationProperties.getBaseUrl(com.atlassian.sal.api.UrlMode.CANONICAL);
+    }
+
+    public String getContextPath() {
+        return this.applicationProperties.getBaseUrl(UrlMode.RELATIVE_CANONICAL);
+    }
+
+    @Nullable
     public String getAppKey(HttpServletRequest req) {
         String querystring = getQueryString(req);
 
@@ -33,10 +44,25 @@ public class UrlHelper {
                 return parts[0];
             }
 
+        // Support WebWork Action (using `?appkey=`)
+        } else if (null != querystring && querystring.toLowerCase().contains("appkey")) {
+            String appKey = req.getParameter("appkey");
+            if (!appKey.isEmpty()) {
+                return appKey;
+            }
+
         // Otherwise, just take it from the path
         } else {
-            String path = req.getPathInfo();
+            String path = null != req.getPathInfo()
+                ? req.getPathInfo()
+                : req.getServletPath();
+
             if (null != path) {
+                // Strip the "/atlassian-connect" prefix if present
+                if (path.startsWith("/atlassian-connect")) {
+                    path = path.replace("/atlassian-connect", "");
+                }
+
                 String[] pathElements = Arrays.stream(path.split("/")).filter(item -> !item.isEmpty()).toArray(String[]::new);
 
                 if (path.startsWith("/all.js")) {
@@ -51,19 +77,41 @@ public class UrlHelper {
 
         return null;
     }
+    @Nullable
     public String getModuleKey(HttpServletRequest req) {
-        String path = req.getPathInfo();
-        if (null != path) {
-            String[] pathElements = Arrays.stream(path.split("/")).filter(item -> !item.isEmpty()).toArray(String[]::new);
+        String querystring = getQueryString(req);
 
-            if (path.startsWith("/all.js")) {
-                return null;
-            } else if (path.startsWith("/embedded")) {
-                return pathElements[2];
-            } else {
-                return pathElements[1];
+        // Support WebWork Action (using `?modulekey=`)
+        if (null != querystring && querystring.toLowerCase().contains("modulekey")) {
+            String appKey = req.getParameter("modulekey");
+            if (!appKey.isEmpty()) {
+                return appKey;
+            }
+
+        // Otherwise, just take it from the path
+        } else {
+            String path = null != req.getPathInfo()
+                    ? req.getPathInfo()
+                    : req.getServletPath();
+            ;
+            if (null != path) {
+                // Strip the "/atlassian-connect" prefix if present
+                if (path.startsWith("/atlassian-connect")) {
+                    path = path.replace("/atlassian-connect", "");
+                }
+
+                String[] pathElements = Arrays.stream(path.split("/")).filter(item -> !item.isEmpty()).toArray(String[]::new);
+
+                if (path.startsWith("/all.js")) {
+                    return null;
+                } else if (path.startsWith("/embedded")) {
+                    return pathElements[2];
+                } else {
+                    return pathElements[1];
+                }
             }
         }
+
         return null;
     }
 
@@ -93,6 +141,7 @@ public class UrlHelper {
                 .toArray(String[]::new);
     }
 
+    @Nullable
     private String getQueryString(HttpServletRequest req) {
         try {
             // Check if the query string object exists (for some reason, it doesn't always exist)

@@ -15,6 +15,7 @@ public class PlatformHelper {
         switch (platformId.toLowerCase()) {
             case "jira": return "Jira";
             case "conf": return "Confluence";
+            case "bamboo": return "Bamboo";
             default: return "";
         }
     }

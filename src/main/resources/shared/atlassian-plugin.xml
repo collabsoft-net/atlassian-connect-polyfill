@@ -40,4 +40,17 @@
     <servlet key="acpolyfill-servlet" name="Iapetus - Atlassian Connect Polyfill - Servlet" class="fyi.iapetus.plugins.acpolyfill.ACServlet">
         <url-pattern>/atlassian-connect/*</url-pattern>
     </servlet>
+    <servlet-filter key="acpolyfill-servlet-filter-urlrewrite" name="Iapetus - Atlassian Connect Polyfill - Servlet filter - URL Rewrite" class="fyi.iapetus.plugins.acpolyfill.servlet.filters.ACURLRewriteFilter" location="before-dispatch" weight="20" application="bamboo">
+        <url-pattern>/atlassian-connect/*</url-pattern>
+    </servlet-filter>
+
+    <xwork key="acpolyfill-xwork"  name="Iapetus - Atlassian Connect Polyfill - XWork Action (Bamboo)" application="bamboo">
+        <package name="acpolyfill-xwork-plan" extends="default" namespace="/atlassian-connect">
+            <action name="AC" class="fyi.iapetus.plugins.acpolyfill.servlet.actions.ACActionSupport">
+                <result name="success" type="freemarker">/ac.ftl</result>
+            </action>
+        </package>
+    </xwork>
+
+
 </atlassian-plugin>
