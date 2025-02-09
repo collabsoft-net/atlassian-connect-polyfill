@@ -6,3 +6,4 @@ target
 .DS_Store
 yarn-error.log
 debug.sh
+dependencies.json
