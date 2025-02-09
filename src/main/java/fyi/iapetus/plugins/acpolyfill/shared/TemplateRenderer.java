@@ -21,6 +21,8 @@ import java.net.URISyntaxException;
 import java.net.URL;
 import java.nio.file.Paths;
 import java.util.*;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 @SuppressFBWarnings("EI_EXPOSE_REP2")
 public class TemplateRenderer {
@@ -121,6 +123,18 @@ public class TemplateRenderer {
                 ? String.format("%s%s", moduleUrl.toString().contains("?") ? "&" : "?", String.join("&", queryStringParameters))
                 : "";
 
+        // Create a context map using module parameters and query string parameters
+        Map<String, String> context = new HashMap<>(params);
+        Arrays.stream(queryStringParameters).forEach(item -> {
+            String[] parts = item.split("=");
+            if (parts.length > 1) {
+                context.put(parts[0], parts[1]);
+            }
+        });
+
+        // Now try to replace all variables ($name) in the parameters based on the available context
+        params.replaceAll((key, value) -> replaceVariables(value, context));
+
         // Start constructing the template
         sb.append("<html>");
         sb.append("<head>");
@@ -168,5 +182,18 @@ public class TemplateRenderer {
             return null;
         }
     }
+
+    private String replaceVariables(String value, Map<String, String> replacements) {
+        Pattern regex = Pattern.compile("\\$(.*?)($|\\s)");
+        Matcher regexMatcher = regex.matcher(value);
+        while(regexMatcher.find()) {
+            String matchedKey = regexMatcher.group(1);
+            if (replacements.containsKey(matchedKey)) {
+                value = value.replace("$" + matchedKey, replacements.get(matchedKey));
+            }
+        }
+        return value;
+    }
+
 
 }
