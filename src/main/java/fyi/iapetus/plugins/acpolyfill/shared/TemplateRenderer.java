@@ -2,6 +2,7 @@ package fyi.iapetus.plugins.acpolyfill.shared;
 
 import com.atlassian.plugin.Plugin;
 import com.atlassian.sal.api.ApplicationProperties;
+import com.atlassian.sal.api.user.UserKey;
 import com.atlassian.sal.api.user.UserManager;
 import com.atlassian.velocity.htmlsafe.HtmlFragment;
 import com.atlassian.webresource.api.UrlMode;
@@ -11,6 +12,7 @@ import com.atlassian.webresource.api.assembler.WebResourceAssembler;
 import com.atlassian.webresource.api.assembler.WebResourceSet;
 import com.atlassian.webresource.api.assembler.resource.ResourcePhase;
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
+import fyi.iapetus.plugins.acpolyfill.UserThemeService;
 
 import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
@@ -18,7 +20,6 @@ import java.io.StringWriter;
 import java.io.Writer;
 import java.net.URI;
 import java.net.URISyntaxException;
-import java.net.URL;
 import java.nio.file.Paths;
 import java.util.*;
 import java.util.regex.Matcher;
@@ -34,6 +35,7 @@ public class TemplateRenderer {
     private final UserManager userManager;
     private final PageBuilderService pageBuilderService;
     private final WebResourceAssemblerFactory webResourceAssemblerFactory;
+    private final UserThemeService userThemeService;
 
     public enum RenderType { NORMAL, EMBEDDED }
 
@@ -43,7 +45,8 @@ public class TemplateRenderer {
             ApplicationProperties applicationProperties,
             UserManager userManager,
             PageBuilderService pageBuilderService,
-            WebResourceAssemblerFactory webResourceAssemblerFactory
+            WebResourceAssemblerFactory webResourceAssemblerFactory,
+            UserThemeService userThemeService
     ) {
         this.licenseHelper = licenseHelper;
         this.pluginHelper = pluginHelper;
@@ -52,6 +55,7 @@ public class TemplateRenderer {
         this.userManager = userManager;
         this.pageBuilderService = pageBuilderService;
         this.webResourceAssemblerFactory = webResourceAssemblerFactory;
+        this.userThemeService = userThemeService;
     }
 
     public String renderAtlassianConnectHost(HttpServletRequest req) throws IOException, URISyntaxException {
@@ -89,12 +93,21 @@ public class TemplateRenderer {
 
         // Get descriptor metadata
         Map<String, String> params = pluginHelper.getModuleParams(plugin, moduleKey);
-        Optional<String> userKey = Optional.of(Objects.requireNonNull(userManager.getRemoteUserKey()).getStringValue());
-        params.put("remote-user-key", userKey.orElse(""));
-        params.put("ajs-remote-user-key", userKey.orElse(""));
+        params.put("base-url", urlHelper.getBaseUrl());
+        params.put("context-path", urlHelper.getContextPath());
         params.put("product-name", platformHelper.getPlatformName());
         params.put("atl-product-name", platformHelper.getPlatformName());
         params.put(String.format("%s-lic", plugin.getKey()), licenseHelper.getLicenseState(plugin));
+
+        if (null != userManager.getRemoteUserKey()) {
+            UserKey remoteUserKey = userManager.getRemoteUserKey();
+            String colorMode = userThemeService.getColorMode(remoteUserKey);
+            Optional<String> userKey = Optional.of(remoteUserKey.getStringValue());
+
+            params.put("remote-user-key", userKey.orElse(""));
+            params.put("ajs-remote-user-key", userKey.orElse(""));
+            params.put("data-color-mode", colorMode);
+        }
 
         String[] defaultQueryStringParameters = urlHelper.getDefaultQueryStringParameters(req, plugin);
         String[] queryStringParameters = Arrays.copyOf(defaultQueryStringParameters, defaultQueryStringParameters.length + parameters.length);

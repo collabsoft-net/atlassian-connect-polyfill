@@ -19,9 +19,11 @@ import com.atlassian.upm.api.license.PluginLicenseManager;
 import com.atlassian.webresource.api.assembler.PageBuilderService;
 import com.atlassian.webresource.api.assembler.WebResourceAssemblerFactory;
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
+import fyi.iapetus.plugins.acpolyfill.UserThemeService;
 import fyi.iapetus.plugins.acpolyfill.shared.LicenseHelper;
 import fyi.iapetus.plugins.acpolyfill.shared.PluginHelper;
 import fyi.iapetus.plugins.acpolyfill.shared.TemplateRenderer;
+import fyi.iapetus.plugins.acpolyfill.shared.UrlHelper;
 
 import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
@@ -45,10 +47,13 @@ public abstract class AbstractACMacro implements Macro {
             PluginAccessor pluginAccessor,
             ApplicationProperties applicationProperties,
             PageBuilderService pageBuilderService,
-            WebResourceAssemblerFactory webResourceAssemblerFactory
+            WebResourceAssemblerFactory webResourceAssemblerFactory,
+            UserThemeService userThemeHelper
     ) {
-        this.pluginHelper = new PluginHelper(pluginRetrievalService, pluginAccessor);
-        this.templateRenderer = new TemplateRenderer(new LicenseHelper(pluginLicenseManager), pluginHelper, applicationProperties, userManager, pageBuilderService, webResourceAssemblerFactory);
+        LicenseHelper licenseHelper = new LicenseHelper(pluginLicenseManager);
+        UrlHelper urlHelper = new UrlHelper(licenseHelper, applicationProperties);
+        this.pluginHelper = new PluginHelper(pluginRetrievalService, pluginAccessor, urlHelper);
+        this.templateRenderer = new TemplateRenderer(licenseHelper, pluginHelper, applicationProperties, userManager, pageBuilderService, webResourceAssemblerFactory, userThemeHelper);
         this.httpContext = httpContext;
     }
 

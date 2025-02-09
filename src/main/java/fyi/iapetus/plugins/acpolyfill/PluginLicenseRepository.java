@@ -2,7 +2,6 @@ package fyi.iapetus.plugins.acpolyfill;
 
 import com.atlassian.plugin.Plugin;
 import com.atlassian.upm.api.license.PluginLicenseManager;
-import com.atlassian.upm.api.license.entity.PluginLicense;
 
 import java.util.Optional;
 

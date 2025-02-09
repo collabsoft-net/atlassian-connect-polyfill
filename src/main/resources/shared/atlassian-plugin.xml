@@ -37,9 +37,15 @@
         <context>atl.popup</context>
     </web-resource>
 
-    <servlet key="acpolyfill-servlet" name="Iapetus - Atlassian Connect Polyfill - Servlet" class="fyi.iapetus.plugins.acpolyfill.ACServlet">
+    <servlet key="acpolyfill-servlet" name="Iapetus - Atlassian Connect Polyfill - Servlet" class="fyi.iapetus.plugins.acpolyfill.servlet.ACServlet">
         <url-pattern>/atlassian-connect/*</url-pattern>
     </servlet>
+
+    <servlet-filter key="acpolyfill-servlet-filter-auth" name="Iapetus - Atlassian Connect Polyfill - Servlet filter - Authentication" class="fyi.iapetus.plugins.acpolyfill.servlet.filters.ACAuthFilter" location="before-dispatch" weight="10">
+        <url-pattern>/atlassian-connect/*</url-pattern>
+        <url-pattern>/plugins/servlet/atlassian-connect/*</url-pattern>
+    </servlet-filter>
+
     <servlet-filter key="acpolyfill-servlet-filter-urlrewrite" name="Iapetus - Atlassian Connect Polyfill - Servlet filter - URL Rewrite" class="fyi.iapetus.plugins.acpolyfill.servlet.filters.ACURLRewriteFilter" location="before-dispatch" weight="20" application="bamboo">
         <url-pattern>/atlassian-connect/*</url-pattern>
     </servlet-filter>

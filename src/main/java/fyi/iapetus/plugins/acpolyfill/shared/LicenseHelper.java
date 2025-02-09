@@ -17,6 +17,7 @@ import com.atlassian.upm.api.license.entity.PluginLicense;
 import com.atlassian.upm.api.util.Option;
 import fyi.iapetus.plugins.acpolyfill.PluginLicenseRepository;
 
+import java.security.NoSuchAlgorithmException;
 import java.util.*;
 
 import static fyi.iapetus.plugins.acpolyfill.shared.LongKeyHasher.hashKeyIfTooLong;
@@ -117,7 +118,7 @@ public class LicenseHelper {
         return !params.containsKey("atlassian-licensing-enabled") || Boolean.parseBoolean(params.get("atlassian-licensing-enabled"));
     }
 
-    private String getRawLicense(Plugin plugin) {
+    private String getRawLicense(Plugin plugin) throws NoSuchAlgorithmException {
         return (String)pluginSettings.get(hashKeyIfTooLong("com.atlassian.upm.license.internal.impl.PluginSettingsPluginLicenseRepository:licenses:" + plugin.getKey()));
     }
 

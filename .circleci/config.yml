@@ -1,22 +1,53 @@
 version: 2.1
 
 orbs:
-  aws-cli: circleci/aws-cli@5.1.1
-  node: circleci/node@6.3.0
+  aws-cli: circleci/aws-cli@5.2.0
+  node: circleci/node@7.1.0
 
 jobs:
 
   fyi-iapetus-plugins-compile:
     executor: server
     steps:
-      - server
+      - server:
+          jira: "9.0.0"
+          confluence: "8.0.0"
+          bamboo: "9.0.0"        
+          bitbucket: "8.0.0"
+          sal: "5.0.0"
+          upm: "6.0.2"
+          plugins: "7.0.0"
+          webresources: "6.0.1"
+          velocity: "4.0.0"
+          spring: "5.3.19"
+
+      - server:
+          jira: "10.0.0"
+          confluence: "9.0.1"
+          bamboo: "10.0.0"        
+          bitbucket: "9.0.0"
+          sal: "6.0.4"
+          upm: "7.0.23"
+          plugins: "8.1.0"
+          webresources: "7.3.0"
+          velocity: "5.0.1"
+          spring: "5.3.39"
 
   fyi-iapetus-plugins-deploy:
     executor: server
     steps:
       - server:
           release: "true"
-
+          jira: "10.0.0"
+          confluence: "9.0.1"
+          bamboo: "10.0.0"        
+          bitbucket: "9.0.0"
+          sal: "6.0.4"
+          upm: "7.0.23"
+          plugins: "8.1.0"
+          webresources: "7.3.0"
+          velocity: "5.0.1"
+          spring: "5.3.39"
 
 executors:
 
@@ -63,25 +94,122 @@ commands:
       release:
         type: string
         default: "false"
+      jira:
+        type: string
+      confluence:
+        type: string
+      bamboo:
+        type: string
+      bitbucket:
+        type: string
+      sal:
+        type: string
+      upm:
+        type: string
+      plugins:
+        type: string
+      webresources:
+        type: string
+      velocity:
+        type: string
+      spring:
+        type: string
     steps:
       - prepare
 
       - run:
           name: Publish Atlassian Connect Polyfill helper classes for Jira
           command: |
-            atlas-mvn clean deploy -P jira -DskipTests -Drelease=<< parameters.release >>
+            atlas-mvn clean deploy \
+              -P jira \
+              -DskipTests \
+              -Drelease=<< parameters.release >> \
+              -Djira.version=<< parameters.jira >> \
+              -Dconfluence.version=<< parameters.confluence>> \
+              -Dbamboo.version=<< parameters.bamboo >> \
+              -Dbitbucket.version=<< parameters.bitbucket >> \
+              -Datlassian.sal.version=<< parameters.sal >> \
+              -Datlassian.upm.version=<< parameters.upm >> \
+              -Datlassian.plugins.version=<< parameters.plugins >> \
+              -Datlassian.webresources.version=<< parameters.webresources >> \
+              -Datlassian.velocity.version=<< parameters.velocity >> \
+              -Dspring.context.version=<< parameters.spring >>
           no_output_timeout: 60m
 
       - run:
           name: Publish Atlassian Connect Polyfill helper classes for Confluence
           command: |
-            atlas-mvn clean deploy -P confluence -DskipTests -Drelease=<< parameters.release >>
+            atlas-mvn clean deploy \
+              -P confluence \
+              -DskipTests \
+              -Drelease=<< parameters.release >> \
+              -Djira.version=<< parameters.jira >> \
+              -Dconfluence.version=<< parameters.confluence>> \
+              -Dbamboo.version=<< parameters.bamboo >> \
+              -Dbitbucket.version=<< parameters.bitbucket >> \
+              -Datlassian.sal.version=<< parameters.sal >> \
+              -Datlassian.upm.version=<< parameters.upm >> \
+              -Datlassian.plugins.version=<< parameters.plugins >> \
+              -Datlassian.webresources.version=<< parameters.webresources >> \
+              -Datlassian.velocity.version=<< parameters.velocity >> \
+              -Dspring.context.version=<< parameters.spring >>
+          no_output_timeout: 60m
+
+      - run:
+          name: Publish Atlassian Connect Polyfill helper classes for Bitbucket
+          command: |
+            atlas-mvn clean deploy \
+              -P bitbucket \
+              -DskipTests \
+              -Drelease=<< parameters.release >> \
+              -Djira.version=<< parameters.jira >> \
+              -Dconfluence.version=<< parameters.confluence>> \
+              -Dbamboo.version=<< parameters.bamboo >> \
+              -Dbitbucket.version=<< parameters.bitbucket >> \
+              -Datlassian.sal.version=<< parameters.sal >> \
+              -Datlassian.upm.version=<< parameters.upm >> \
+              -Datlassian.plugins.version=<< parameters.plugins >> \
+              -Datlassian.webresources.version=<< parameters.webresources >> \
+              -Datlassian.velocity.version=<< parameters.velocity >> \
+              -Dspring.context.version=<< parameters.spring >>
+          no_output_timeout: 60m
+
+      - run:
+          name: Publish Atlassian Connect Polyfill helper classes for Bamboo
+          command: |
+            atlas-mvn clean deploy \
+              -P bamboo \
+              -DskipTests \
+              -Drelease=<< parameters.release >> \
+              -Djira.version=<< parameters.jira >> \
+              -Dconfluence.version=<< parameters.confluence>> \
+              -Dbamboo.version=<< parameters.bamboo >> \
+              -Dbitbucket.version=<< parameters.bitbucket >> \
+              -Datlassian.sal.version=<< parameters.sal >> \
+              -Datlassian.upm.version=<< parameters.upm >> \
+              -Datlassian.plugins.version=<< parameters.plugins >> \
+              -Datlassian.webresources.version=<< parameters.webresources >> \
+              -Datlassian.velocity.version=<< parameters.velocity >> \
+              -Dspring.context.version=<< parameters.spring >>
           no_output_timeout: 60m
 
       - run:
           name: Publish Atlassian Connect Polyfill
           command: |
-            atlas-mvn clean deploy -P servlet -DskipTests -Drelease=<< parameters.release >>
+            atlas-mvn clean deploy \
+              -P servlet \
+              -DskipTests \
+              -Drelease=<< parameters.release >> \
+              -Djira.version=<< parameters.jira >> \
+              -Dconfluence.version=<< parameters.confluence>> \
+              -Dbamboo.version=<< parameters.bamboo >> \
+              -Dbitbucket.version=<< parameters.bitbucket >> \
+              -Datlassian.sal.version=<< parameters.sal >> \
+              -Datlassian.upm.version=<< parameters.upm >> \
+              -Datlassian.plugins.version=<< parameters.plugins >> \
+              -Datlassian.webresources.version=<< parameters.webresources >> \
+              -Datlassian.velocity.version=<< parameters.velocity >> \
+              -Dspring.context.version=<< parameters.spring >>
           no_output_timeout: 60m
 
       - run:

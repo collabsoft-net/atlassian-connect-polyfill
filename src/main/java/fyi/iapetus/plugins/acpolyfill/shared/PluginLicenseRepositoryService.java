@@ -1,9 +1,9 @@
-package fyi.iapetus.plugins.acpolyfill;
+package fyi.iapetus.plugins.acpolyfill.shared;
 
 import com.atlassian.plugin.Plugin;
 import com.atlassian.plugin.spring.scanner.annotation.export.ExportAsService;
 import com.atlassian.upm.api.license.PluginLicenseManager;
-import com.atlassian.upm.api.license.entity.PluginLicense;
+import fyi.iapetus.plugins.acpolyfill.PluginLicenseRepository;
 import org.springframework.stereotype.Component;
 
 import java.util.HashMap;
@@ -12,11 +12,11 @@ import java.util.Optional;
 
 @Component
 @ExportAsService
-public class ACPluginLicenseRepository implements PluginLicenseRepository {
+public class PluginLicenseRepositoryService implements PluginLicenseRepository {
 
     private final Map<String, PluginLicenseManager> licenses;
 
-    public ACPluginLicenseRepository() {
+    public PluginLicenseRepositoryService() {
         this.licenses = new HashMap<>();
     }
 
