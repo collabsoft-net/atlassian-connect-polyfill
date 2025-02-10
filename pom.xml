@@ -24,13 +24,13 @@
         <bitbucket.version>9.0.0</bitbucket.version>
         <amps.version>8.15.1</amps.version>
 
-        <atlassian.sal.version>6.0.4</atlassian.sal.version>
-        <atlassian.upm.version>7.0.23</atlassian.upm.version>
-        <atlassian.plugins.version>8.1.0</atlassian.plugins.version>
-        <atlassian.webresources.version>7.3.0</atlassian.webresources.version>
-        <atlassian.velocity.version>5.0.1</atlassian.velocity.version>
-        <atlassian.extras.version>3.4.6</atlassian.extras.version>
-        <spring.context.version>5.3.39</spring.context.version>
+        <acpolyfill.sal.version>6.0.4</acpolyfill.sal.version>
+        <acpolyfill.upm.version>7.0.23</acpolyfill.upm.version>
+        <acpolyfill.plugins.version>8.1.0</acpolyfill.plugins.version>
+        <acpolyfill.webresources.version>7.3.0</acpolyfill.webresources.version>
+        <acpolyfill.velocity.version>5.0.1</acpolyfill.velocity.version>
+        <acpolyfill.extras.version>3.4.6</acpolyfill.extras.version>
+        <acpolyfill.spring.context.version>5.3.39</acpolyfill.spring.context.version>
 
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
@@ -267,7 +267,7 @@
                 <dependency>
                     <groupId>com.atlassian.sal</groupId>
                     <artifactId>sal-api</artifactId>
-                    <version>${atlassian.sal.version}</version>
+                    <version>${acpolyfill.sal.version}</version>
                     <scope>provided</scope>
                 </dependency>
 
@@ -310,7 +310,7 @@
                 <dependency>
                     <groupId>com.atlassian.extras</groupId>
                     <artifactId>atlassian-extras</artifactId>
-                    <version>${atlassian.extras.version}</version>
+                    <version>${acpolyfill.extras.version}</version>
                     <scope>provided</scope>
                 </dependency>
 
@@ -369,13 +369,13 @@
                 <dependency>
                     <groupId>com.atlassian.upm</groupId>
                     <artifactId>upm-api</artifactId>
-                    <version>${atlassian.upm.version}</version>
+                    <version>${acpolyfill.upm.version}</version>
                     <scope>provided</scope>
                 </dependency>
                 <dependency>
                     <groupId>com.atlassian.upm</groupId>
                     <artifactId>licensing-api</artifactId>
-                    <version>${atlassian.upm.version}</version>
+                    <version>${acpolyfill.upm.version}</version>
                     <scope>provided</scope>
                 </dependency>
 
@@ -431,7 +431,7 @@
                 <dependency>
                     <groupId>com.atlassian.plugins</groupId>
                     <artifactId>atlassian-plugins-api</artifactId>
-                    <version>${atlassian.plugins.version}</version>
+                    <version>${acpolyfill.plugins.version}</version>
                     <scope>provided</scope>
                 </dependency>
 
@@ -485,7 +485,7 @@
                 <dependency>
                     <groupId>com.atlassian.plugins</groupId>
                     <artifactId>atlassian-plugins-osgi-bridge</artifactId>
-                    <version>${atlassian.plugins.version}</version>
+                    <version>${acpolyfill.plugins.version}</version>
                     <scope>provided</scope>
                 </dependency>
 
@@ -542,7 +542,7 @@
                 <dependency>
                     <groupId>com.atlassian.plugins</groupId>
                     <artifactId>atlassian-plugins-servlet</artifactId>
-                    <version>${atlassian.plugins.version}</version>
+                    <version>${acpolyfill.plugins.version}</version>
                     <scope>provided</scope>
                 </dependency>
 
@@ -591,7 +591,7 @@
                 <dependency>
                     <groupId>com.atlassian.plugins</groupId>
                     <artifactId>atlassian-plugins-webresource-api</artifactId>
-                    <version>${atlassian.webresources.version}</version>
+                    <version>${acpolyfill.webresources.version}</version>
                     <scope>provided</scope>
                 </dependency>
 
@@ -698,7 +698,7 @@
                 <dependency>
                     <groupId>org.springframework</groupId>
                     <artifactId>spring-context</artifactId>
-                    <version>${spring.context.version}</version>
+                    <version>${acpolyfill.spring.context.version}</version>
                     <scope>provided</scope>
                 </dependency>
             </dependencies>
@@ -881,7 +881,7 @@
                 <dependency>
                     <groupId>com.atlassian.upm</groupId>
                     <artifactId>upm-api</artifactId>
-                    <version>${atlassian.upm.version}</version>
+                    <version>${acpolyfill.upm.version}</version>
                     <scope>provided</scope>
                 </dependency>
             </dependencies>
@@ -976,13 +976,13 @@
                 <dependency>
                     <groupId>com.atlassian.upm</groupId>
                     <artifactId>upm-api</artifactId>
-                    <version>${atlassian.upm.version}</version>
+                    <version>${acpolyfill.upm.version}</version>
                     <scope>provided</scope>
                 </dependency>
                 <dependency>
                     <groupId>com.atlassian.upm</groupId>
                     <artifactId>licensing-api</artifactId>
-                    <version>${atlassian.upm.version}</version>
+                    <version>${acpolyfill.upm.version}</version>
                     <scope>provided</scope>
                 </dependency>
                 <dependency>
@@ -1093,13 +1093,13 @@
                 <dependency>
                     <groupId>com.atlassian.upm</groupId>
                     <artifactId>upm-api</artifactId>
-                    <version>${atlassian.upm.version}</version>
+                    <version>${acpolyfill.upm.version}</version>
                     <scope>provided</scope>
                 </dependency>
                 <dependency>
                     <groupId>com.atlassian.upm</groupId>
                     <artifactId>licensing-api</artifactId>
-                    <version>${atlassian.upm.version}</version>
+                    <version>${acpolyfill.upm.version}</version>
                     <scope>provided</scope>
                 </dependency>
             </dependencies>
@@ -1229,19 +1229,19 @@
                 <dependency>
                     <groupId>com.atlassian.extras</groupId>
                     <artifactId>atlassian-extras</artifactId>
-                    <version>${atlassian.extras.version}</version>
+                    <version>${acpolyfill.extras.version}</version>
                     <scope>provided</scope>
                 </dependency>
                 <dependency>
                     <groupId>com.atlassian.upm</groupId>
                     <artifactId>upm-api</artifactId>
-                    <version>${atlassian.upm.version}</version>
+                    <version>${acpolyfill.upm.version}</version>
                     <scope>provided</scope>
                 </dependency>
                 <dependency>
                     <groupId>com.atlassian.upm</groupId>
                     <artifactId>licensing-api</artifactId>
-                    <version>${atlassian.upm.version}</version>
+                    <version>${acpolyfill.upm.version}</version>
                     <scope>provided</scope>
                 </dependency>
                 <dependency>

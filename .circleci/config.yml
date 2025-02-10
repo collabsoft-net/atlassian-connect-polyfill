@@ -128,12 +128,12 @@ commands:
               -Dconfluence.version=<< parameters.confluence>> \
               -Dbamboo.version=<< parameters.bamboo >> \
               -Dbitbucket.version=<< parameters.bitbucket >> \
-              -Datlassian.sal.version=<< parameters.sal >> \
-              -Datlassian.upm.version=<< parameters.upm >> \
-              -Datlassian.plugins.version=<< parameters.plugins >> \
-              -Datlassian.webresources.version=<< parameters.webresources >> \
-              -Datlassian.velocity.version=<< parameters.velocity >> \
-              -Dspring.context.version=<< parameters.spring >>
+              -Dacpolyfill.sal.version=<< parameters.sal >> \
+              -Dacpolyfill.upm.version=<< parameters.upm >> \
+              -Dacpolyfill.plugins.version=<< parameters.plugins >> \
+              -Dacpolyfill.webresources.version=<< parameters.webresources >> \
+              -Dacpolyfill.velocity.version=<< parameters.velocity >> \
+              -Dacpolyfill.spring.context.version=<< parameters.spring >>
           no_output_timeout: 60m
 
       - run:
@@ -147,12 +147,12 @@ commands:
               -Dconfluence.version=<< parameters.confluence>> \
               -Dbamboo.version=<< parameters.bamboo >> \
               -Dbitbucket.version=<< parameters.bitbucket >> \
-              -Datlassian.sal.version=<< parameters.sal >> \
-              -Datlassian.upm.version=<< parameters.upm >> \
-              -Datlassian.plugins.version=<< parameters.plugins >> \
-              -Datlassian.webresources.version=<< parameters.webresources >> \
-              -Datlassian.velocity.version=<< parameters.velocity >> \
-              -Dspring.context.version=<< parameters.spring >>
+              -Dacpolyfill.sal.version=<< parameters.sal >> \
+              -Dacpolyfill.upm.version=<< parameters.upm >> \
+              -Dacpolyfill.plugins.version=<< parameters.plugins >> \
+              -Dacpolyfill.webresources.version=<< parameters.webresources >> \
+              -Dacpolyfill.velocity.version=<< parameters.velocity >> \
+              -Dacpolyfill.spring.context.version=<< parameters.spring >>
           no_output_timeout: 60m
 
       - run:
@@ -166,12 +166,12 @@ commands:
               -Dconfluence.version=<< parameters.confluence>> \
               -Dbamboo.version=<< parameters.bamboo >> \
               -Dbitbucket.version=<< parameters.bitbucket >> \
-              -Datlassian.sal.version=<< parameters.sal >> \
-              -Datlassian.upm.version=<< parameters.upm >> \
-              -Datlassian.plugins.version=<< parameters.plugins >> \
-              -Datlassian.webresources.version=<< parameters.webresources >> \
-              -Datlassian.velocity.version=<< parameters.velocity >> \
-              -Dspring.context.version=<< parameters.spring >>
+              -Dacpolyfill.sal.version=<< parameters.sal >> \
+              -Dacpolyfill.upm.version=<< parameters.upm >> \
+              -Dacpolyfill.plugins.version=<< parameters.plugins >> \
+              -Dacpolyfill.webresources.version=<< parameters.webresources >> \
+              -Dacpolyfill.velocity.version=<< parameters.velocity >> \
+              -Dacpolyfill.spring.context.version=<< parameters.spring >>
           no_output_timeout: 60m
 
       - run:
@@ -185,12 +185,12 @@ commands:
               -Dconfluence.version=<< parameters.confluence>> \
               -Dbamboo.version=<< parameters.bamboo >> \
               -Dbitbucket.version=<< parameters.bitbucket >> \
-              -Datlassian.sal.version=<< parameters.sal >> \
-              -Datlassian.upm.version=<< parameters.upm >> \
-              -Datlassian.plugins.version=<< parameters.plugins >> \
-              -Datlassian.webresources.version=<< parameters.webresources >> \
-              -Datlassian.velocity.version=<< parameters.velocity >> \
-              -Dspring.context.version=<< parameters.spring >>
+              -Dacpolyfill.sal.version=<< parameters.sal >> \
+              -Dacpolyfill.upm.version=<< parameters.upm >> \
+              -Dacpolyfill.plugins.version=<< parameters.plugins >> \
+              -Dacpolyfill.webresources.version=<< parameters.webresources >> \
+              -Dacpolyfill.velocity.version=<< parameters.velocity >> \
+              -Dacpolyfill.spring.context.version=<< parameters.spring >>
           no_output_timeout: 60m
 
       - run:
@@ -204,12 +204,12 @@ commands:
               -Dconfluence.version=<< parameters.confluence>> \
               -Dbamboo.version=<< parameters.bamboo >> \
               -Dbitbucket.version=<< parameters.bitbucket >> \
-              -Datlassian.sal.version=<< parameters.sal >> \
-              -Datlassian.upm.version=<< parameters.upm >> \
-              -Datlassian.plugins.version=<< parameters.plugins >> \
-              -Datlassian.webresources.version=<< parameters.webresources >> \
-              -Datlassian.velocity.version=<< parameters.velocity >> \
-              -Dspring.context.version=<< parameters.spring >>
+              -Dacpolyfill.sal.version=<< parameters.sal >> \
+              -Dacpolyfill.upm.version=<< parameters.upm >> \
+              -Dacpolyfill.plugins.version=<< parameters.plugins >> \
+              -Dacpolyfill.webresources.version=<< parameters.webresources >> \
+              -Dacpolyfill.velocity.version=<< parameters.velocity >> \
+              -Dacpolyfill.spring.context.version=<< parameters.spring >>
           no_output_timeout: 60m
 
       - run:
