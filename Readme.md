@@ -24,6 +24,29 @@ reduce errors.
 
 This package is the "back-end" part and relies heavily on the "front-end" part that is in the `@collabsoft-net/connect` package. See https://github.com/collabsoft-net/iapetus/tree/main/packages/connect
 
+## Compatibility matrix
+
+Atlassian has been publishing breaking changes between Platform 6 (Jira 9, Confluence 8, Bamboo 9 and Bitbucket 8) and 
+Platform 7 (Jira 10, Confluence 9, Bamboo 10 and Bitbucket 9), and has already announced that Platform 8 will also include breaking changes.
+
+This compatibility matrix will show you which versions of IApetus can be used with specific versions of the host product.
+_The last verified version range will continue to apply until otherwise specified_
+
+| Version | Jira            | Confluence     | Bamboo         | Bitbucket      |
+| ------- | --------------- | -------------- | -------------- | -------------- |
+| 1.7.0   |  -              | -              | -              | -              |
+| 1.6.2   |  -              | -              | -              | -              |
+| 1.6.1   |  -              | -              | -              | -              |
+| 1.6.0   |  -              | -              | -              | -              |
+| 1.5.0   |  -              | -              | -              | -              |
+| 1.4.0   |  -              | -              | -              | -              |
+| 1.3.0   |  -              | -              | -              | -              |
+| 1.2.0   |  -              | -              | -              | -              |
+| 1.1.0   |  -              | -              | -              | -              |
+| 1.0.0   |  9.0.0 - latest | 8.0.0 - latest | 9.0.0 - latest | 8.0.x - 8.19.x |
+
+N.B. Host product versions are not continously tested, which means that _latest_ might not mean the actual latest version. It means that it is expected to work up until the latest version unless otherwise specfied.
+
 ## How it works
 
 When installed, the app registers a servlet that listens to `/plugins/servlet/atlassian-connect/{appKey}/{moduleKey}`.

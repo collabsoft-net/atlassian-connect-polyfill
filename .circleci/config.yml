@@ -10,6 +10,7 @@ jobs:
     executor: server
     steps:
       - server:
+          platform: "6 (lowest version)"
           jira: "9.0.0"
           confluence: "8.0.0"
           bamboo: "9.0.0"        
@@ -22,22 +23,24 @@ jobs:
           spring: "5.3.19"
 
       - server:
-          jira: "10.0.0"
-          confluence: "9.0.1"
-          bamboo: "10.0.0"        
-          bitbucket: "9.0.0"
-          sal: "6.0.4"
-          upm: "7.0.23"
-          plugins: "8.1.0"
-          webresources: "7.3.0"
-          velocity: "5.0.1"
-          spring: "5.3.39"
+          platform: "6 (highest version)"
+          jira: "9.17.0"
+          confluence: "8.9.0"
+          bamboo: "9.6.0"        
+          bitbucket: "8.19.0"
+          sal: "5.2.0"
+          upm: "6.5.3"
+          plugins: "7.5.3"
+          webresources: "6.3.1"
+          velocity: "4.0.4"
+          spring: "5.3.32"
 
   fyi-iapetus-plugins-deploy:
     executor: server
     steps:
       - server:
           release: "true"
+          platform: "6"
           jira: "10.0.0"
           confluence: "9.0.1"
           bamboo: "10.0.0"        
@@ -94,6 +97,8 @@ commands:
       release:
         type: string
         default: "false"
+      platform:
+        type: string
       jira:
         type: string
       confluence:
@@ -118,7 +123,7 @@ commands:
       - prepare
 
       - run:
-          name: Publish Atlassian Connect Polyfill helper classes for Jira
+          name: Publish Atlassian Connect Polyfill helper classes for Jira - Platform << parameters.platform >>
           command: |
             atlas-mvn clean deploy \
               -P jira \
@@ -137,7 +142,7 @@ commands:
           no_output_timeout: 60m
 
       - run:
-          name: Publish Atlassian Connect Polyfill helper classes for Confluence
+          name: Publish Atlassian Connect Polyfill helper classes for Confluence - Platform << parameters.platform >>
           command: |
             atlas-mvn clean deploy \
               -P confluence \
@@ -156,7 +161,7 @@ commands:
           no_output_timeout: 60m
 
       - run:
-          name: Publish Atlassian Connect Polyfill helper classes for Bitbucket
+          name: Publish Atlassian Connect Polyfill helper classes for Bitbucket - Platform << parameters.platform >>
           command: |
             atlas-mvn clean deploy \
               -P bitbucket \
@@ -175,7 +180,7 @@ commands:
           no_output_timeout: 60m
 
       - run:
-          name: Publish Atlassian Connect Polyfill helper classes for Bamboo
+          name: Publish Atlassian Connect Polyfill helper classes for Bamboo - Platform << parameters.platform >>
           command: |
             atlas-mvn clean deploy \
               -P bamboo \
@@ -194,7 +199,7 @@ commands:
           no_output_timeout: 60m
 
       - run:
-          name: Publish Atlassian Connect Polyfill
+          name: Publish Atlassian Connect Polyfill - Platform << parameters.platform >>
           command: |
             atlas-mvn clean deploy \
               -P servlet \
