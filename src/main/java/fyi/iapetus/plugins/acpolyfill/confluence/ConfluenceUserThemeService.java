@@ -28,14 +28,14 @@ public class ConfluenceUserThemeService implements UserThemeService {
     @Override
     public String getColorMode(@Nonnull UserKey userKey) {
         ConfluenceUser user = this.userAccessor.getUserByKey(userKey);
-        ConfluenceUserPreferences userPreferences = this.userAccessor.getConfluenceUserPreferences(user);
+        ConfluenceUserPreferences confluenceUserPreferences = this.userAccessor.getConfluenceUserPreferences(user);
 
         // ConfluenceUserPreferences signature changes between different versions of Confluence
         // In the most recent versions of Confluence, the ConfluenceUserPreferences has a direct getString()
         // method which returns an Optional<String>. Let's see if this is the case for the current implementation
         try {
-            Method getStringMethod = userPreferences.getClass().getMethod("getString", String.class);
-            Object result = getStringMethod.invoke(this, "atl-theme-preferred-color-mode");
+            Method getStringMethod = confluenceUserPreferences.getClass().getDeclaredMethod("getString", String.class);
+            Object result = getStringMethod.invoke(confluenceUserPreferences, "atl-theme-preferred-color-mode");
             if (result instanceof Optional) {
                 Object colorMode = ((Optional<?>) result).isPresent() ? ((Optional<?>) result).get() : "LIGHT";
                 if (colorMode instanceof String) {
@@ -47,8 +47,8 @@ public class ConfluenceUserThemeService implements UserThemeService {
         // In earlier versions of Confluence, the ConfluenceUserPreferences is a wrapper around UserPreferences
         // We need to get the UserPreferences by invoking `getWrappedPreferences` and then get the preference
         try {
-            Method userPreferencesMethod = userPreferences.getClass().getMethod("getWrappedPreferences");
-            Object result = userPreferencesMethod.invoke(this);
+            Method userPreferencesMethod = confluenceUserPreferences.getClass().getDeclaredMethod("getWrappedPreferences");
+            Object result = userPreferencesMethod.invoke(confluenceUserPreferences);
             if (result instanceof UserPreferences) {
                 String colorMode = ((UserPreferences) result).getString("atl-theme-preferred-color-mode");
                 return null != colorMode ? colorMode : "LIGHT";
