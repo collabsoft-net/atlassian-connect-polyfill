@@ -1,0 +1,58 @@
+<atlassian-plugin key="${atlassian.plugin.key}" name="${project.name}" plugins-version="2">
+    <plugin-info>
+        <description>${project.description}</description>
+        <version>${project.version}</version>
+        <vendor name="${project.organization.name}" url="${project.organization.url}" />
+        <param name="plugin-icon">images/pluginIcon.png</param>
+        <param name="plugin-logo">images/pluginLogo.png</param>
+
+        <!-- Atlassian Connect Polyfill -->
+        <param name="ac.baseurl">/plugins/servlet/bamboo-example/</param>
+        <param name="ac.context">bamboo-example-atlassian-connect</param>
+    </plugin-info>
+
+    <resource type="i18n" name="i18n" location="i18n.properties" />
+
+    <!-- ####################################################################################
+         Manage Apps > App section
+    ##################################################################################### -->
+
+    <web-section key="fyi-iapetus-examples-web-section" location="system.admin" weight="10">
+        <label key="${project.name}"/>
+    </web-section>
+
+    <web-item key="fyi-iapetus-examples-hello-world" section="system.admin/fyi-iapetus-examples-web-section" weight="10">
+        <label key="Hello World" />
+        <link linkId="helloworld">/plugins/servlet/atlassian-connect/${atlassian.plugin.key}/fyi-iapetus-examples-hello-world</link>
+        <param name="title" value="Hello World" />
+        <param name="decorator" value="atl.admin" />
+        <param name="url" value="/hello-world" />
+    </web-item>
+
+    <!-- ####################################################################################
+         Web Panels
+    ##################################################################################### -->
+
+    <web-panel key="fyi-iapetus-examples-job-summary-panel" location="jobresult.summary.right">
+        <context-provider class="fyi.iapetus.plugins.acpolyfill.bamboo.BambooContextProvider">
+            <param name="url" value="/job-summary-panel" />
+        </context-provider>
+        <resource name="view" type="velocity"><![CDATA[$ACHtml]]></resource>
+    </web-panel>
+
+    <web-panel key="fyi-iapetus-examples-chain-summary-panel" location="chainresult.summary.right">
+        <context-provider class="fyi.iapetus.plugins.acpolyfill.bamboo.BambooContextProvider">
+            <param name="url" value="/chain-summary-panel" />
+        </context-provider>
+        <resource name="view" type="velocity"><![CDATA[$ACHtml]]></resource>
+    </web-panel>
+
+    <!-- ####################################################################################
+         Servlet
+    ##################################################################################### -->
+
+    <servlet key="ACServlet" class="fyi.iapetus.examples.ACServlet">
+        <url-pattern>/bamboo-example/*</url-pattern>
+    </servlet>
+
+</atlassian-plugin>
