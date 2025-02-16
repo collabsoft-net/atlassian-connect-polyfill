@@ -7,7 +7,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>fyi.iapetus.examples</groupId>
     <artifactId>confluence-example</artifactId>
-    <version>1.6.2</version>
+    <version>2.0.0-SNAPSHOT</version>
 
     <organization>
         <name>Example Company</name>
@@ -19,7 +19,9 @@
     <packaging>atlassian-plugin</packaging>
 
     <properties>
-        <confluence.version>8.0.0</confluence.version>
+        <confluence.version>9.3.1</confluence.version>
+        <confluence.data.version>${confluence.version}</confluence.data.version>
+        <acpolyfill.version>${project.version}</acpolyfill.version>
         <!-- This property ensures consistency between the key in atlassian-plugin.xml and the OSGi bundle's key. -->
         <atlassian.plugin.key>${project.groupId}.${project.artifactId}</atlassian.plugin.key>
         <upm.license.compatibility.version>2.15</upm.license.compatibility.version>
@@ -32,23 +34,32 @@
     <repositories>
         <repository>
             <id>atlassian</id>
-            <name>Atlassian Repository</name>
-            <url>https://maven.atlassian.com/content/groups/public/</url>
+            <url>https://packages.atlassian.com/mvn/maven-atlassian-all/</url>
             <snapshots>
                 <enabled>true</enabled>
+                <updatePolicy>never</updatePolicy>
+                <checksumPolicy>warn</checksumPolicy>
             </snapshots>
             <releases>
                 <enabled>true</enabled>
+                <checksumPolicy>warn</checksumPolicy>
             </releases>
         </repository>
         <repository>
-            <id>jitpack.io</id>
-            <url>https://jitpack.io</url>
+            <id>atlassian-external</id>
+            <url>https://packages.atlassian.com/mvn/maven-atlassian-external</url>
+            <releases>
+                <enabled>true</enabled>
+                <checksumPolicy>warn</checksumPolicy>
+            </releases>
         </repository>
         <repository>
-            <id>repository.jboss.org-public</id>
-            <name>JBoss repository</name>
-            <url>https://repository.jboss.org/nexus/content/groups/public</url>
+            <id>atlassian-3rdparty</id>
+            <url>https://packages.atlassian.com/maven-3rdparty/</url>
+            <releases>
+                <enabled>true</enabled>
+                <checksumPolicy>warn</checksumPolicy>
+            </releases>
         </repository>
         <repository>
             <id>CollabSoft Maven Repository</id>
@@ -60,6 +71,25 @@
                 <enabled>false</enabled>
             </snapshots>
             <url>https://repository.collabsoft.net/releases</url>
+        </repository>
+        <repository>
+            <id>CollabSoft Maven Repository - Snapshots</id>
+            <name>CollabSoft Maven Repository - Snapshots</name>
+            <releases>
+                <enabled>false</enabled>
+            </releases>
+            <snapshots>
+                <enabled>true</enabled>
+            </snapshots>
+            <url>https://repository.collabsoft.net/snapshots</url>
+        </repository>
+        <repository>
+            <id>CollabSoft Maven Repository - External</id>
+            <name>CollabSoft Maven Repository - External</name>
+            <releases>
+                <enabled>true</enabled>
+            </releases>
+            <url>https://repository.collabsoft.net/external</url>
         </repository>
     </repositories>
 
@@ -85,6 +115,11 @@
                 <type>pom</type>
                 <scope>import</scope>
             </dependency>
+            <dependency>
+                <groupId>net.minidev</groupId>
+                <artifactId>json-smart</artifactId>
+                <version>2.4.7</version>
+            </dependency>
         </dependencies>
     </dependencyManagement>
 
@@ -92,13 +127,13 @@
         <dependency>
             <groupId>fyi.iapetus.plugins</groupId>
             <artifactId>acpolyfill</artifactId>
-            <version>1.6.2</version>
+            <version>${acpolyfill.version}</version>
             <scope>provided</scope>
         </dependency>
         <dependency>
             <groupId>fyi.iapetus.plugins</groupId>
             <artifactId>acpolyfill</artifactId>
-            <version>1.6.2</version>
+            <version>${acpolyfill.version}</version>
             <classifier>confluence</classifier>
         </dependency>
         <dependency>
@@ -248,11 +283,6 @@
                             <artifactId>acpolyfill</artifactId>
                         </pluginDependency>
                     </pluginDependencies>
-
-                    <banningExcludes>
-                        <exclude>com.google.guava:guava</exclude>
-                        <exclude>com.google.code.findbugs:jsr305</exclude>
-                    </banningExcludes>
 
                     <instructions>
                         <Bundle-SymbolicName>${atlassian.plugin.key}</Bundle-SymbolicName>
