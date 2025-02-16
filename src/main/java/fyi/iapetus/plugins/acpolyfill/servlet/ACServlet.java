@@ -6,7 +6,6 @@ import com.atlassian.sal.api.ApplicationProperties;
 import com.atlassian.sal.api.pluginsettings.PluginSettingsFactory;
 import com.atlassian.sal.api.user.UserManager;
 import com.atlassian.webresource.api.assembler.*;
-import com.google.common.io.Resources;
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import fyi.iapetus.plugins.acpolyfill.PluginLicenseRepository;
 import fyi.iapetus.plugins.acpolyfill.UserThemeService;
@@ -16,9 +15,9 @@ import org.springframework.stereotype.Component;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.io.IOException;
-import java.io.PrintWriter;
+import java.io.*;
 import java.nio.charset.StandardCharsets;
+import java.util.stream.Collectors;
 
 @Component
 @SuppressFBWarnings("SE_BAD_FIELD")
@@ -69,10 +68,22 @@ public class ACServlet extends HttpServlet {
     private String getJavascriptAPI() throws IOException {
         String platformName = platformHelper.getPlatformName();
         String resourceName = String.format("/ap-%s.js", platformName.toLowerCase());
-        return Resources.toString(Resources.getResource(resourceName), StandardCharsets.UTF_8);
+
+        ClassLoader loader = null != Thread.currentThread().getContextClassLoader()
+            ? Thread.currentThread().getContextClassLoader()
+            : ACServlet.class.getClassLoader();
+
+        if (null != loader) {
+            try (InputStream stream = loader.getResourceAsStream(resourceName)) {
+                if (null != stream) {
+                    InputStreamReader reader = new InputStreamReader(stream, StandardCharsets.UTF_8);
+                    try (BufferedReader bufferedReader = new BufferedReader(reader)) {
+                        return bufferedReader.lines().collect(Collectors.joining("\n"));
+                    }
+                }
+            }
+        }
+
+        throw new IOException(String.format("Could not find JavaScript API for %s", platformName));
     }
-
-
-
-
 }
