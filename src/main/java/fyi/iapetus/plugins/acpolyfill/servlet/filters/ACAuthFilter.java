@@ -116,7 +116,8 @@ public class ACAuthFilter implements Filter {
     }
 
     private URI getOriginalUrl(final HttpServletRequest request) {
-        String orignalUrl = applicationProperties.getBaseUrl(UrlMode.ABSOLUTE) + request.getServletPath();
+        String path = null != request.getPathInfo() ? request.getPathInfo() : request.getServletPath();
+        String orignalUrl = applicationProperties.getBaseUrl(UrlMode.ABSOLUTE) + path;
         String queryString = request.getQueryString();
         if (!queryString.isEmpty()) {
             orignalUrl = orignalUrl + String.format("?%s", request.getQueryString());
