@@ -6,7 +6,7 @@ orbs:
 
 jobs:
 
-  fyi-iapetus-plugins-compile:
+  fyi-iapetus-plugins-compile-platform-6-lowest:
     executor: server
     steps:
       - server:
@@ -22,6 +22,9 @@ jobs:
           velocity: "4.0.0"
           spring: "5.3.19"
 
+  fyi-iapetus-plugins-compile-platform-6-highest:
+    executor: server
+    steps:
       - server:
           platform: "6 (highest version)"
           jira: "9.17.0"
@@ -35,16 +38,32 @@ jobs:
           velocity: "4.0.4"
           spring: "5.3.32"
 
+  fyi-iapetus-plugins-compile-platform-7-lowest:
+    executor: server
+    steps:
+      - server:
+          platform: "7 (lowest version)"
+          jira: "10.0.0"
+          confluence: "9.0.1"
+          bamboo: "10.0.0"        
+          bitbucket: "9.0.0"
+          sal: "6.0.4"
+          upm: "7.0.23"
+          plugins: "8.1.0"
+          webresources: "7.3.0"
+          velocity: "5.0.1"
+          spring: "5.3.39"
+
   fyi-iapetus-plugins-deploy:
     executor: server
     steps:
       - server:
           release: "true"
           platform: "6"
-          jira: "10.0.0"
-          confluence: "9.0.1"
-          bamboo: "10.0.0"        
-          bitbucket: "9.0.0"
+          jira: "10.4.0"
+          confluence: "9.3.1"
+          bamboo: "10.2.0"        
+          bitbucket: "9.5.0"
           sal: "6.0.4"
           upm: "7.0.23"
           plugins: "8.1.0"
@@ -228,8 +247,20 @@ workflows:
   deploy:
     jobs:
 
-      - fyi-iapetus-plugins-compile:
-          name: Atlassian Connect Polyfill - Development
+      - fyi-iapetus-plugins-compile-platform-6-lowest:
+          name: Atlassian Connect Polyfill - Platform 6 (lowest)
+          filters:
+            branches:
+              ignore: main
+
+      - fyi-iapetus-plugins-compile-platform-6-highest:
+          name: Atlassian Connect Polyfill - Platform 6 (highest)
+          filters:
+            branches:
+              ignore: main
+
+      - fyi-iapetus-plugins-compile-platform-7-lowest:
+          name: Atlassian Connect Polyfill - Platform 7 (lowest)
           filters:
             branches:
               ignore: main
