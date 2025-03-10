@@ -5,7 +5,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>fyi.iapetus.plugins</groupId>
     <artifactId>acpolyfill</artifactId>
-    <version>1.7.0-SNAPSHOT</version>
+    <version>2.0.0-SNAPSHOT</version>
     <packaging>${packaging}</packaging>
 
     <organization>
@@ -18,10 +18,23 @@
 
     <properties>
         <packaging>pom</packaging>
-        <jira.version>9.17.0</jira.version>
-        <confluence.version>8.5.0</confluence.version>
-        <upm.version>6.5.7</upm.version>
-        <amps.version>8.15.1</amps.version>
+        <jira.version>10.4.0</jira.version>
+        <confluence.version>9.3.0</confluence.version>
+        <bamboo.version>10.2.0</bamboo.version>
+        <bitbucket.version>9.5.0</bitbucket.version>
+
+        <amps.version>9.1.11</amps.version>
+        <acpolyfill.sal.version>6.0.4</acpolyfill.sal.version>
+        <acpolyfill.upm.version>7.0.23</acpolyfill.upm.version>
+        <acpolyfill.plugins.version>8.1.0</acpolyfill.plugins.version>
+        <acpolyfill.webresources.version>7.3.0</acpolyfill.webresources.version>
+        <acpolyfill.velocity.version>5.0.1</acpolyfill.velocity.version>
+        <acpolyfill.servlet-api.version>3.1.0</acpolyfill.servlet-api.version>
+        <acpolyfill.jaxb.version>2.3.3</acpolyfill.jaxb.version>
+        <acpolyfill.spring.context.version>5.3.39</acpolyfill.spring.context.version>
+        <acpolyfill.gemini-blueprint.version>2.1.0.RELEASE</acpolyfill.gemini-blueprint.version>
+        <acpolyfill.felix.version>4.0.0</acpolyfill.felix.version>
+
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
 
@@ -40,21 +53,20 @@
             </releases>
         </repository>
         <repository>
-            <id>atlassian-3rdparty</id>
-            <url>https://packages.atlassian.com/maven-3rdparty/</url>
+            <id>atlassian-external</id>
+            <url>https://packages.atlassian.com/mvn/maven-atlassian-external</url>
             <releases>
                 <enabled>true</enabled>
                 <checksumPolicy>warn</checksumPolicy>
             </releases>
         </repository>
         <repository>
-            <id>jitpack.io</id>
-            <url>https://jitpack.io</url>
-        </repository>
-        <repository>
-            <id>repository.jboss.org-public</id>
-            <name>JBoss repository</name>
-            <url>https://repository.jboss.org/nexus/content/groups/public</url>
+            <id>atlassian-3rdparty</id>
+            <url>https://packages.atlassian.com/maven-3rdparty/</url>
+            <releases>
+                <enabled>true</enabled>
+                <checksumPolicy>warn</checksumPolicy>
+            </releases>
         </repository>
         <repository>
             <id>CollabSoft Maven Repository</id>
@@ -69,7 +81,7 @@
         </repository>
         <repository>
             <id>CollabSoft Maven Repository - Snapshots</id>
-            <name>CollabSoft Maven Repository</name>
+            <name>CollabSoft Maven Repository - Snapshots</name>
             <releases>
                 <enabled>false</enabled>
             </releases>
@@ -114,27 +126,9 @@
         </pluginRepository>
     </pluginRepositories>
 
+    <!-- SHARED DEPENDENCIES -->
+    <!-- These dependencies are used by all profiles -->
     <dependencies>
-
-        <dependency>
-            <groupId>com.google.guava</groupId>
-            <artifactId>guava</artifactId>
-            <version>33.2.0-jre</version>
-            <scope>provided</scope>
-        </dependency>
-        <dependency>
-            <groupId>commons-codec</groupId>
-            <artifactId>commons-codec</artifactId>
-            <version>1.15</version>
-            <scope>provided</scope>
-        </dependency>
-        <dependency>
-            <groupId>com.atlassian.extras</groupId>
-            <artifactId>atlassian-extras</artifactId>
-            <version>3.4.6</version>
-            <scope>provided</scope>
-        </dependency>
-
         <!-- The Atlassian maven plugin copies all dependencies with compile/runtime scope -->
         <!-- These dependencies should not be included because it breaks the app, therefore scope is set to 'provided' -->
         <dependency>
@@ -143,40 +137,15 @@
             <version>4.8.6</version>
             <scope>provided</scope>
         </dependency>
-
-        <!-- Shared -->
         <dependency>
-            <groupId>com.atlassian.upm</groupId>
-            <artifactId>upm-api</artifactId>
-            <version>${upm.version}</version>
-            <scope>provided</scope>
-        </dependency>
-        <dependency>
-            <groupId>com.atlassian.upm</groupId>
-            <artifactId>licensing-api</artifactId>
-            <version>${upm.version}</version>
-            <scope>provided</scope>
-        </dependency>
-        <dependency>
-            <groupId>com.atlassian.plugins</groupId>
-            <artifactId>atlassian-plugins-servlet</artifactId>
-            <version>7.2.0</version>
-            <scope>provided</scope>
-        </dependency>
-        <dependency>
-            <groupId>com.atlassian.plugins</groupId>
-            <artifactId>atlassian-plugins-osgi-bridge</artifactId>
-            <version>7.4.0</version>
-            <scope>provided</scope>
-        </dependency>
-        <dependency>
-            <groupId>javax.servlet</groupId>
-            <artifactId>javax.servlet-api</artifactId>
-            <version>4.0.1</version>
+            <groupId>com.atlassian.plugin</groupId>
+            <artifactId>atlassian-spring-scanner-annotation</artifactId>
+            <version>2.1.13</version>
             <scope>provided</scope>
         </dependency>
     </dependencies>
 
+    <!-- SHARED BUILD STEPS -->
     <build>
         <plugins>
             <plugin>
@@ -233,49 +202,429 @@
     <profiles>
         <profile>
             <id>servlet</id>
-            <activation>
-                <activeByDefault>true</activeByDefault>
-            </activation>
 
             <properties>
                 <packaging>atlassian-plugin</packaging>
             </properties>
 
             <dependencies>
+                <!-- Atlassian provided, but not version managed -->
+
+                <dependency>
+                    <groupId>com.atlassian.jira</groupId>
+                    <artifactId>jira-core</artifactId>
+                    <version>${jira.version}</version>
+                    <scope>provided</scope>
+                </dependency>
+                <dependency>
+                    <groupId>com.atlassian.confluence</groupId>
+                    <artifactId>confluence</artifactId>
+                    <version>${confluence.version}</version>
+                    <scope>provided</scope>
+                </dependency>
+                <dependency>
+                    <groupId>com.atlassian.bitbucket.server</groupId>
+                    <artifactId>bitbucket-api</artifactId>
+                    <version>${bitbucket.version}</version>
+                    <scope>provided</scope>
+                </dependency>
+                <dependency>
+                    <groupId>com.atlassian.bamboo</groupId>
+                    <artifactId>atlassian-bamboo-web</artifactId>
+                    <version>${bamboo.version}</version>
+                    <scope>provided</scope>
+                </dependency>
+
+                <!--
+                    Unable to detect which version Atlassian uses
+                    as this is part of the closed source code base
+                 -->
+                <dependency>
+                    <groupId>org.eclipse.gemini.blueprint</groupId>
+                    <artifactId>gemini-blueprint-core</artifactId>
+                    <version>${acpolyfill.gemini-blueprint.version}</version>
+                    <scope>provided</scope>
+                </dependency>
+
+                <!-- 
+                    Jira
+                    5.0.0 - Jira 9.0.0 - 9.4.0
+                    5.0.1 - Jira 9.5.0 - 9.10.0
+                    5.0.3 - Jira 9.11.0 - 9.12.0
+                    5.1.4 - Jira 9.13.0  - 9.14.0
+                    5.2.0 - Jira 9.15.0 - 9.17.0
+                    6.0.4 - Jira 10.0.0 - current
+
+                    Confluence
+                    5.0.2 - Confluence 8.0.0 - 8.1.0
+                    5.1.0 - Confluence 8.2.0 - 8.4.0
+                    5.1.3 - Confluence 8.5.0 - 8.7.x
+                    5.2.0 - Confluence 8.8.x
+                    6.0.4 - Confluence 9.0.1 - current
+
+                    Bitbucket
+                    5.0.0 - Bitbucket 8.0.0 - 8.15.0
+                    5.0.3 - Bitbucket 8.16.0
+                    5.1.4 - Bitbucket 8.17.0
+                    5.2.0 - Bitbucket 8.18.0 - 8.19.0
+                    6.0.2 - Bitbucket 9.0.0
+                    6.0.4 - Bitbucket 9.1.0 - current
+
+                    Bamboo
+                    5.0.1 - Bamboo 9.0.0
+                    5.0.2 - Bamboo 9.1.0 - 9.3.0
+                    5.0.3 - Bamboo 9.4.0
+                    5.1.4 - Bamboo 9.5.0
+                    5.2.0 - Bamboo 9.6.0
+                    6.0.4 - Bamboo 10.0.0 - current 
+                -->
                 <dependency>
                     <groupId>com.atlassian.sal</groupId>
                     <artifactId>sal-api</artifactId>
-                    <version>5.0.1</version>
+                    <version>${acpolyfill.sal.version}</version>
+                    <scope>provided</scope>
+                </dependency>
+
+                <!-- 
+                    Jira
+                    5.0.0 - Jira 9.0.0 - current
+
+                    Confluence
+                    5.0.0 - Confluence 8.0.0 - current
+
+                    Bitbucket
+                    5.0.0 - Bitbucket 8.0.0 - current
+
+                    Bamboo
+                    5.0.0 - Bamboo 9.0.0 - current
+                -->
+                <dependency>
+                    <groupId>io.atlassian.fugue</groupId>
+                    <artifactId>fugue</artifactId>
+                    <version>5.0.0</version>
+                    <scope>provided</scope>
+                </dependency>
+
+                <!-- 
+                    Jira
+                    6.0.4 - Jira 9.0.0 - 9.3.0
+                    6.0.6 - Jira 9.4.0 - 9.5.0
+                    6.0.8 - Jira 9.6.0 - 9.8.0
+                    6.0.11 - Jira 9.9.0 - 9.11.0
+                    6.1.7 - Jira 9.12.0
+                    6.4.0 - Jira 9.13.0
+                    6.5.4 - Jira 9.14.0
+                    6.5.5 - Jira 9.15.0 - 9.17.0
+                    7.0.14 - Jira 10.0.0
+                    7.0.17 - Jira 10.1.0
+                    7.0.19 - Jira 10.2.0 - current
+
+                    Confluence
+                    6.0.6 - Confluence 8.0.0
+                    6.0.8 - Confluence 8.1.0 - 8.2.0
+                    6.1.1 - Confluence 8.3.0
+                    6.1.3 - Confluence 8.4.0 - 8.6.0
+                    6.4.0 - Confluence 8.7.0
+                    6.5.0 - Confluence 8.8.0
+                    6.5.3 - Confluence 8.9.0
+                    7.0.12 - Confluence 9.0.0
+                    7.0.17 - Confluence 9.1.0
+                    7.0.19 - Confluence 9.2.0
+
+                    Bitbucket
+                    6.0.2 - Bitbucket 8.0.0
+                    6.0.4 - Bitbucket 8.1.0 - 8.5.0
+                    6.0.7 - Bitbucket 8.6.0 - 8.7.0
+                    6.0.9 - Bitbucket 8.8.0 - 8.14.0
+                    6.2.0 - Bitbucket 8.15.0 - 8.16.0
+                    6.4.1 - Bitbucket 8.17.0
+                    6.5.0 - Bitbucket 8.18.0
+                    6.5.3 - Bitbucket 8.19.0
+                    7.0.12 - Bitbucket 9.0.0
+                    7.0.15 - Bitbucket 9.1.0
+                    7.0.17 - Bitbucket 9.2.0 - 9.3.0
+                    7.0.22 - Bitbucket 9.4.0 - current
+
+                    Bamboo
+                    6.0.5 - Bamboo 9.0.0
+                    6.0.7 - Bamboo 9.1.0 - 9.2.0
+                    6.0.9 - Bamboo 9.3.0
+                    6.0.12 - Bamboo 9.4.0
+                    6.3.1 - Bamboo 9.5.0
+                    6.5.3 - Bamboo 9.6.0
+                    7.0.15 - Bamboo 10.0.0
+                    7.0.19 - Bamboo 10.1.0
+                    7.0.23 - Bamboo 10.2.0 - current
+
+                -->
+                <dependency>
+                    <groupId>com.atlassian.upm</groupId>
+                    <artifactId>upm-api</artifactId>
+                    <version>${acpolyfill.upm.version}</version>
                     <scope>provided</scope>
                 </dependency>
                 <dependency>
-                    <groupId>com.atlassian.velocity.htmlsafe</groupId>
-                    <artifactId>velocity-htmlsafe</artifactId>
-                    <version>4.0.3</version>
+                    <groupId>com.atlassian.upm</groupId>
+                    <artifactId>licensing-api</artifactId>
+                    <version>${acpolyfill.upm.version}</version>
                     <scope>provided</scope>
                 </dependency>
-                <dependency>
-                    <groupId>com.atlassian.plugins</groupId>
-                    <artifactId>atlassian-plugins-webresource-api</artifactId>
-                    <version>6.3.1</version>
-                    <scope>provided</scope>
-                </dependency>
+
+                <!--
+                    Platform 6
+
+                    Platform 7
+
+                    Jira
+                    7.0.4 - Jira 9.0.0 - 9.1.0
+                    7.1.2 - Jira 9.2.0 - 9.5.0
+                    7.1.4 - Jira 9.6.0 - 9.8.0
+                    7.1.7 - Jira 9.9.0 - 9.12.0
+                    7.4.0 - Jira 9.13.0 - 9.14.0
+                    7.5.2 - Jira 9.15.0 - 9.15.0
+                    7.5.4 - Jira 9.16.0 - 9.17.0
+                    8.0.15 - Jira 10.0.0 - 10.0.0
+                    8.1.0 - Jira 10.1.1 - 10.2.0
+
+                    Confluence
+                    7.1.4 - Confluence 8.0.0 - 8.0.0
+                    7.1.5 - Confluence 8.1.0 - 8.3.0
+                    7.2.0 - Confluence 8.4.0 - 8.5.0
+                    7.3.1 - Confluence 8.6.0 - 8.6.0
+                    7.4.0 - Confluence 8.7.1 - 8.7.1
+                    7.5.1 - Confluence 8.8.0 - 8.8.0
+                    7.5.3 - Confluence 8.9.0 - 8.9.0
+                    8.0.15 - Confluence 9.0.1 - 9.0.1
+                    8.1.0 - Confluence 9.1.0 - 9.2.0
+
+                    Bitbucket
+                    7.0.0 - Bitbucket 8.0.0 - 8.1.0
+                    7.0.4 - Bitbucket 8.2.0 - 8.5.0
+                    7.1.2 - Bitbucket 8.6.0 - 8.7.0
+                    7.1.5 - Bitbucket 8.8.0 - 8.15.0
+                    7.2.2 - Bitbucket 8.16.0 - 8.16.0
+                    7.4.0 - Bitbucket 8.17.0 - 8.17.0
+                    7.5.2 - Bitbucket 8.18.0 - 8.18.0
+                    7.5.3 - Bitbucket 8.19.0 - 8.19.0
+                    8.0.15 - Bitbucket 9.0.0 - 9.1.0
+                    8.1.0 - Bitbucket 9.2.0 - 9.5.0
+
+                    Bamboo
+                    7.0.6 - Bamboo 9.0.0 - 9.0.0
+                    7.0.7 - Bamboo 9.1.0 - 9.3.0
+                    7.1.8 - Bamboo 9.4.0 - 9.4.0
+                    7.2.2 - Bamboo 9.5.0 - 9.5.0
+                    7.5.3 - Bamboo 9.6.0 - 9.6.0
+                    8.0.15 - Bamboo 10.0.0 - 10.0.0
+                    8.1.0 - Bamboo 10.1.0 - 10.1.0
+
+                -->
                 <dependency>
                     <groupId>com.atlassian.plugins</groupId>
                     <artifactId>atlassian-plugins-api</artifactId>
-                    <version>7.5.2</version>
+                    <version>${acpolyfill.plugins.version}</version>
                     <scope>provided</scope>
                 </dependency>
+
+                <!--
+                    Platform 6
+
+                    Platform 7
+
+                    Jira
+                    7.0.4 - Jira 9.0.0 - 9.1.0
+                    7.1.2 - Jira 9.2.0 - 9.5.0
+                    7.1.4 - Jira 9.6.0 - 9.8.0
+                    7.1.7 - Jira 9.9.0 - 9.12.0
+                    7.4.0 - Jira 9.13.0 - 9.14.0
+                    7.5.4 - Jira 9.15.0 - 9.17.0
+                    8.0.15 - Jira 10.0.0 - 10.0.0
+                    8.1.0 - Jira 10.1.1 - 10.2.0
+
+                    Confluence
+                    7.1.4 - Confluence 8.0.0 - 8.0.0
+                    7.1.5 - Confluence 8.1.0 - 8.3.0
+                    7.2.0 - Confluence 8.4.0 - 8.5.0
+                    7.3.1 - Confluence 8.6.0 - 8.6.0
+                    7.4.0 - Confluence 8.7.1 - 8.7.1
+                    7.5.1 - Confluence 8.8.0 - 8.8.0
+                    7.5.3 - Confluence 8.9.0 - 8.9.0
+                    8.0.15 - Confluence 9.0.1 - 9.0.1
+                    8.1.0 - Confluence 9.1.0 - 9.2.0
+
+                    Bitbucket
+                    7.0.0 - Bitbucket 8.0.0 - 8.1.0
+                    7.0.4 - Bitbucket 8.2.0 - 8.5.0
+                    7.1.2 - Bitbucket 8.6.0 - 8.7.0
+                    7.1.5 - Bitbucket 8.8.0 - 8.15.0
+                    7.2.2 - Bitbucket 8.16.0 - 8.16.0
+                    7.4.0 - Bitbucket 8.17.0 - 8.17.0
+                    7.5.2 - Bitbucket 8.18.0 - 8.18.0
+                    7.5.3 - Bitbucket 8.19.0 - 8.19.0
+                    8.0.15 - Bitbucket 9.0.0 - 9.1.0
+                    8.1.0 - Bitbucket 9.2.0 - 9.5.0
+
+                    Bamboo
+                    7.0.6 - Bamboo 9.0.0 - 9.0.0
+                    7.0.7 - Bamboo 9.1.0 - 9.3.0
+                    7.1.8 - Bamboo 9.4.0 - 9.4.0
+                    7.2.2 - Bamboo 9.5.0 - 9.5.0
+                    7.5.3 - Bamboo 9.6.0 - 9.6.0
+                    8.0.15 - Bamboo 10.0.0 - 10.0.0
+                    8.1.0 - Bamboo 10.1.0 - 10.1.0
+                -->
                 <dependency>
-                    <groupId>com.atlassian.plugin</groupId>
-                    <artifactId>atlassian-spring-scanner-annotation</artifactId>
-                    <version>2.1.13</version>
+                    <groupId>com.atlassian.plugins</groupId>
+                    <artifactId>atlassian-plugins-osgi-bridge</artifactId>
+                    <version>${acpolyfill.plugins.version}</version>
                     <scope>provided</scope>
                 </dependency>
+
+                <!--
+                    Platform 6
+                    7.0.0 - 7.5.4
+
+                    Platform 7
+                    8.0.15 - 8.1.0
+
+                    Jira
+                    7.0.4 - Jira 9.0.0 - 9.1.0
+                    7.1.2 - Jira 9.2.0 - 9.5.0
+                    7.1.4 - Jira 9.6.0 - 9.8.0
+                    7.1.7 - Jira 9.9.0 - 9.12.0
+                    7.4.0 - Jira 9.13.0 - 9.14.0
+                    7.5.2 - Jira 9.15.0
+                    7.5.4 - Jira 9.16.0 - 9.17.0
+                    8.0.15 - Jira 10.0.0
+                    8.1.0 - Jira 10.1.0 - current
+
+                    Confluence
+                    7.1.4 - Confluence 8.0.0
+                    7.1.5 - Confluence 8.1.0 - 8.3.0
+                    7.2.0 - Confluence 8.4.0 - 8.5.0
+                    7.3.1 - Confluence 8.6.0
+                    7.4.0 - Confluence 8.7.0
+                    7.5.1 - Confluence 8.8.0
+                    7.5.3 - Confluence 8.9.0
+                    8.0.15 - Confluence 9.0.0
+                    8.1.0 - Confluence 9.1.0 - current
+
+                    Bitbucket
+                    7.0.0 - Bitbucket 8.0.0 - 8.1.0
+                    7.0.4 - Bitbucket 8.2.0 - 8.5.0
+                    7.1.2 - Bitbucket 8.6.0 - 8.7.0
+                    7.1.5 - Bitbucket 8.8.0 - 8.15.0
+                    7.2.2 - Bitbucket 8.16.0
+                    7.4.0 - Bitbucket 8.17.0
+                    7.5.2 - Bitbucket 8.18.0
+                    7.5.3 - Bitbucket 8.19.0
+                    8.0.15 - Bitbucket 9.0.0 - 9.1.0
+                    8.1.0 - Bitbucket 9.2.0 - current
+
+                    Bamboo
+                    7.0.6 - Bamboo 9.0.0
+                    7.0.7 - Bamboo 9.1.0 - 9.3.0
+                    7.1.8 - Bamboo 9.4.0
+                    7.2.2 - Bamboo 9.5.0
+                    7.5.3 - Bamboo 9.6.0
+                    8.0.15 - Bamboo 10.0.0
+                    8.1.0 - Bamboo 10.1.0 - current
+                -->
                 <dependency>
-                    <groupId>org.springframework</groupId>
-                    <artifactId>spring-context</artifactId>
-                    <version>5.3.31</version>
+                    <groupId>com.atlassian.plugins</groupId>
+                    <artifactId>atlassian-plugins-servlet</artifactId>
+                    <version>${acpolyfill.plugins.version}</version>
+                    <scope>provided</scope>
+                </dependency>
+
+                <!--
+                    Platform 6
+
+                    Platform 7
+
+                    Jira
+                    6.0.3 - Jira 9.0.0 - 9.5.0
+                    6.0.5 - Jira 9.6.0 - 9.12.0
+                    6.2.0 - Jira 9.13.0 - 9.14.0
+                    6.3.1 - Jira 9.15.0 - 9.17.0
+                    7.1.1 - Jira 10.0.0 - 10.0.0
+                    7.2.1 - Jira 10.1.1 - 10.1.1
+                    7.2.2 - Jira 10.2.0 - 10.2.0
+
+                    Confluence
+                    6.1.0 - Confluence 8.0.0 - 8.6.0
+                    6.1.1 - Confluence 8.7.1 - 8.7.1
+                    6.3.1 - Confluence 8.8.0 - 8.9.0
+                    7.1.1 - Confluence 9.0.1 - 9.0.1
+                    7.2.1 - Confluence 9.1.0 - 9.1.0
+                    7.2.2 - Confluence 9.2.0 - 9.2.0
+
+                    Bitbucket
+                    6.0.1 - Bitbucket 8.0.0 - 8.1.0
+                    6.0.3 - Bitbucket 8.2.0 - 8.6.0
+                    6.0.5 - Bitbucket 8.7.0 - 8.15.0
+                    6.1.1 - Bitbucket 8.16.0 - 8.17.0
+                    6.3.1 - Bitbucket 8.18.0 - 8.19.0
+                    7.1.1 - Bitbucket 9.0.0 - 9.1.0
+                    7.2.1 - Bitbucket 9.2.0 - 9.3.0
+                    7.2.2 - Bitbucket 9.4.0 - 9.4.0
+                    7.3.0 - Bitbucket 9.5.0 - 9.5.0
+
+                    Bamboo
+                    6.0.3 - Bamboo 9.0.0 - 9.3.0
+                    6.0.6 - Bamboo 9.4.0 - 9.4.0
+                    6.1.1 - Bamboo 9.5.0 - 9.5.0
+                    6.3.1 - Bamboo 9.6.0 - 9.6.0
+                    7.1.1 - Bamboo 10.0.0 - 10.0.0
+                    7.2.1 - Bamboo 10.1.0 - 10.1.0
+
+                -->
+                <dependency>
+                    <groupId>com.atlassian.plugins</groupId>
+                    <artifactId>atlassian-plugins-webresource-api</artifactId>
+                    <version>${acpolyfill.webresources.version}</version>
+                    <scope>provided</scope>
+                </dependency>
+
+                <!--
+                    Platform 6
+
+                    Platform 7
+
+                    Jira
+                    4.0.0 - Jira 9.0.0 - 9.5.0
+                    4.0.1 - Jira 9.6.0 - 9.12.0
+                    4.0.2 - Jira 9.13.0 - 9.14.0
+                    4.0.3 - Jira 9.15.0 - 9.17.0
+                    5.0.0 - Jira 10.0.0 - 10.2.0
+
+                    Confluence
+                    4.0.0 - Confluence 8.0.0 - 8.3.0
+                    4.0.1 - Confluence 8.4.0 - 8.7.1
+                    4.0.3 - Confluence 8.8.0 - 8.8.0
+                    4.0.4 - Confluence 8.9.0 - 8.9.0
+                    5.0.0 - Confluence 9.0.1 - 9.2.0
+
+                    Bitbucket
+                    4.0.0 - Bitbucket 8.0.0 - 8.6.0
+                    4.0.1 - Bitbucket 8.7.0 - 8.16.0
+                    4.0.3 - Bitbucket 8.17.0 - 8.18.0
+                    4.0.4 - Bitbucket 8.19.0 - 8.19.0
+                    5.0.0 - Bitbucket 9.0.0 - 9.3.0
+                    5.0.1 - Bitbucket 9.4.0 - 9.5.0
+
+                    Bamboo
+                    4.0.0 - Bamboo 9.0.0 - 9.0.0
+                    4.0.1 - Bamboo 9.1.0 - 9.4.0
+                    4.0.3 - Bamboo 9.5.0 - 9.5.0
+                    4.0.4 - Bamboo 9.6.0 - 9.6.0
+                    5.0.0 - Bamboo 10.0.0 - 10.1.0
+
+                -->
+                <dependency>
+                    <groupId>com.atlassian.velocity.htmlsafe</groupId>
+                    <artifactId>velocity-htmlsafe</artifactId>
+                    <version>${acpolyfill.velocity.version}</version>
                     <scope>provided</scope>
                 </dependency>
             </dependencies>
@@ -314,6 +663,7 @@
                     <plugin>
                         <groupId>org.apache.maven.plugins</groupId>
                         <artifactId>maven-resources-plugin</artifactId>
+                        <version>3.3.1</version>
                         <configuration>
                             <resources>
                                 <resource>
@@ -334,13 +684,13 @@
                     <plugin>
                         <groupId>org.apache.maven.plugins</groupId>
                         <artifactId>maven-compiler-plugin</artifactId>
-                        <version>3.1</version>
+                        <version>3.13.0</version>
                         <configuration>
-                            <excludes>
-                                <exclude>static/</exclude>
-                                <exclude>**/fyi/iapetus/plugins/acpolyfill/jira/**/*.java</exclude>
-                                <exclude>**/fyi/iapetus/plugins/acpolyfill/confluence/**/*.java</exclude>
-                            </excludes>
+                            <includes>
+                                <include>**/fyi/iapetus/plugins/acpolyfill/shared/**/*.java</include>
+                                <include>**/fyi/iapetus/plugins/acpolyfill/servlet/**/*.java</include>
+                                <include>**/fyi/iapetus/plugins/acpolyfill/**/*UserThemeService.java</include>
+                            </includes>
                             <source>8</source>
                             <target>8</target>
                         </configuration>
@@ -380,11 +730,6 @@
                         <configuration>
                             <compressResources>false</compressResources>
                             <extractDependencies>false</extractDependencies>
-
-                            <banningExcludes>
-                                <exclude>com.google.guava:guava</exclude>
-                                <exclude>com.google.code.findbugs:jsr305</exclude>
-                            </banningExcludes>
 
                             <instructions>
                                 <Bundle-Name>Atlassian Connect - Polyfill</Bundle-Name>
@@ -437,10 +782,50 @@
             </dependencyManagement>
 
             <dependencies>
+                <!-- Versions managed by Atlassian -->
                 <dependency>
                     <groupId>com.atlassian.confluence</groupId>
                     <artifactId>confluence</artifactId>
-                    <version>${confluence.version}</version>
+                    <scope>provided</scope>
+                </dependency>
+                <dependency>
+                    <groupId>com.atlassian.upm</groupId>
+                    <artifactId>licensing-api</artifactId>
+                    <scope>provided</scope>
+                </dependency>
+                <dependency>
+                    <groupId>com.atlassian.plugins</groupId>
+                    <artifactId>atlassian-plugins-osgi-bridge</artifactId>
+                    <scope>provided</scope>
+                </dependency>
+                <dependency>
+                    <groupId>javax.servlet</groupId>
+                    <artifactId>javax.servlet-api</artifactId>
+                    <scope>provided</scope>
+                </dependency>
+
+                <!-- Atlassian provided, but not version managed -->
+                <dependency>
+                    <groupId>com.atlassian.upm</groupId>
+                    <artifactId>upm-api</artifactId>
+                    <version>${acpolyfill.upm.version}</version>
+                    <scope>provided</scope>
+                </dependency>
+
+                <!--
+                    Unable to detect which version Atlassian uses
+                    as this is part of the closed source code base
+                 -->
+                <dependency>
+                    <groupId>org.eclipse.gemini.blueprint</groupId>
+                    <artifactId>gemini-blueprint-core</artifactId>
+                    <version>${acpolyfill.gemini-blueprint.version}</version>
+                    <scope>provided</scope>
+                </dependency>
+                <dependency>
+                    <groupId>org.apache.felix</groupId>
+                    <artifactId>org.apache.felix.framework</artifactId>
+                    <version>${acpolyfill.felix.version}</version>
                     <scope>provided</scope>
                 </dependency>
             </dependencies>
@@ -450,6 +835,7 @@
                     <plugin>
                         <groupId>org.apache.maven.plugins</groupId>
                         <artifactId>maven-resources-plugin</artifactId>
+                        <version>3.3.1</version>
                         <configuration>
                             <resources>
                                 <resource>
@@ -463,11 +849,12 @@
                     <plugin>
                         <groupId>org.apache.maven.plugins</groupId>
                         <artifactId>maven-compiler-plugin</artifactId>
+                        <version>3.13.0</version>
                         <configuration>
-                            <excludes>
-                                <exclude>**/fyi/iapetus/plugins/acpolyfill/*.java</exclude>
-                                <exclude>**/fyi/iapetus/plugins/acpolyfill/jira/**/*.java</exclude>
-                            </excludes>
+                            <includes>
+                                <include>**/fyi/iapetus/plugins/acpolyfill/shared/**/*.java</include>
+                                <include>**/fyi/iapetus/plugins/acpolyfill/confluence/**/*.java</include>
+                            </includes>
                             <source>8</source>
                             <target>8</target>
                         </configuration>
@@ -523,14 +910,39 @@
             </dependencyManagement>
 
             <dependencies>
+                <!-- Versions managed by Atlassian -->
                 <dependency>
                     <groupId>com.atlassian.jira</groupId>
                     <artifactId>jira-core</artifactId>
                     <scope>provided</scope>
                 </dependency>
+                <!-- Atlassian provided, but not version managed -->
                 <dependency>
-                    <groupId>com.atlassian.jira</groupId>
-                    <artifactId>jira-api</artifactId>
+                    <groupId>com.atlassian.upm</groupId>
+                    <artifactId>upm-api</artifactId>
+                    <version>${acpolyfill.upm.version}</version>
+                    <scope>provided</scope>
+                </dependency>
+                <dependency>
+                    <groupId>com.atlassian.upm</groupId>
+                    <artifactId>licensing-api</artifactId>
+                    <version>${acpolyfill.upm.version}</version>
+                    <scope>provided</scope>
+                </dependency>
+                <dependency>
+                    <groupId>com.atlassian.plugins</groupId>
+                    <artifactId>atlassian-plugins-osgi-bridge</artifactId>
+                    <version>${acpolyfill.plugins.version}</version>
+                    <scope>provided</scope>
+                </dependency>
+                <!--
+                    Unable to detect which version Atlassian uses
+                    as this is part of the closed source code base
+                 -->
+                <dependency>
+                    <groupId>org.eclipse.gemini.blueprint</groupId>
+                    <artifactId>gemini-blueprint-core</artifactId>
+                    <version>${acpolyfill.gemini-blueprint.version}</version>
                     <scope>provided</scope>
                 </dependency>
             </dependencies>
@@ -540,6 +952,7 @@
                     <plugin>
                         <groupId>org.apache.maven.plugins</groupId>
                         <artifactId>maven-resources-plugin</artifactId>
+                        <version>3.3.1</version>
                         <configuration>
                             <resources>
                                 <resource>
@@ -553,11 +966,303 @@
                     <plugin>
                         <groupId>org.apache.maven.plugins</groupId>
                         <artifactId>maven-compiler-plugin</artifactId>
+                        <version>3.13.0</version>
                         <configuration>
-                            <excludes>
-                                <exclude>**/fyi/iapetus/plugins/acpolyfill/*.java</exclude>
-                                <exclude>**/fyi/iapetus/plugins/acpolyfill/confluence/**/*.java</exclude>
-                            </excludes>
+                            <includes>
+                                <include>**/fyi/iapetus/plugins/acpolyfill/shared/**/*.java</include>
+                                <include>**/fyi/iapetus/plugins/acpolyfill/jira/**/*.java</include>
+                            </includes>
+                            <source>8</source>
+                            <target>8</target>
+                        </configuration>
+                    </plugin>
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-jar-plugin</artifactId>
+                        <version>3.4.1</version>
+                        <configuration>
+                            <classifier>${classifier}</classifier>
+                        </configuration>
+                    </plugin>
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-install-plugin</artifactId>
+                        <version>3.1.2</version>
+                        <configuration>
+                            <allowIncompleteProjects>true</allowIncompleteProjects>
+                            <classifier>${classifier}</classifier>
+                        </configuration>
+                    </plugin>
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-deploy-plugin</artifactId>
+                        <version>3.1.2</version>
+                        <configuration>
+                            <allowIncompleteProjects>true</allowIncompleteProjects>
+                            <classifier>${classifier}</classifier>
+                        </configuration>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+
+        <profile>
+            <id>bamboo</id>
+
+            <properties>
+                <packaging>jar</packaging>
+                <classifier>bamboo</classifier>
+            </properties>
+
+            <dependencyManagement>
+                <dependencies>
+                    <dependency>
+                        <groupId>com.atlassian.bamboo</groupId>
+                        <artifactId>atlassian-bamboo</artifactId>
+                        <version>${bamboo.version}</version>
+                        <type>pom</type>
+                        <scope>import</scope>
+                    </dependency>
+                </dependencies>
+            </dependencyManagement>
+
+            <dependencies>
+                <!-- Versions managed by Atlassian -->
+                <dependency>
+                    <groupId>com.atlassian.bamboo</groupId>
+                    <artifactId>atlassian-bamboo-web</artifactId>
+                    <scope>provided</scope>
+                </dependency>
+                <dependency>
+                    <groupId>com.atlassian.plugins</groupId>
+                    <artifactId>atlassian-plugins-webfragment-api</artifactId>
+                    <scope>provided</scope>
+                </dependency>
+                <dependency>
+                    <groupId>com.atlassian.plugins</groupId>
+                    <artifactId>atlassian-plugins-osgi-bridge</artifactId>
+                    <scope>provided</scope>
+                </dependency>
+                <!-- Atlassian provided, but not version managed -->
+                <dependency>
+                    <groupId>com.atlassian.upm</groupId>
+                    <artifactId>upm-api</artifactId>
+                    <version>${acpolyfill.upm.version}</version>
+                    <scope>provided</scope>
+                </dependency>
+                <dependency>
+                    <groupId>com.atlassian.upm</groupId>
+                    <artifactId>licensing-api</artifactId>
+                    <version>${acpolyfill.upm.version}</version>
+                    <scope>provided</scope>
+                </dependency>
+                <!--
+                    Unable to detect which version Atlassian uses
+                    as this is part of the closed source code base
+                 -->
+                <dependency>
+                    <groupId>org.eclipse.gemini.blueprint</groupId>
+                    <artifactId>gemini-blueprint-core</artifactId>
+                    <version>${acpolyfill.gemini-blueprint.version}</version>
+                    <scope>provided</scope>
+                </dependency>
+            </dependencies>
+
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-resources-plugin</artifactId>
+                        <version>3.3.1</version>
+                        <configuration>
+                            <resources>
+                                <resource>
+                                    <filtering>true</filtering>
+                                    <directory>${basedir}/src/main/resources/bamboo</directory>
+                                </resource>
+                            </resources>
+                            <propertiesEncoding>${project.build.sourceEncoding}</propertiesEncoding>
+                        </configuration>
+                    </plugin>
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-compiler-plugin</artifactId>
+                        <version>3.13.0</version>
+                        <configuration>
+                            <includes>
+                                <include>**/fyi/iapetus/plugins/acpolyfill/shared/**/*.java</include>
+                                <include>**/fyi/iapetus/plugins/acpolyfill/bamboo/**/*.java</include>
+                            </includes>
+                            <source>8</source>
+                            <target>8</target>
+                        </configuration>
+                    </plugin>
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-jar-plugin</artifactId>
+                        <version>3.4.1</version>
+                        <configuration>
+                            <classifier>${classifier}</classifier>
+                        </configuration>
+                    </plugin>
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-install-plugin</artifactId>
+                        <version>3.1.2</version>
+                        <configuration>
+                            <allowIncompleteProjects>true</allowIncompleteProjects>
+                            <classifier>${classifier}</classifier>
+                        </configuration>
+                    </plugin>
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-deploy-plugin</artifactId>
+                        <version>3.1.2</version>
+                        <configuration>
+                            <allowIncompleteProjects>true</allowIncompleteProjects>
+                            <classifier>${classifier}</classifier>
+                        </configuration>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+
+        <profile>
+            <id>bitbucket</id>
+
+            <properties>
+                <packaging>jar</packaging>
+                <classifier>bitbucket</classifier>
+            </properties>
+
+            <dependencyManagement>
+                <dependencies>
+                    <dependency>
+                        <groupId>com.atlassian.bitbucket.server</groupId>
+                        <artifactId>bitbucket-api</artifactId>
+                        <version>${bitbucket.version}</version>
+                        <type>pom</type>
+                        <scope>import</scope>
+                    </dependency>
+                </dependencies>
+            </dependencyManagement>
+
+            <dependencies>
+                <!-- Versions managed by Atlassian -->
+                <dependency>
+                    <groupId>com.atlassian.bitbucket.server</groupId>
+                    <artifactId>bitbucket-api</artifactId>
+                    <scope>provided</scope>
+                </dependency>
+                <dependency>
+                    <groupId>com.atlassian.plugins</groupId>
+                    <artifactId>atlassian-plugins-webfragment-api</artifactId>
+                    <scope>provided</scope>
+                </dependency>
+                <dependency>
+                    <groupId>com.atlassian.plugins</groupId>
+                    <artifactId>atlassian-plugins-webresource-api</artifactId>
+                    <scope>provided</scope>
+                </dependency>
+                <dependency>
+                    <groupId>com.atlassian.sal</groupId>
+                    <artifactId>sal-api</artifactId>
+                    <scope>provided</scope>
+                </dependency>
+                <dependency>
+                    <groupId>com.atlassian.plugins</groupId>
+                    <artifactId>atlassian-plugins-api</artifactId>
+                    <scope>provided</scope>
+                </dependency>
+                <dependency>
+                    <groupId>com.atlassian.plugins</groupId>
+                    <artifactId>atlassian-plugins-osgi-bridge</artifactId>
+                    <scope>provided</scope>
+                </dependency>
+                <dependency>
+                    <groupId>io.atlassian.fugue</groupId>
+                    <artifactId>fugue</artifactId>
+                    <scope>provided</scope>
+                </dependency>
+                <dependency>
+                    <groupId>org.springframework</groupId>
+                    <artifactId>spring-context</artifactId>
+                    <scope>provided</scope>
+                </dependency>
+                <!-- Atlassian provided, but not version managed -->
+                <dependency>
+                    <groupId>com.atlassian.upm</groupId>
+                    <artifactId>upm-api</artifactId>
+                    <version>${acpolyfill.upm.version}</version>
+                    <scope>provided</scope>
+                </dependency>
+                <dependency>
+                    <groupId>com.atlassian.upm</groupId>
+                    <artifactId>licensing-api</artifactId>
+                    <version>${acpolyfill.upm.version}</version>
+                    <scope>provided</scope>
+                </dependency>
+                <dependency>
+                    <groupId>com.atlassian.velocity.htmlsafe</groupId>
+                    <artifactId>velocity-htmlsafe</artifactId>
+                    <version>${acpolyfill.velocity.version}</version>
+                    <scope>provided</scope>
+                </dependency>
+                <dependency>
+                    <groupId>javax.servlet</groupId>
+                    <artifactId>javax.servlet-api</artifactId>
+                    <version>${acpolyfill.servlet-api.version}</version>
+                    <scope>provided</scope>
+                </dependency>
+                <dependency>
+                    <groupId>jakarta.xml.bind</groupId>
+                    <artifactId>jakarta.xml.bind-api</artifactId>
+                    <version>${acpolyfill.jaxb.version}</version>
+                    <scope>provided</scope>
+                </dependency>
+                <!--
+                    Unable to detect which version Atlassian uses
+                    as this is part of the closed source code base
+                 -->
+                <dependency>
+                    <groupId>org.eclipse.gemini.blueprint</groupId>
+                    <artifactId>gemini-blueprint-core</artifactId>
+                    <version>${acpolyfill.gemini-blueprint.version}</version>
+                    <scope>provided</scope>
+                </dependency>
+                <dependency>
+                    <groupId>org.apache.felix</groupId>
+                    <artifactId>org.apache.felix.framework</artifactId>
+                    <version>${acpolyfill.felix.version}</version>
+                    <scope>provided</scope>
+                </dependency>
+            </dependencies>
+
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-resources-plugin</artifactId>
+                        <version>3.3.1</version>
+                        <configuration>
+                            <resources>
+                                <resource>
+                                    <filtering>true</filtering>
+                                    <directory>${basedir}/src/main/resources/bitbucket</directory>
+                                </resource>
+                            </resources>
+                            <propertiesEncoding>${project.build.sourceEncoding}</propertiesEncoding>
+                        </configuration>
+                    </plugin>
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-compiler-plugin</artifactId>
+                        <version>3.13.0</version>
+                        <configuration>
+                            <includes>
+                                <include>**/fyi/iapetus/plugins/acpolyfill/shared/**/*.java</include>
+                                <include>**/fyi/iapetus/plugins/acpolyfill/bitbucket/**/*.java</include>
+                            </includes>
                             <source>8</source>
                             <target>8</target>
                         </configuration>

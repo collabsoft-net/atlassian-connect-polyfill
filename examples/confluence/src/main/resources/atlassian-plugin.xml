@@ -30,10 +30,35 @@
     </web-item>
 
     <!-- ####################################################################################
+         Web Panels
+    ##################################################################################### -->
+
+    <web-panel key="fyi-iapetus-examples-comments-panel" location="atl.comments.view.bottom" weight="10">
+        <label key="Confluence Example" />
+        <context-provider class="fyi.iapetus.plugins.acpolyfill.confluence.ConfluenceContextProvider">
+            <param name="ac.plugin.key" value="${atlassian.plugin.key}" />
+            <param name="ac.moduleKey" value="fyi-iapetus-examples-comments-panel" />
+            <param name="url" value="/atl.comments.view.bottom" />
+        </context-provider>
+        <resource name="view" type="velocity"><![CDATA[$ACHtml]]></resource>
+    </web-panel>
+
+    <web-panel key="fyi-iapetus-examples-editor-panel" location="atl.editor" weight="10">
+        <label key="Confluence Example" />
+        <context-provider class="fyi.iapetus.plugins.acpolyfill.confluence.ConfluenceContextProvider">
+            <param name="ac.plugin.key" value="${atlassian.plugin.key}" />
+            <param name="ac.moduleKey" value="fyi-iapetus-examples-editor-panel" />
+            <param name="url" value="/atl.editor" />
+        </context-provider>
+        <resource name="view" type="velocity"><![CDATA[$ACHtml]]></resource>
+    </web-panel>
+
+
+    <!-- ####################################################################################
          Macro
     ##################################################################################### -->
 
-    <xhtml-macro name="confluence-example-macro" key="fyi-iapetus-examples-macro" class="fyi.iapetus.examples.ACMacro">
+    <xhtml-macro name="confluence-example-macro" key="fyi-iapetus-examples-macro" class="fyi.iapetus.plugins.acpolyfill.confluence.ConfluenceMacro">
         <param name="url" value="/macro" />
 
         <description key="Atlassian Connect Polyfill example macro" />

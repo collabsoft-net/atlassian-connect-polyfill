@@ -6,7 +6,8 @@
     "clean": "rm -rf dist/ && rm -rf ../resources/static && rm -rf ../resources/META-INF/plugin-descriptors && rm -rf ../../../target/classes/static && rm -rf ../../../target/classes/META-INF/plugin-descriptors",
     "lint": "yarn run eslint .",
     "build": "yarn clean && yarn lint && yarn run webpack --config ./webpack.config.js",
-    "reinstall": "rm -rf node_modules && yarn install"
+    "reinstall": "rm -rf node_modules && yarn install",
+    "upgrade-iapetus": "yarn up -E \"@collabsoft-net/*\""
   },
   "devDependencies": {
     "@types/js-cookie": "^3",
@@ -31,9 +32,10 @@
     "webpack-cli": "^5.1.4"
   },
   "dependencies": {
-    "@collabsoft-net/connect": "^1.1.2-alpha.52",
-    "@collabsoft-net/helpers": "^1.1.2-alpha.46",
-    "@collabsoft-net/inversify": "^1.1.2-alpha.7",
+    "@atlaskit/tokens": "3.3.1",
+    "@collabsoft-net/connect": "1.1.2-alpha.95",
+    "@collabsoft-net/helpers": "1.1.2-alpha.81",
+    "@collabsoft-net/inversify": "1.1.2-alpha.7",
     "inversify": "^6.0.2",
     "inversify-inject-decorators": "^3.1.0",
     "js-cookie": "^3.0.5",

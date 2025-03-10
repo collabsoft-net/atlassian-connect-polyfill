@@ -24,6 +24,31 @@ reduce errors.
 
 This package is the "back-end" part and relies heavily on the "front-end" part that is in the `@collabsoft-net/connect` package. See https://github.com/collabsoft-net/iapetus/tree/main/packages/connect
 
+## Compatibility matrix
+
+Atlassian has been publishing breaking changes between Platform 6 (Jira 9, Confluence 8, Bamboo 9 and Bitbucket 8) and 
+Platform 7 (Jira 10, Confluence 9, Bamboo 10 and Bitbucket 9), and has already announced that Platform 8 will also include breaking changes.
+
+This compatibility matrix will show you which versions of IApetus can be used with specific versions of the host product.
+
+| Version | Jira           | Confluence    | Bamboo         | Bitbucket      |
+|---------|----------------|---------------|----------------|----------------|
+| 2.0.0   | 9.0.0 - 10.4.x | 8.0.0 - 9.3.x | 9.0.0 - 10.2.x | 8.0.0 - 9.5.x  |
+| 1.6.2   | -              | -             | -              | -              |
+| 1.6.1   | -              | -             | -              | -              |
+| 1.6.0   | -              | -             | -              | -              |
+| 1.5.0   | -              | -             | -              | -              |
+| 1.4.0   | -              | -             | -              | -              |
+| 1.3.0   | -              | -             | -              | -              |
+| 1.2.0   | -              | -             | -              | -              |
+| 1.1.0   | -              | -             | -              | -              |
+| 1.0.0   | 9.0.0 - 9.17.x | 8.0.0 - 8.9.x | 9.0.0 - 9.6.x  | 8.0.x - 8.19.x |
+
+_The last verified version range will continue to apply until otherwise specified_
+
+N.B. Host product versions are not continuously tested, which means that _latest_ might not mean the actual latest version. 
+It means that it is expected to work up until the latest version unless otherwise specified.
+
 ## How it works
 
 When installed, the app registers a servlet that listens to `/plugins/servlet/atlassian-connect/{appKey}/{moduleKey}`.
@@ -42,7 +67,8 @@ In order to use this companion app, there are a lot of different steps that you 
 2. Generate a WRM context with the client-side "host" application
 3. Create a servlet that will serve your HTML
 4. Adjust your `atlassian-plugin.xml` to start using the polyfill
-5. Add platform specific code (optional)
+5. Add support for licensing (optional)
+6. Add platform specific code (optional)
 
 In addition to this guide, there are also example apps in this repository (in the `examples` directory) for each of the supported Atlassian host products.
 
@@ -84,7 +110,7 @@ you will need to add our repository to your `pom.xml`.
   <dependency>
     <groupId>fyi.iapetus.plugins</groupId>
     <artifactId>acpolyfill</artifactId>
-    <version>1.0.0</version>
+    <version>2.0.0-SNAPSHOT</version>
     <scope>provided</scope>
   </dependency>
   ...
@@ -246,11 +272,15 @@ And finally we add `<root>/src/main/path/to/ACServlet.java` with the following c
 ```
 public class ACServlet extends HttpServlet {
 
-  private final WebResourceAssemblerFactory webResourceAssemblerFactory;
+    private final WebResourceAssemblerFactory webResourceAssemblerFactory;
+    private final UserManager userManager;
+    private final UserThemeService userThemeService;
 
-  ACServlet(@ComponentImport WebResourceAssemblerFactory webResourceAssemblerFactory) {
-      this.webResourceAssemblerFactory = webResourceAssemblerFactory;
-  }
+    ACServlet(@ComponentImport WebResourceAssemblerFactory webResourceAssemblerFactory, @ComponentImport UserManager userManager, @ComponentImport UserThemeService userThemeService) {
+        this.webResourceAssemblerFactory = webResourceAssemblerFactory;
+        this.userManager = userManager;
+        this.userThemeService = userThemeService;
+    }
 
   @Override
   protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException {
@@ -267,9 +297,12 @@ public class ACServlet extends HttpServlet {
   public String renderIframeContent(HttpServletRequest req)  throws IOException {
       HtmlFragment resources = this.getResources();
 
+      UserKey userKey = this.userManager.getRemoteUserKey();
+      String colorMode = null != userKey ? this.userThemeService.getColorMode(userKey) : "LIGHT";
+
       StringBuilder sb = new StringBuilder();
       sb.append("<!doctype html>");
-      sb.append("<html lang=\"en\">");
+      sb.append(String.format("<html lang=\"en\" data-color-mode=\"%s\" data-theme=\"dark:dark light:light spacing:spacing\">", colorMode.toLowerCase()));
       sb.append("<head>");
       sb.append("<meta charset=\"UTF-8\">");
       sb.append(new HtmlFragment(resources.toString()));
@@ -283,6 +316,7 @@ public class ACServlet extends HttpServlet {
   private HtmlFragment getResources() throws IOException {
     Writer writer = new StringWriter();
     WebResourceAssembler assembler = this.webResourceAssemblerFactory.create().includeSyncbatchResources(false).includeSuperbatchResources(false).autoIncludeFrontendRuntime(false).build();
+    assembler.resources().requireWebResource("com.atlassian.auiplugin:split_aui.page.design-tokens-base-themes-css");
     assembler.resources().requireContext(ResourcePhase.DEFER, "my-front-end-app-context");
     WebResourceSet resources = assembler.assembled().drainIncludedResources();
     resources.writeHtmlTags(writer, UrlMode.AUTO);
@@ -298,7 +332,7 @@ public class ACServlet extends HttpServlet {
 The next step is to start directing traffic to the Atlassian Connect Polyfill by adjusting your
 `atlassian-plugin.xml` and using the polyfill in modules.
 
-The easiest implementation it the web-item module ([jira](https://developer.atlassian.com/server/jira/platform/web-item/)|[Confluence](https://developer.atlassian.com/server/confluence/web-item-plugin-module/))
+The easiest implementation it the web-item module ([Jira](https://developer.atlassian.com/server/jira/platform/web-item/) | [Confluence](https://developer.atlassian.com/server/confluence/web-item-plugin-module/))
 
 Take for instance the following web item module:
 
@@ -315,9 +349,48 @@ This will add a link to the specified location which will redirect the user to t
 The Atlassian Connect Polyfill will apply the decorator (incl. a WebSudo check for admin pages).
 
 The `url` parameter is appended to the `ac.baseurl` which we provided earlier in the `plugin-info` section.
-This allows us to differentiate between modules when we choose for server-side rendering.
+This allows us to differentiate between modules when we choose for server-side rendering. In addition it is
+also possible to use client-side routing (i.e. react-router).
 
 Please refer to the examples to see more implementations of modules using Atlassian Connect Polyfill.
+
+### Add support for licensing (optional)
+
+The Atlassian Connect Polyfill is a separate companion app that is installed in the host product. As such, it does
+not have access to the license state of the app that is using the Atlassian Connect Polyfill to render the iframe.
+
+In order to simulate Atlassian Connect, the Atlassian Connect Polyfill app does provide the `&lic=` query string
+parameter. This will default to `&lic=none`, meaning that the license state is not passed to the client.
+
+If you wish to enable proper support for the `&lic=` parameter, you will have to register the PluginLicenceManager
+of your app with the Atlassian Connect Polyfill.
+
+In order to do this, you will need to import the `PluginLicenseRepository` and the `PluginLicenseManager` using OSGi.
+
+```
+import com.atlassian.plugin.osgi.bridge.external.PluginRetrievalService;
+import com.atlassian.upm.api.license.PluginLicenseManager;
+import fyi.iapetus.plugins.acpolyfill.PluginLicenseRepository;
+...
+@ComponentImport
+private final PluginLicenseRepository pluginLicenseRepository;
+
+@ComponentImport
+private final PluginLicenseManager licenseManager;
+
+@ComponentImport
+private final PluginRetrievalService pluginRetrievalService;
+...
+```
+
+To register the PluginLicenseManager, call the `register()` method:
+
+```
+Plugin plugin = pluginRetrievalService.getPlugin();
+this.pluginLicenseRepository.register(plugin.getKey(), licenseManager);
+```
+
+Once the PluginLicenseManager is registered, the `&lic=` query string parameter will reflect your app license state.
 
 ### Add platform specific code (optional)
 
@@ -332,53 +405,169 @@ For Atlassian Jira, you can add the following dependency:
 <dependency>
     <groupId>fyi.iapetus.plugins</groupId>
     <artifactId>acpolyfill</artifactId>
-    <version>1.0.0</version>
+    <version>2.0.0-SNAPSHOT</version>
     <classifier>jira</classifier>
 </dependency>
 ```
 
-This exposes the `AbstractACWebPanel` and the `AbstractACContextProvider` classes.
-As can be derived from the name, the `AbstractWebPanel` provides support for 
-the Web Panel module. Together with the `AbstractACContextProvider` this
-makes sure that the iframe is also generated properly in those locations.
+This exposes the `JiraContextProvider` and the `JiraUserThemeService` classes.
+
+You can use the `JiraUserThemeService` to get the theme for a specific user.
+Please note that theming is only supported in Jira 10+. For Jira 9, it will always return "LIGHT".
+
+The `JiraContextProvider` can be used to render the iframe in any module that supports Velocity rendering
+(i.e. the [Web Panel](https://developer.atlassian.com/server/framework/atlassian-sdk/web-panel-plugin-module/#application-specific-locations))
 
 Example:
 
 ```
-<web-panel key="my-issue-panel" location="atl.jira.view.issue.left.context" class="my.app.ACWebPanel">
+<web-panel key="my-issue-panel" location="atl.jira.view.issue.left.context">
     <label key="Issue Panel" />
-    <context-provider class="my.app.ACContextProvider">
+    <context-provider class="fyi.iapetus.plugins.acpolyfill.jira.JiraContextProvider">
         <param name="ac.plugin.key" value="${pluginKey}" />
         <param name="ac.moduleKey" value="my-issue-panel" />
         <param name="url" value="/my-issue-panel" />
     </context-provider>
+    <resource name="view" type="velocity"><![CDATA[$ACHtml]]></resource>
 </web-panel>
 ```
 
-The `my.app.ACWebPanel` can be a very simple implementation:
+As you can see, the Web Panel uses an inline velocity template which renders the `$ACHtml`
+property provided by the `JiraContextProvider`.
+
+This will render the web panel correctly with an iframe and the client-side host application.
+
+#### Atlassian Confluence
+
+For Atlassian Confluence, you can add the following dependency:
 
 ```
-public class ACWebPanel extends AbstractACWebPanel {
-
-    ACWebPanel(@ComponentImport ApplicationProperties applicationProperties, @ComponentImport PageBuilderService pageBuilderService, @ComponentImport UserManager userManger) {
-        super(applicationProperties, pageBuilderService, userManger);
-    }
-}
+<dependency>
+    <groupId>fyi.iapetus.plugins</groupId>
+    <artifactId>acpolyfill</artifactId>
+    <version>2.0.0-SNAPSHOT</version>
+    <classifier>confluence</classifier>
+</dependency>
 ```
 
-Same goes for the `my.app.ACContextProvider`:
+This exposes the `ConfluenceContextProvider`, `ConfluenceMacro` and the `ConfluenceUserThemeService` classes.
+
+You can use the `ConfluenceUserThemeService` to get the theme for a specific user.
+Please note that theming is only supported in Confluence 9+. For Confluence 8, it will always return "LIGHT".
+
+The `ConfluenceContextProvider` can be used to render the iframe in any module that supports Velocity rendering 
+(i.e. the [Web Panel](https://developer.atlassian.com/server/framework/atlassian-sdk/web-panel-plugin-module/#application-specific-locations))
+
+Example:
 
 ```
-public class ACContextProvider extends AbstractACContextProvider {
-
-    ACContextProvider(@ComponentImport PluginAccessor pluginAccessor, @ComponentImport ApplicationProperties applicationProperties, @ComponentImport PluginLicenseManager pluginLicenseManager) {
-        super(pluginAccessor, applicationProperties, pluginLicenseManager);
-    }
-
-}
+<web-panel key="fyi-iapetus-examples-comments-panel" location="atl.comments.view.bottom" weight="10">
+    <label key="Confluence Example" />
+    <context-provider class="fyi.iapetus.plugins.acpolyfill.confluence.ConfluenceContextProvider">
+        <param name="ac.plugin.key" value="${atlassian.plugin.key}" />
+        <param name="ac.moduleKey" value="fyi-iapetus-examples-comments-panel" />
+        <param name="url" value="/atl.comments.view.bottom" />
+    </context-provider>
+    <resource name="view" type="velocity"><![CDATA[$ACHtml]]></resource>
+</web-panel>
 ```
 
-This will render the issue panel correctly with an iframe and the client-side host application.
+As you can see, the Web Panel uses an inline velocity template which renders the `$ACHtml`
+property provided by the `ConfluenceContextProvider`.
+
+This will render the web panel correctly with an iframe and the client-side host application.
+
+The `ConfluenceMacro` class can be used to render the iframe in a macro.
+
+Example:
+
+```
+<xhtml-macro name="confluence-example-macro" key="fyi-iapetus-examples-macro" class="fyi.iapetus.plugins.acpolyfill.confluence.ConfluenceMacro">
+    <param name="url" value="/macro" />
+
+    <description key="Atlassian Connect Polyfill example macro" />
+    <category name="external-content"/>
+    <parameters>
+        <parameter name="name" type="string" required="false" multiple="false" />
+    </parameters>
+</xhtml-macro>
+```
+
+This will render the macro correctly with an iframe and the client-side host application.
+
+#### Atlassian Bamboo
+
+For Atlassian Bamboo, you can add the following dependency:
+
+```
+<dependency>
+    <groupId>fyi.iapetus.plugins</groupId>
+    <artifactId>acpolyfill</artifactId>
+    <version>2.0.0-SNAPSHOT</version>
+    <classifier>bamboo</classifier>
+</dependency>
+```
+
+This exposes the `BambooContextProvider` and the `BambooUserThemeService` classes.
+
+You can use the `BambooUserThemeService` to get the theme for a specific user.
+Please note that theming is only supported in Bamboo 10+. For Bamboo 9, it will always return "LIGHT".
+
+The `BambooContextProvider` can be used to render the iframe in any module that supports Velocity rendering
+(i.e. the [Web Panel](https://developer.atlassian.com/server/framework/atlassian-sdk/web-panel-plugin-module/#application-specific-locations))
+
+Example:
+
+```
+<web-panel key="fyi-iapetus-examples-job-summary-panel" location="jobresult.summary.right">
+    <context-provider class="fyi.iapetus.plugins.acpolyfill.bamboo.BambooContextProvider">
+        <param name="url" value="/job-summary-panel" />
+    </context-provider>
+    <resource name="view" type="velocity"><![CDATA[$ACHtml]]></resource>
+</web-panel>
+```
+
+As you can see, the Web Panel uses an inline velocity template which renders the `$ACHtml`
+property provided by the `BambooContextProvider`.
+
+This will render the web panel correctly with an iframe and the client-side host application.
+
+#### Atlassian Bitbucket
+
+For Atlassian Bitbucket, you can add the following dependency:
+
+```
+<dependency>
+    <groupId>fyi.iapetus.plugins</groupId>
+    <artifactId>acpolyfill</artifactId>
+    <version>2.0.0-SNAPSHOT</version>
+    <classifier>bitbucket</classifier>
+</dependency>
+```
+
+This exposes the `BitbucketContextProvider` and the `BitbucketUserThemeService` classes.
+
+You can use the `BitbucketUserThemeService` to get the theme for a specific user.
+Please note that theming is only supported in Bitbucket 9+. For Bitbucket 8, it will always return "LIGHT".
+
+The `BitbucketContextProvider` can be used to render the iframe in any module that supports Velocity rendering
+(i.e. the [Web Panel](https://developer.atlassian.com/server/framework/atlassian-sdk/web-panel-plugin-module/#application-specific-locations))
+
+Example:
+
+```
+<web-panel key="fyi-iapetus-examples-project-overview-panel" location="bitbucket.web.project.overview.banner">
+    <context-provider class="fyi.iapetus.plugins.acpolyfill.bitbucket.BitbucketContextProvider">
+        <param name="url" value="/project-overview-panel" />
+    </context-provider>
+    <resource name="view" type="velocity"><![CDATA[$ACHtml]]></resource>
+</web-panel>
+```
+
+As you can see, the Web Panel uses an inline velocity template which renders the `$ACHtml`
+property provided by the `BitbucketContextProvider`.
+
+This will render the web panel correctly with an iframe and the client-side host application.
 
 ## Disclaimer
 

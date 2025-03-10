@@ -1,0 +1,51 @@
+<atlassian-plugin key="${atlassian.plugin.key}" name="${project.name}" plugins-version="2">
+    <plugin-info>
+        <description>${project.description}</description>
+        <version>${project.version}</version>
+        <vendor name="${project.organization.name}" url="${project.organization.url}" />
+        <param name="plugin-icon">images/pluginIcon.png</param>
+        <param name="plugin-logo">images/pluginLogo.png</param>
+
+        <!-- Atlassian Connect Polyfill -->
+        <param name="ac.baseurl">/plugins/servlet/bitbucket-example/</param>
+        <param name="ac.context">bitbucket-example-atlassian-connect</param>
+    </plugin-info>
+
+    <resource type="i18n" name="i18n" location="bitbucket-example" />
+
+    <!-- ####################################################################################
+         Manage Apps > App section
+    ##################################################################################### -->
+
+    <web-section key="fyi-iapetus-examples-web-section" name="${project.name}" location="atl.admin" weight="10">
+        <label key="fyi.iapetus.examples.name"/>
+    </web-section>
+
+    <web-item key="fyi-iapetus-examples-hello-world" name="Hello World" section="atl.admin/fyi-iapetus-examples-web-section" weight="10">
+        <label key="fyi.iapetus.examples.helloWorld" />
+        <link linkId="helloworld">/plugins/servlet/atlassian-connect/${atlassian.plugin.key}/fyi-iapetus-examples-hello-world</link>
+        <param name="title" value="Hello World" />
+        <param name="decorator" value="atl.admin" />
+        <param name="url" value="/hello-world" />
+    </web-item>
+
+    <!-- ####################################################################################
+         Web Panels
+    ##################################################################################### -->
+
+    <web-panel key="fyi-iapetus-examples-project-overview-panel" location="bitbucket.web.project.overview.banner">
+        <context-provider class="fyi.iapetus.plugins.acpolyfill.bitbucket.BitbucketContextProvider">
+            <param name="url" value="/project-overview-panel" />
+        </context-provider>
+        <resource name="view" type="velocity"><![CDATA[$ACHtml]]></resource>
+    </web-panel>
+
+    <!-- ####################################################################################
+         Servlet
+    ##################################################################################### -->
+
+    <servlet key="ACServlet" class="fyi.iapetus.examples.ACServlet">
+        <url-pattern>/bitbucket-example/*</url-pattern>
+    </servlet>
+
+</atlassian-plugin>

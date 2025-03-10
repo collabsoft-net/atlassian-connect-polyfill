@@ -17,6 +17,9 @@ import { getAppUrl } from './helpers/getAppUrl';
     base: false
   });
 
+  // Add support for dark mode
+  ACJS.theming.initializeTheming();
+
   // Make sure to disable automatic close on submit
   // This is to ensure that our onSubmit event handler is fired
   ACJS.dialog.disableCloseOnSubmit();

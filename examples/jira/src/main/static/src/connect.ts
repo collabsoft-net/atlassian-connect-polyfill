@@ -9,7 +9,10 @@ interface WindowWithAC extends Window {
 
 try {
   // Remove footer to emulate Connect
-  document.documentElement.classList.add('page-type-connect');
+  const isFullPage = getMetaData('full-page') === 'true';
+  if (isFullPage) {
+    document.documentElement.classList.add('page-type-connect');
+  }
 
   // Set the app key, either from environment variable or fallback
   const appKey = process.env.APPKEY || 'fyi.iapetus.examples.jira-example';

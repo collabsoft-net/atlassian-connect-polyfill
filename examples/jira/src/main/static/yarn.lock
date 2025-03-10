@@ -5,11 +5,169 @@ __metadata:
   version: 8
   cacheKey: 10
 
-"@collabsoft-net/connect@npm:^1.1.2-alpha.52":
-  version: 1.1.2-alpha.52
-  resolution: "@collabsoft-net/connect@npm:1.1.2-alpha.52::__archiveUrl=https%3A%2F%2Fnpm.pkg.github.com%2Fdownload%2F%40collabsoft-net%2Fconnect%2F1.1.2-alpha.52%2F3874f7ee702a4c059f18e81e592507d213bc8c95"
+"@atlaskit/atlassian-context@npm:^0.1.0":
+  version: 0.1.0
+  resolution: "@atlaskit/atlassian-context@npm:0.1.0"
+  dependencies:
+    "@babel/runtime": "npm:^7.0.0"
+  peerDependencies:
+    react: ^16.8.0 || ^17.0.0 || ^18.2.0
+  checksum: 10/754fba485d82d44857f728dcd6608d0616e299ab5f29f441404eb9f6b3f2f3ab789ccc3943d8b0b965b3bebd49e8264c3bff6a7767d156ef6646e8f43b4bef15
+  languageName: node
+  linkType: hard
+
+"@atlaskit/ds-lib@npm:^3.5.0":
+  version: 3.5.1
+  resolution: "@atlaskit/ds-lib@npm:3.5.1"
+  dependencies:
+    "@atlaskit/platform-feature-flags": "npm:^1.0.0"
+    "@babel/runtime": "npm:^7.0.0"
+    bind-event-listener: "npm:^3.0.0"
+    react-uid: "npm:^2.2.0"
+  peerDependencies:
+    react: ^16.8.0 || ^17.0.0 || ^18.0.0
+  checksum: 10/8715c5a3237836f9c94f751900f9d98a617c1e34ee1a090c69b4b44159f002746dcd33fcb7a798eb8806dfe804c2fd17938bf4c236ffca6e8b972cbc30f2e41e
+  languageName: node
+  linkType: hard
+
+"@atlaskit/feature-gate-js-client@npm:^4.23.0":
+  version: 4.23.4
+  resolution: "@atlaskit/feature-gate-js-client@npm:4.23.4"
+  dependencies:
+    "@atlaskit/atlassian-context": "npm:^0.1.0"
+    "@babel/runtime": "npm:^7.0.0"
+    eventemitter2: "npm:^4.1.0"
+    statsig-js-lite: "npm:^1.6.0"
+  checksum: 10/c808805fd8c7536d4741f730b1b5e0d93cbd1bdf91ccfafa34e5e4ecc267cff12a4e699efb5f23ca99d2b9631bde66896adcb00f78d08cb8d9b64c96f18ddea9
+  languageName: node
+  linkType: hard
+
+"@atlaskit/platform-feature-flags@npm:^1.0.0":
+  version: 1.0.0
+  resolution: "@atlaskit/platform-feature-flags@npm:1.0.0"
+  dependencies:
+    "@atlaskit/feature-gate-js-client": "npm:^4.23.0"
+    "@babel/runtime": "npm:^7.0.0"
+  checksum: 10/2854505950b2dc84ef3060fbb4d90cc51ccfb7be756e8414c1a7b29f09c7f3e0d3e2c439bb8dbcf2f1dcfd7a126fc30972ff36fa79069f92a912375da0aa15b5
+  languageName: node
+  linkType: hard
+
+"@atlaskit/tokens@npm:3.3.1":
+  version: 3.3.1
+  resolution: "@atlaskit/tokens@npm:3.3.1"
+  dependencies:
+    "@atlaskit/ds-lib": "npm:^3.5.0"
+    "@atlaskit/platform-feature-flags": "npm:^1.0.0"
+    "@babel/runtime": "npm:^7.0.0"
+    "@babel/traverse": "npm:^7.23.2"
+    "@babel/types": "npm:^7.20.0"
+    bind-event-listener: "npm:^3.0.0"
+  peerDependencies:
+    react: ^16.8.0 || ^17.0.0 || ^18.0.0
+  checksum: 10/02abcd2f5ffc06dde412df33d97ff7fc023f1dd814ceefb633857a8779cae1b38579be3ca52447cbba5378e6f8a564bee87d17cd4b74ed7b5137f6a2f7649662
+  languageName: node
+  linkType: hard
+
+"@babel/code-frame@npm:^7.26.2":
+  version: 7.26.2
+  resolution: "@babel/code-frame@npm:7.26.2"
+  dependencies:
+    "@babel/helper-validator-identifier": "npm:^7.25.9"
+    js-tokens: "npm:^4.0.0"
+    picocolors: "npm:^1.0.0"
+  checksum: 10/db2c2122af79d31ca916755331bb4bac96feb2b334cdaca5097a6b467fdd41963b89b14b6836a14f083de7ff887fc78fa1b3c10b14e743d33e12dbfe5ee3d223
+  languageName: node
+  linkType: hard
+
+"@babel/generator@npm:^7.26.8":
+  version: 7.26.8
+  resolution: "@babel/generator@npm:7.26.8"
+  dependencies:
+    "@babel/parser": "npm:^7.26.8"
+    "@babel/types": "npm:^7.26.8"
+    "@jridgewell/gen-mapping": "npm:^0.3.5"
+    "@jridgewell/trace-mapping": "npm:^0.3.25"
+    jsesc: "npm:^3.0.2"
+  checksum: 10/8c5af0f74aad2e575f2f833af0a9a38dda5abe0574752b5e0812677c78e5dc713b6b0c9ac3b30799ba6ef883614f9f0ef79d3aa10ba8f0e54f7f0284381b0059
+  languageName: node
+  linkType: hard
+
+"@babel/helper-string-parser@npm:^7.25.9":
+  version: 7.25.9
+  resolution: "@babel/helper-string-parser@npm:7.25.9"
+  checksum: 10/c28656c52bd48e8c1d9f3e8e68ecafd09d949c57755b0d353739eb4eae7ba4f7e67e92e4036f1cd43378cc1397a2c943ed7bcaf5949b04ab48607def0258b775
+  languageName: node
+  linkType: hard
+
+"@babel/helper-validator-identifier@npm:^7.25.9":
+  version: 7.25.9
+  resolution: "@babel/helper-validator-identifier@npm:7.25.9"
+  checksum: 10/3f9b649be0c2fd457fa1957b694b4e69532a668866b8a0d81eabfa34ba16dbf3107b39e0e7144c55c3c652bf773ec816af8df4a61273a2bb4eb3145ca9cf478e
+  languageName: node
+  linkType: hard
+
+"@babel/parser@npm:^7.26.8":
+  version: 7.26.8
+  resolution: "@babel/parser@npm:7.26.8"
+  dependencies:
+    "@babel/types": "npm:^7.26.8"
+  bin:
+    parser: ./bin/babel-parser.js
+  checksum: 10/0dd9d6b2022806b696b7a9ffb50b147f13525c497663d758a95adcc3ca0fa1d1bbb605fcc0604acc1cade60c3dbf2c1e0dd22b7aed17f8ad1c58c954208ffe7a
+  languageName: node
+  linkType: hard
+
+"@babel/runtime@npm:^7.0.0":
+  version: 7.26.7
+  resolution: "@babel/runtime@npm:7.26.7"
+  dependencies:
+    regenerator-runtime: "npm:^0.14.0"
+  checksum: 10/c7a661a6836b332d9d2e047cba77ba1862c1e4f78cec7146db45808182ef7636d8a7170be9797e5d8fd513180bffb9fa16f6ca1c69341891efec56113cf22bfc
+  languageName: node
+  linkType: hard
+
+"@babel/template@npm:^7.26.8":
+  version: 7.26.8
+  resolution: "@babel/template@npm:7.26.8"
+  dependencies:
+    "@babel/code-frame": "npm:^7.26.2"
+    "@babel/parser": "npm:^7.26.8"
+    "@babel/types": "npm:^7.26.8"
+  checksum: 10/bc45db0fd4e92d35813c2a8e8fa80b8a887c275b323537b8ebd9c64228c1614e81c74236d08f744017a6562987e48b10501688f7a8be5d6a53fb6acb61aa01c8
+  languageName: node
+  linkType: hard
+
+"@babel/traverse@npm:^7.23.2":
+  version: 7.26.8
+  resolution: "@babel/traverse@npm:7.26.8"
+  dependencies:
+    "@babel/code-frame": "npm:^7.26.2"
+    "@babel/generator": "npm:^7.26.8"
+    "@babel/parser": "npm:^7.26.8"
+    "@babel/template": "npm:^7.26.8"
+    "@babel/types": "npm:^7.26.8"
+    debug: "npm:^4.3.1"
+    globals: "npm:^11.1.0"
+  checksum: 10/2785718e54d7a243a4c1b92fe9c2cec0d3b8725b095061b8fdb9812bbcf1b94b743b39d96312644efa05692f9c2646772a8154c89625f428aa6b568cebf4ecf9
+  languageName: node
+  linkType: hard
+
+"@babel/types@npm:^7.20.0, @babel/types@npm:^7.26.8":
+  version: 7.26.8
+  resolution: "@babel/types@npm:7.26.8"
+  dependencies:
+    "@babel/helper-string-parser": "npm:^7.25.9"
+    "@babel/helper-validator-identifier": "npm:^7.25.9"
+  checksum: 10/e6889246889706ee5e605cbfe62657c829427e0ddef0e4d18679a0d989bdb23e700b5a851d84821c2bdce3ded9ae5b9285fe1028562201b28f816e3ade6c3d0d
+  languageName: node
+  linkType: hard
+
+"@collabsoft-net/connect@npm:1.1.2-alpha.95":
+  version: 1.1.2-alpha.95
+  resolution: "@collabsoft-net/connect@npm:1.1.2-alpha.95::__archiveUrl=https%3A%2F%2Fnpm.pkg.github.com%2Fdownload%2F%40collabsoft-net%2Fconnect%2F1.1.2-alpha.95%2Fda4ad7f753f19619a5239c00dffc9cd0ae16d1ec"
   peerDependencies:
     "@atlaskit/modal-dialog": "*"
+    "@atlaskit/tokens": "*"
     "@collabsoft-net/helpers": "*"
     "@collabsoft-net/inversify": "workspace:*"
     inversify: 6.0.2
@@ -17,18 +175,18 @@ __metadata:
     react: <17.0.0
     react-dom: <17.0.0
     styled-components: 3.2.6
-  checksum: 10/edfad6b112c2940ccc4b6c24c317cfe9e2409bc527eda0e7e3bef20324ba48d19277050cd219c51f3a44df5ad715d0f5a86b5a402b585af6252a9ad89ef557d4
+  checksum: 10/10f1065332276b32deabbe406860ef79859be36532cf3ba98c442a43e0726fb1e7da2cbfa968fb8830070b20b3f13d93fe13dd668360da4bed007a5290416471
   languageName: node
   linkType: hard
 
-"@collabsoft-net/helpers@npm:^1.1.2-alpha.46":
-  version: 1.1.2-alpha.46
-  resolution: "@collabsoft-net/helpers@npm:1.1.2-alpha.46::__archiveUrl=https%3A%2F%2Fnpm.pkg.github.com%2Fdownload%2F%40collabsoft-net%2Fhelpers%2F1.1.2-alpha.46%2F94feeb270f4669bd544a48c24e525a8cee5024e7"
-  checksum: 10/5be263b6d580e24df8861d9091f4cb71b8e3f0b49841073689056537ddedc44e5bce72d46383ed8a4a3cde0ae55800a84b9aca2498e24d5c36b8e81b161f0175
+"@collabsoft-net/helpers@npm:1.1.2-alpha.81":
+  version: 1.1.2-alpha.81
+  resolution: "@collabsoft-net/helpers@npm:1.1.2-alpha.81::__archiveUrl=https%3A%2F%2Fnpm.pkg.github.com%2Fdownload%2F%40collabsoft-net%2Fhelpers%2F1.1.2-alpha.81%2Fb1197ae8a246065c2274d353e883caa35c3f97aa"
+  checksum: 10/46929cb82753db131c68ac536b7c3d1bfa2a26807ad9fa9af98fc1ae5e4088bac8e954bf6059c186a8758e84ff5d2b1d2189137e3f52a97a4e3cb5d983163a26
   languageName: node
   linkType: hard
 
-"@collabsoft-net/inversify@npm:^1.1.2-alpha.7":
+"@collabsoft-net/inversify@npm:1.1.2-alpha.7":
   version: 1.1.2-alpha.7
   resolution: "@collabsoft-net/inversify@npm:1.1.2-alpha.7::__archiveUrl=https%3A%2F%2Fnpm.pkg.github.com%2Fdownload%2F%40collabsoft-net%2Finversify%2F1.1.2-alpha.7%2F9813aa2db351210961063a30568bb3d655d21554"
   peerDependencies:
@@ -137,9 +295,10 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@jira-example/p2@workspace:."
   dependencies:
-    "@collabsoft-net/connect": "npm:^1.1.2-alpha.52"
-    "@collabsoft-net/helpers": "npm:^1.1.2-alpha.46"
-    "@collabsoft-net/inversify": "npm:^1.1.2-alpha.7"
+    "@atlaskit/tokens": "npm:3.3.1"
+    "@collabsoft-net/connect": "npm:1.1.2-alpha.95"
+    "@collabsoft-net/helpers": "npm:1.1.2-alpha.81"
+    "@collabsoft-net/inversify": "npm:1.1.2-alpha.7"
     "@types/js-cookie": "npm:^3"
     "@types/node": "npm:^20.14.9"
     "@types/react": "npm:^18"
@@ -829,6 +988,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"bind-event-listener@npm:^3.0.0":
+  version: 3.0.0
+  resolution: "bind-event-listener@npm:3.0.0"
+  checksum: 10/3d442307ee906b79f041433b065e7b259bd1e5231a74519271cc5beb485f7c469609da9c7f20fdd0b3ab340e4691fee826b76d003c71cf5ad955186aba5c256e
+  languageName: node
+  linkType: hard
+
 "bn.js@npm:^4.0.0, bn.js@npm:^4.1.0, bn.js@npm:^4.11.9":
   version: 4.12.0
   resolution: "bn.js@npm:4.12.0"
@@ -1490,6 +1656,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"eventemitter2@npm:^4.1.0":
+  version: 4.1.2
+  resolution: "eventemitter2@npm:4.1.2"
+  checksum: 10/c509bcd3fdac0f4b3df570ea216e3da7ccd0b95b4461bbce307ee57ec28e5f3fd8eb350503d0bdf8508930df0998da66cbf2cc7c0bc5baa4b1142e87777e88a9
+  languageName: node
+  linkType: hard
+
 "events@npm:^3.2.0":
   version: 3.3.0
   resolution: "events@npm:3.3.0"
@@ -1702,6 +1875,13 @@ __metadata:
   bin:
     glob: dist/esm/bin.mjs
   checksum: 10/e412776b5952a818eba790c830bea161c9a56813fd767d8c4c49f855603b1fb962b3e73f1f627a47298a57d2992b9f0f2fe15cf93e74ecaaa63fb45d63fdd090
+  languageName: node
+  linkType: hard
+
+"globals@npm:^11.1.0":
+  version: 11.12.0
+  resolution: "globals@npm:11.12.0"
+  checksum: 10/9f054fa38ff8de8fa356502eb9d2dae0c928217b8b5c8de1f09f5c9b6c8a96d8b9bd3afc49acbcd384a98a81fea713c859e1b09e214c60509517bb8fc2bc13c2
   languageName: node
   linkType: hard
 
@@ -2043,7 +2223,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"js-tokens@npm:^3.0.0 || ^4.0.0":
+"js-tokens@npm:^3.0.0 || ^4.0.0, js-tokens@npm:^4.0.0":
   version: 4.0.0
   resolution: "js-tokens@npm:4.0.0"
   checksum: 10/af37d0d913fb56aec6dc0074c163cc71cd23c0b8aad5c2350747b6721d37ba118af35abdd8b33c47ec2800de07dedb16a527ca9c530ee004093e04958bd0cbf2
@@ -2065,6 +2245,15 @@ __metadata:
   version: 1.1.0
   resolution: "jsbn@npm:1.1.0"
   checksum: 10/bebe7ae829bbd586ce8cbe83501dd8cb8c282c8902a8aeeed0a073a89dc37e8103b1244f3c6acd60278bcbfe12d93a3f83c9ac396868a3b3bbc3c5e5e3b648ef
+  languageName: node
+  linkType: hard
+
+"jsesc@npm:^3.0.2":
+  version: 3.1.0
+  resolution: "jsesc@npm:3.1.0"
+  bin:
+    jsesc: bin/jsesc
+  checksum: 10/20bd37a142eca5d1794f354db8f1c9aeb54d85e1f5c247b371de05d23a9751ecd7bd3a9c4fc5298ea6fa09a100dafb4190fa5c98c6610b75952c3487f3ce7967
   languageName: node
   linkType: hard
 
@@ -2614,6 +2803,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"picocolors@npm:^1.0.0":
+  version: 1.1.1
+  resolution: "picocolors@npm:1.1.1"
+  checksum: 10/e1cf46bf84886c79055fdfa9dcb3e4711ad259949e3565154b004b260cd356c5d54b31a1437ce9782624bf766272fe6b0154f5f0c744fb7af5d454d2b60db045
+  languageName: node
+  linkType: hard
+
 "picocolors@npm:^1.0.1":
   version: 1.0.1
   resolution: "picocolors@npm:1.0.1"
@@ -2748,6 +2944,21 @@ __metadata:
   languageName: node
   linkType: hard
 
+"react-uid@npm:^2.2.0":
+  version: 2.4.0
+  resolution: "react-uid@npm:2.4.0"
+  dependencies:
+    tslib: "npm:^2.0.0"
+  peerDependencies:
+    "@types/react": ^16.8.0 || ^17.0.0 || ^18.0.0 || ^19.0.0
+    react: ^16.8.0 || ^17.0.0 || ^18.0.0 || ^19.0.0
+  peerDependenciesMeta:
+    "@types/react":
+      optional: true
+  checksum: 10/65323de49c74f2ef44c1ddd34e320391076480588e4e86b7df8c0e508286885730b9f99a0d7057ec4d5cbd15069efd64fb23dd5866a73719afc133df1c451df3
+  languageName: node
+  linkType: hard
+
 "react@npm:^18.3.1":
   version: 18.3.1
   resolution: "react@npm:18.3.1"
@@ -2789,6 +3000,13 @@ __metadata:
   dependencies:
     resolve: "npm:^1.20.0"
   checksum: 10/ad3caed8afdefbc33fbc30e6d22b86c35b3d51c2005546f4e79bcc03c074df804b3640ad18945e6bef9ed12caedc035655ec1082f64a5e94c849ff939dc0a788
+  languageName: node
+  linkType: hard
+
+"regenerator-runtime@npm:^0.14.0":
+  version: 0.14.1
+  resolution: "regenerator-runtime@npm:0.14.1"
+  checksum: 10/5db3161abb311eef8c45bcf6565f4f378f785900ed3945acf740a9888c792f75b98ecb77f0775f3bf95502ff423529d23e94f41d80c8256e8fa05ed4b07cf471
   languageName: node
   linkType: hard
 
@@ -3052,6 +3270,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"statsig-js-lite@npm:^1.6.0":
+  version: 1.6.0
+  resolution: "statsig-js-lite@npm:1.6.0"
+  checksum: 10/988df4400cde3db9b54fa9ba0b26b7c516018d47f242faed6d6b545fbb322331bf878321841a268f162834219d3c3ec900a5a14bfa6cb7dd3c0efd363c6f1183
+  languageName: node
+  linkType: hard
+
 "stream-http@npm:^3.2.0":
   version: 3.2.0
   resolution: "stream-http@npm:3.2.0"
@@ -3249,6 +3474,13 @@ __metadata:
     typescript: "*"
     webpack: ^5.0.0
   checksum: 10/a85d43bb6f72858d613290ac02d1d24e81c38ba2dcb98b90465dc97eb6c2036bf9a389542c1a7865548643e7ed39f063fdff2dbb3e5aafbc511de6a3eb275adf
+  languageName: node
+  linkType: hard
+
+"tslib@npm:^2.0.0":
+  version: 2.8.1
+  resolution: "tslib@npm:2.8.1"
+  checksum: 10/3e2e043d5c2316461cb54e5c7fe02c30ef6dccb3384717ca22ae5c6b5bc95232a6241df19c622d9c73b809bea33b187f6dbc73030963e29950c2141bc32a79f7
   languageName: node
   linkType: hard
 

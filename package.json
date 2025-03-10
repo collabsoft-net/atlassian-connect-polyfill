@@ -11,6 +11,6 @@
     "upgrade-iapetus": "yarn up -E \"@collabsoft-net/*\""
   },
   "dependencies": {
-    "@collabsoft-net/connect": "1.1.2-alpha.64"
+    "@collabsoft-net/connect": "1.1.2-alpha.95"
   }
 }

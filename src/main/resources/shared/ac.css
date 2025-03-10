@@ -9,12 +9,15 @@
     Jira 
 //////////////////////////////////////////////////////*/
 
-/* Remove padding to emulate the Atlassian Connect experience */
-.aui-page-panel-content:has(iframe[data-ap-key]) {
+/*
+If the .page-type-connect class is set, remove padding to emulate
+the Atlassian Connect experience
+*/
+.page-type-connect .aui-page-panel-content:has(iframe[data-ap-key]) {
     padding: 0;
 }
 
-#main .pagecontent:has(iframe[data-ap-key]) {
+.page-type-connect #main .pagecontent:has(iframe[data-ap-key]) {
     padding-right: 0;
 }
 

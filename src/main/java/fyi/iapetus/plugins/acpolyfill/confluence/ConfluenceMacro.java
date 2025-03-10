@@ -10,6 +10,7 @@ import com.atlassian.confluence.renderer.PageContext;
 import com.atlassian.confluence.web.context.HttpContext;
 import com.atlassian.confluence.xhtml.api.MacroDefinition;
 import com.atlassian.plugin.ModuleDescriptor;
+import com.atlassian.plugin.Plugin;
 import com.atlassian.plugin.PluginAccessor;
 import com.atlassian.plugin.osgi.bridge.external.PluginRetrievalService;
 import com.atlassian.renderer.RenderContext;
@@ -19,37 +20,40 @@ import com.atlassian.upm.api.license.PluginLicenseManager;
 import com.atlassian.webresource.api.assembler.PageBuilderService;
 import com.atlassian.webresource.api.assembler.WebResourceAssemblerFactory;
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
-import fyi.iapetus.plugins.acpolyfill.shared.LicenseHelper;
-import fyi.iapetus.plugins.acpolyfill.shared.PluginHelper;
-import fyi.iapetus.plugins.acpolyfill.shared.TemplateRenderer;
+import fyi.iapetus.plugins.acpolyfill.UserThemeService;
+import fyi.iapetus.plugins.acpolyfill.shared.*;
 
 import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
 import java.net.URISyntaxException;
 import java.net.URLEncoder;
+import java.nio.charset.StandardCharsets;
 import java.util.*;
 import java.util.stream.Collectors;
 
 @SuppressFBWarnings("EI_EXPOSE_REP2")
-public abstract class AbstractACMacro implements Macro {
+public class ConfluenceMacro implements Macro {
 
     private final PluginHelper pluginHelper;
     private final TemplateRenderer templateRenderer;
     private final HttpContext httpContext;
 
-    public AbstractACMacro(
-            HttpContext httpContext,
-            PluginLicenseManager pluginLicenseManager,
-            UserManager userManager,
-            PluginRetrievalService pluginRetrievalService,
-            PluginAccessor pluginAccessor,
-            ApplicationProperties applicationProperties,
-            PageBuilderService pageBuilderService,
-            WebResourceAssemblerFactory webResourceAssemblerFactory
-    ) {
-        this.pluginHelper = new PluginHelper(pluginRetrievalService, pluginAccessor);
-        this.templateRenderer = new TemplateRenderer(new LicenseHelper(pluginLicenseManager), pluginHelper, applicationProperties, userManager, pageBuilderService, webResourceAssemblerFactory);
-        this.httpContext = httpContext;
+    public ConfluenceMacro() {
+        PluginLicenseManager pluginLicenseManager = OsgiServices.importOsgiService(PluginLicenseManager.class);
+        PluginRetrievalService pluginRetrievalService = OsgiServices.importOsgiService(PluginRetrievalService.class);
+        PluginAccessor pluginAccessor = OsgiServices.importOsgiService(PluginAccessor.class);
+        ApplicationProperties applicationProperties = OsgiServices.importOsgiService(ApplicationProperties.class);
+        PageBuilderService pageBuilderService = OsgiServices.importOsgiService(PageBuilderService.class);
+        WebResourceAssemblerFactory webResourceAssemblerFactory = OsgiServices.importOsgiService(WebResourceAssemblerFactory.class);
+        UserManager userManager = OsgiServices.importOsgiService(UserManager.class);
+        UserThemeService userThemeHelper = OsgiServices.importOsgiService(UserThemeService.class);
+
+        LicenseHelper licenseHelper = new LicenseHelper(pluginLicenseManager);
+        UrlHelper urlHelper = new UrlHelper(licenseHelper, applicationProperties);
+        this.pluginHelper = new PluginHelper(pluginRetrievalService, pluginAccessor, urlHelper);
+        this.templateRenderer = new TemplateRenderer(licenseHelper, pluginHelper, applicationProperties, userManager, pageBuilderService, webResourceAssemblerFactory, userThemeHelper);
+        this.httpContext = OsgiServices.importOsgiService(HttpContext.class);
     }
 
     public String execute(Map<String, String> params, String s, ConversionContext conversionContext) throws MacroExecutionException {
@@ -65,7 +69,14 @@ public abstract class AbstractACMacro implements Macro {
                             .stream()
                             .filter(item -> !params.containsKey(item.getName()) && !(null == item.getDefaultValue() || item.getDefaultValue().isEmpty()))
                             .collect(Collectors.toList());
-                    macroParameters.forEach(item -> params.put(item.getName(), URLEncoder.encode(item.getDefaultValue())));
+
+                    macroParameters.forEach(item -> {
+                        try {
+                            params.put(item.getName(), URLEncoder.encode(item.getDefaultValue(), StandardCharsets.UTF_8.name()));
+                        } catch (UnsupportedEncodingException e) {
+                            throw new RuntimeException(e);
+                        }
+                    });
                 }
             }
 
@@ -92,13 +103,16 @@ public abstract class AbstractACMacro implements Macro {
             // Now try to find the descriptor based on the module name
             // If we can find the descriptor based on the name, we can get the correct module key
             if (null != moduleName) {
-                ModuleDescriptor<?> descriptor = pluginHelper.getModuleDescriptor(pluginHelper.getPlugin(), moduleName);
-                if (null != descriptor) {
-                    moduleKey = descriptor.getKey();
+                Plugin plugin = pluginHelper.getPlugin();
+                if (null != plugin) {
+                    ModuleDescriptor<?> descriptor = pluginHelper.getModuleDescriptor(plugin, moduleName);
+                    if (null != descriptor) {
+                        moduleKey = descriptor.getKey();
+                    }
                 }
             }
 
-            return templateRenderer.renderAtlassianConnectHost(req, moduleKey, getMacroParameters(req, params));
+            return templateRenderer.renderAtlassianConnectHost(req, moduleKey, getMacroParameters(params));
         } catch (IOException | URISyntaxException e) {
             throw new MacroExecutionException(e);
         }
@@ -108,15 +122,20 @@ public abstract class AbstractACMacro implements Macro {
 
     public OutputType getOutputType() { return OutputType.BLOCK; }
 
-    private String[] getMacroParameters(HttpServletRequest req, Map<String, String> macroData) {
+    private String[] getMacroParameters(Map<String, String> macroData) {
         // Add the macro parameters to the query string
         // However we need to filter out the ": = | RAW | = :" property
         return macroData
                 .entrySet()
                 .stream()
                 .filter((entry) -> !entry.getKey().equals(": = | RAW | = :"))
-                .map(entry -> String.format("%s=%s", entry.getKey(), URLEncoder.encode(entry.getValue())))
-                .toArray(String[]::new);
+                .map(entry -> {
+                    try {
+                        return String.format("%s=%s", entry.getKey(), URLEncoder.encode(entry.getValue(), StandardCharsets.UTF_8.name()));
+                    } catch (UnsupportedEncodingException e) {
+                        throw new RuntimeException(e);
+                    }
+                }).toArray(String[]::new);
     }
 
 }

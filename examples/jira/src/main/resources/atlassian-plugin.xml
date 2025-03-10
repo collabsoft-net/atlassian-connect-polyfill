@@ -24,6 +24,7 @@
         <link linkId="helloworld">/plugins/servlet/atlassian-connect/${atlassian.plugin.key}/fyi-iapetus-examples-hello-world</link>
         <param name="title" value="Hello World" />
         <param name="decorator" value="atl.admin" />
+        <param name="full-page" value="true" />
         <param name="url" value="/hello-world" />
     </web-item>
 
@@ -31,10 +32,12 @@
          Project Panel
     ##################################################################################### -->
 
-    <web-panel key="fyi-iapetus-examples-project-panel-key" location="${atlassian.plugin.key}:fyi-iapetus-examples-project-panel" class="fyi.iapetus.examples.ACWebPanel">
-        <context-provider class="fyi.iapetus.examples.ACContextProvider">
+    <web-panel key="fyi-iapetus-examples-project-panel-key" location="${atlassian.plugin.key}:fyi-iapetus-examples-project-panel">
+        <context-provider class="fyi.iapetus.plugins.acpolyfill.jira.JiraContextProvider">
+            <param name="full-page" value="true" />
             <param name="url" value="/project-panel" />
         </context-provider>
+        <resource name="view" type="velocity"><![CDATA[$ACHtml]]></resource>
     </web-panel>
 
     <web-item key="fyi-iapetus-examples-project-panel" section="jira.project.sidebar.plugins.navigation" weight="10">
@@ -47,13 +50,28 @@
          Issue Panel
     ##################################################################################### -->
 
-    <web-panel key="fyi-iapetus-examples-issue-panel" location="atl.jira.view.issue.left.context" weight="250" class="fyi.iapetus.examples.ACWebPanel">
+    <web-panel key="fyi-iapetus-examples-issue-panel" location="atl.jira.view.issue.left.context" weight="250">
         <label key="Jira Example" />
-        <context-provider class="fyi.iapetus.examples.ACContextProvider">
+        <context-provider class="fyi.iapetus.plugins.acpolyfill.jira.JiraContextProvider">
             <param name="ac.plugin.key" value="${atlassian.plugin.key}" />
             <param name="ac.moduleKey" value="fyi-iapetus-examples-issue-panel" />
             <param name="url" value="/issue-panel" />
         </context-provider>
+        <resource name="view" type="velocity"><![CDATA[$ACHtml]]></resource>
+    </web-panel>
+
+    <!-- ####################################################################################
+         Project Settings panel
+    ##################################################################################### -->
+
+    <web-panel key="fyi-iapetus-examples-project-settings-panel" location="webpanels.admin.summary.right-panels" weight="10">
+        <label key="Jira Example" />
+        <context-provider class="fyi.iapetus.plugins.acpolyfill.jira.JiraContextProvider">
+            <param name="ac.plugin.key" value="${atlassian.plugin.key}" />
+            <param name="ac.moduleKey" value="fyi-iapetus-examples-issue-panel" />
+            <param name="url" value="/admin-summary-panel" />
+        </context-provider>
+        <resource name="view" type="velocity"><![CDATA[$ACHtml]]></resource>
     </web-panel>
 
     <!-- ####################################################################################
