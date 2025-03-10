@@ -14,7 +14,7 @@
     </organization>
 
     <name>bamboo-example</name>
-    <description>This is the fyi.plugins.examples:bamboo-example plugin for Atlassian Bamboo.</description>
+    <description>This is the fyi.iapetus.examples:bamboo-example plugin for Atlassian Bamboo.</description>
     <packaging>atlassian-plugin</packaging>
 
     <properties>
