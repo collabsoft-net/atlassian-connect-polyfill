@@ -4,7 +4,7 @@
 
     <groupId>fyi.iapetus.examples</groupId>
     <artifactId>bitbucket-example</artifactId>
-    <version>2.0.1-SNAPSHOT</version>
+    <version>2.0.1</version>
     <packaging>atlassian-plugin</packaging>
 
     <name>bitbucket-example</name>
