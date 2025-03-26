@@ -126,6 +126,17 @@ public class UrlHelper {
         parameters.put("lic", this.licenseHelper.getLicenseState(plugin));
         parameters.put("xdm_c", "DO_NOT_USE");
         parameters.put("cv", "DO_NOT_USE");
+        parameters.putAll(this.getACQueryStringParameters(req));
+
+        return parameters
+                .entrySet()
+                .stream()
+                .map(entry -> String.format("%s=%s", entry.getKey(), entry.getValue()))
+                .toArray(String[]::new);
+    }
+
+    public Map<String, String> getACQueryStringParameters(HttpServletRequest req) {
+        Map<String, String> parameters = new HashMap<>();
 
         req.getParameterMap().forEach((key, v) -> {
             if (key.startsWith(("ac."))) {
@@ -134,11 +145,7 @@ public class UrlHelper {
             }
         });
 
-        return parameters
-                .entrySet()
-                .stream()
-                .map(entry -> String.format("%s=%s", entry.getKey(), entry.getValue()))
-                .toArray(String[]::new);
+        return parameters;
     }
 
     @Nullable

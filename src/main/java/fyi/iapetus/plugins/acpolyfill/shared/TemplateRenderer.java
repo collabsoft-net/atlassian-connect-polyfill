@@ -96,6 +96,7 @@ public class TemplateRenderer {
         params.put("product-name", platformHelper.getPlatformName());
         params.put("atl-product-name", platformHelper.getPlatformName());
         params.put(String.format("%s-lic", plugin.getKey()), licenseHelper.getLicenseState(plugin));
+        params.putAll(urlHelper.getACQueryStringParameters(req));
 
         if (null != userManager.getRemoteUserKey()) {
             UserKey remoteUserKey = userManager.getRemoteUserKey();
