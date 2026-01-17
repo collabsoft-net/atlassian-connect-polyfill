@@ -6,7 +6,7 @@ import com.atlassian.sal.api.UrlMode;
 import org.springframework.util.ReflectionUtils;
 
 import javax.annotation.Nullable;
-import javax.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletRequest;
 import java.lang.reflect.Method;
 import java.net.URLEncoder;
 import java.util.Arrays;

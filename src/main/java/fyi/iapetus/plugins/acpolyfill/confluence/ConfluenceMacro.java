@@ -23,7 +23,7 @@ import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import fyi.iapetus.plugins.acpolyfill.UserThemeService;
 import fyi.iapetus.plugins.acpolyfill.shared.*;
 
-import javax.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletRequest;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.net.URISyntaxException;
@@ -58,7 +58,7 @@ public class ConfluenceMacro implements Macro {
 
     public String execute(Map<String, String> params, String s, ConversionContext conversionContext) throws MacroExecutionException {
         try {
-            HttpServletRequest req = this.httpContext.getRequest();
+            HttpServletRequest req = this.httpContext.getActiveRequest();
 
             // Add the default value of a parameters to the params list (if missing)
             MacroMetadata metadata = conversionContext.hasProperty("macroMetadata") ? (MacroMetadata) conversionContext.getProperty("macroMetadata") : null;
@@ -68,14 +68,10 @@ public class ConfluenceMacro implements Macro {
                     List<MacroParameter> macroParameters = formDetails.getParameters()
                             .stream()
                             .filter(item -> !params.containsKey(item.getName()) && !(null == item.getDefaultValue() || item.getDefaultValue().isEmpty()))
-                            .collect(Collectors.toList());
+                            .toList();
 
                     macroParameters.forEach(item -> {
-                        try {
-                            params.put(item.getName(), URLEncoder.encode(item.getDefaultValue(), StandardCharsets.UTF_8.name()));
-                        } catch (UnsupportedEncodingException e) {
-                            throw new RuntimeException(e);
-                        }
+                        params.put(item.getName(), URLEncoder.encode(item.getDefaultValue(), StandardCharsets.UTF_8));
                     });
                 }
             }
@@ -130,11 +126,7 @@ public class ConfluenceMacro implements Macro {
                 .stream()
                 .filter((entry) -> !entry.getKey().equals(": = | RAW | = :"))
                 .map(entry -> {
-                    try {
-                        return String.format("%s=%s", entry.getKey(), URLEncoder.encode(entry.getValue(), StandardCharsets.UTF_8.name()));
-                    } catch (UnsupportedEncodingException e) {
-                        throw new RuntimeException(e);
-                    }
+                    return String.format("%s=%s", entry.getKey(), URLEncoder.encode(entry.getValue(), StandardCharsets.UTF_8));
                 }).toArray(String[]::new);
     }
 

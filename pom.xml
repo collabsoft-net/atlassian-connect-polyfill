@@ -5,7 +5,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>fyi.iapetus.plugins</groupId>
     <artifactId>acpolyfill</artifactId>
-    <version>2.0.1</version>
+    <version>3.0.0-SNAPSHOT</version>
     <packaging>${packaging}</packaging>
 
     <organization>
@@ -18,19 +18,20 @@
 
     <properties>
         <packaging>pom</packaging>
-        <jira.version>10.4.0</jira.version>
-        <confluence.version>9.3.1</confluence.version>
-        <bamboo.version>10.2.0</bamboo.version>
+        <jira.version>11.0.0</jira.version>
+        <confluence.version>10.0.1</confluence.version>
+        <bamboo.version>11.0.0</bamboo.version>
         <bitbucket.version>9.5.0</bitbucket.version>
 
         <amps.version>9.1.11</amps.version>
-        <acpolyfill.sal.version>6.0.4</acpolyfill.sal.version>
+        <acpolyfill.sal.version>7.0.0</acpolyfill.sal.version>
         <acpolyfill.upm.version>7.0.23</acpolyfill.upm.version>
-        <acpolyfill.plugins.version>8.1.0</acpolyfill.plugins.version>
+        <acpolyfill.plugins.version>9.0.0</acpolyfill.plugins.version>
+        <acpolyfill.webfragment.version>8.0.0</acpolyfill.webfragment.version>
         <acpolyfill.webresources.version>7.3.0</acpolyfill.webresources.version>
         <acpolyfill.velocity.version>5.0.1</acpolyfill.velocity.version>
-        <acpolyfill.servlet-api.version>3.1.0</acpolyfill.servlet-api.version>
-        <acpolyfill.jaxb.version>2.3.3</acpolyfill.jaxb.version>
+        <acpolyfill.servlet-api.version>6.0.0</acpolyfill.servlet-api.version>
+        <acpolyfill.jaxb.version>4.0.0</acpolyfill.jaxb.version>
         <acpolyfill.spring.context.version>5.3.39</acpolyfill.spring.context.version>
         <acpolyfill.gemini-blueprint.version>2.1.0.RELEASE</acpolyfill.gemini-blueprint.version>
         <acpolyfill.felix.version>4.0.0</acpolyfill.felix.version>
@@ -212,7 +213,7 @@
 
                 <dependency>
                     <groupId>com.atlassian.jira</groupId>
-                    <artifactId>jira-core</artifactId>
+                    <artifactId>jira-api</artifactId>
                     <version>${jira.version}</version>
                     <scope>provided</scope>
                 </dependency>
@@ -230,7 +231,7 @@
                 </dependency>
                 <dependency>
                     <groupId>com.atlassian.bamboo</groupId>
-                    <artifactId>atlassian-bamboo-web</artifactId>
+                    <artifactId>atlassian-bamboo-api</artifactId>
                     <version>${bamboo.version}</version>
                     <scope>provided</scope>
                 </dependency>
@@ -245,8 +246,14 @@
                     <version>${acpolyfill.gemini-blueprint.version}</version>
                     <scope>provided</scope>
                 </dependency>
+                <dependency>
+                    <groupId>jakarta.servlet</groupId>
+                    <artifactId>jakarta.servlet-api</artifactId>
+                    <version>${acpolyfill.servlet-api.version}</version>
+                    <scope>provided</scope>
+                </dependency>
 
-                <!-- 
+                <!--
                     Jira
                     5.0.0 - Jira 9.0.0 - 9.4.0
                     5.0.1 - Jira 9.5.0 - 9.10.0
@@ -691,8 +698,12 @@
                                 <include>**/fyi/iapetus/plugins/acpolyfill/servlet/**/*.java</include>
                                 <include>**/fyi/iapetus/plugins/acpolyfill/**/*UserThemeService.java</include>
                             </includes>
-                            <source>8</source>
-                            <target>8</target>
+                            <!-- Bamboo action support is temporarily disabled as they haven't migrated to Jakarta -->
+                            <excludes>
+                                <exclude>**/fyi/iapetus/plugins/acpolyfill/servlet/actions/**/*.java</exclude>
+                            </excludes>
+                            <source>21</source>
+                            <target>21</target>
                         </configuration>
                     </plugin>
                     <plugin>
@@ -771,9 +782,16 @@
 
             <dependencyManagement>
                 <dependencies>
+<!--                    <dependency>-->
+<!--                        <groupId>com.atlassian.confluence</groupId>-->
+<!--                        <artifactId>confluence</artifactId>-->
+<!--                        <version>${confluence.version}</version>-->
+<!--                        <type>pom</type>-->
+<!--                        <scope>import</scope>-->
+<!--                    </dependency>-->
                     <dependency>
                         <groupId>com.atlassian.confluence</groupId>
-                        <artifactId>confluence</artifactId>
+                        <artifactId>confluence-plugins-platform-pom</artifactId>
                         <version>${confluence.version}</version>
                         <type>pom</type>
                         <scope>import</scope>
@@ -799,8 +817,9 @@
                     <scope>provided</scope>
                 </dependency>
                 <dependency>
-                    <groupId>javax.servlet</groupId>
-                    <artifactId>javax.servlet-api</artifactId>
+                    <groupId>jakarta.servlet</groupId>
+                    <artifactId>jakarta.servlet-api</artifactId>
+                    <version>${acpolyfill.servlet-api.version}</version>
                     <scope>provided</scope>
                 </dependency>
 
@@ -899,9 +918,16 @@
 
             <dependencyManagement>
                 <dependencies>
+<!--                    <dependency>-->
+<!--                        <groupId>com.atlassian.jira</groupId>-->
+<!--                        <artifactId>jira-core</artifactId>-->
+<!--                        <version>${jira.version}</version>-->
+<!--                        <type>pom</type>-->
+<!--                        <scope>import</scope>-->
+<!--                    </dependency>-->
                     <dependency>
                         <groupId>com.atlassian.jira</groupId>
-                        <artifactId>jira-core</artifactId>
+                        <artifactId>jira-plugins-platform-pom</artifactId>
                         <version>${jira.version}</version>
                         <type>pom</type>
                         <scope>import</scope>
@@ -1016,13 +1042,13 @@
 
             <dependencyManagement>
                 <dependencies>
-                    <dependency>
-                        <groupId>com.atlassian.bamboo</groupId>
-                        <artifactId>atlassian-bamboo</artifactId>
-                        <version>${bamboo.version}</version>
-                        <type>pom</type>
-                        <scope>import</scope>
-                    </dependency>
+<!--                    <dependency>-->
+<!--                        <groupId>com.atlassian.bamboo</groupId>-->
+<!--                        <artifactId>atlassian-bamboo</artifactId>-->
+<!--                        <version>${bamboo.version}</version>-->
+<!--                        <type>pom</type>-->
+<!--                        <scope>import</scope>-->
+<!--                    </dependency>-->
                 </dependencies>
             </dependencyManagement>
 
@@ -1031,16 +1057,19 @@
                 <dependency>
                     <groupId>com.atlassian.bamboo</groupId>
                     <artifactId>atlassian-bamboo-web</artifactId>
+                    <version>${bamboo.version}</version>
                     <scope>provided</scope>
                 </dependency>
                 <dependency>
                     <groupId>com.atlassian.plugins</groupId>
                     <artifactId>atlassian-plugins-webfragment-api</artifactId>
+                    <version>${acpolyfill.webfragment.version}</version>
                     <scope>provided</scope>
                 </dependency>
                 <dependency>
                     <groupId>com.atlassian.plugins</groupId>
                     <artifactId>atlassian-plugins-osgi-bridge</artifactId>
+                    <version>${acpolyfill.plugins.version}</version>
                     <scope>provided</scope>
                 </dependency>
                 <!-- Atlassian provided, but not version managed -->
@@ -1137,13 +1166,13 @@
 
             <dependencyManagement>
                 <dependencies>
-                    <dependency>
-                        <groupId>com.atlassian.bitbucket.server</groupId>
-                        <artifactId>bitbucket-api</artifactId>
-                        <version>${bitbucket.version}</version>
-                        <type>pom</type>
-                        <scope>import</scope>
-                    </dependency>
+<!--                    <dependency>-->
+<!--                        <groupId>com.atlassian.bitbucket.server</groupId>-->
+<!--                        <artifactId>bitbucket-api</artifactId>-->
+<!--                        <version>${bitbucket.version}</version>-->
+<!--                        <type>pom</type>-->
+<!--                        <scope>import</scope>-->
+<!--                    </dependency>-->
                 </dependencies>
             </dependencyManagement>
 
@@ -1209,8 +1238,8 @@
                     <scope>provided</scope>
                 </dependency>
                 <dependency>
-                    <groupId>javax.servlet</groupId>
-                    <artifactId>javax.servlet-api</artifactId>
+                    <groupId>jakarta.servlet</groupId>
+                    <artifactId>jakarta.servlet-api</artifactId>
                     <version>${acpolyfill.servlet-api.version}</version>
                     <scope>provided</scope>
                 </dependency>
