@@ -5,20 +5,20 @@ __metadata:
   version: 6
   cacheKey: 8
 
-"@collabsoft-net/connect@npm:1.1.2-alpha.95":
-  version: 1.1.2-alpha.95
-  resolution: "@collabsoft-net/connect@npm:1.1.2-alpha.95::__archiveUrl=https%3A%2F%2Fnpm.pkg.github.com%2Fdownload%2F%40collabsoft-net%2Fconnect%2F1.1.2-alpha.95%2Fda4ad7f753f19619a5239c00dffc9cd0ae16d1ec"
+"@collabsoft-net/connect@npm:1.1.2-alpha.248":
+  version: 1.1.2-alpha.248
+  resolution: "@collabsoft-net/connect@npm:1.1.2-alpha.248::__archiveUrl=https%3A%2F%2Fnpm.pkg.github.com%2Fdownload%2F%40collabsoft-net%2Fconnect%2F1.1.2-alpha.248%2F68cd5677cf80dfd48e20b9230eb7786a2c76eda7"
   peerDependencies:
-    "@atlaskit/modal-dialog": "*"
-    "@atlaskit/tokens": "*"
+    "@atlaskit/tokens": ^4.8.0
     "@collabsoft-net/helpers": "*"
-    "@collabsoft-net/inversify": "workspace:*"
-    inversify: 6.0.2
-    js-cookie: 3.0.5
-    react: <17.0.0
-    react-dom: <17.0.0
-    styled-components: 3.2.6
-  checksum: d8112407459b73e777825271d9e1837635d3ecf3fac3e81b6a8b320bc460459e6db14800eab7eda85cde371fefbfe2c3ae14c8ef0a7d28559806f3b14f38ac11
+    "@collabsoft-net/inversify": "*"
+    axios: ^1.13.0
+    inversify: ^7.5.0
+    js-cookie: ^3.0.5
+    react: <19.0.0
+    react-dom: <19.0.0
+    reflect-metadata: 0.2.2
+  checksum: 864bf0680bc943819d52206895b64b216b24058fad2af9f9373c005f0b115392e2ba58ea4f0da75c325d2de109e1e89a987c3ca5558c47d7b9687df207fd091e
   languageName: node
   linkType: hard
 
@@ -26,6 +26,6 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "atlassian-connect-polyfill@workspace:."
   dependencies:
-    "@collabsoft-net/connect": 1.1.2-alpha.95
+    "@collabsoft-net/connect": 1.1.2-alpha.248
   languageName: unknown
   linkType: soft
