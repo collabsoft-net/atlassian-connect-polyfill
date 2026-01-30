@@ -39,7 +39,7 @@ public final class OsgiServices {
         factoryBean.setAvailability(Availability.MANDATORY);
         factoryBean.setBeanClassLoader(serviceInterface.getClassLoader());
         factoryBean.setInterfaces(new Class[] { serviceInterface });
-        factoryBean.setTimeout(Duration.ofMinutes(5L).toMillis());
+        factoryBean.setTimeout(Duration.ofSeconds(10L).toMillis());
         return (FactoryBean<T>)factoryBean;
     }
 
