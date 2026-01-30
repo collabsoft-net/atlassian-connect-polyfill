@@ -23,6 +23,8 @@
         <bamboo.version>10.2.0</bamboo.version>
         <bitbucket.version>9.5.0</bitbucket.version>
 
+        <nvdApiKey></nvdApiKey>
+
         <amps.version>9.1.11</amps.version>
         <acpolyfill.sal.version>6.0.4</acpolyfill.sal.version>
         <acpolyfill.upm.version>7.0.23</acpolyfill.upm.version>
@@ -172,11 +174,12 @@
             <plugin>
                 <groupId>org.owasp</groupId>
                 <artifactId>dependency-check-maven</artifactId>
-                <version>7.1.1</version>
+                <version>12.1.0</version>
                 <configuration>
                     <suppressionFiles>
                         <suppressionFile>https://dcapt-downloads.s3.amazonaws.com/atlassian-security-scanner-dc-apps-suppressions.xml</suppressionFile>
                     </suppressionFiles>
+                    <nvdApiKey>${nvdApiKey}</nvdApiKey>
                     <skipProvidedScope>true</skipProvidedScope>
                 </configuration>
                 <executions>
