@@ -6,7 +6,7 @@ import com.atlassian.plugin.PluginAccessor;
 import com.atlassian.plugin.osgi.bridge.external.PluginRetrievalService;
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 
-import javax.annotation.Nullable;
+import jakarta.annotation.Nullable;
 import jakarta.servlet.http.HttpServletRequest;
 import java.util.HashMap;
 import java.util.Map;

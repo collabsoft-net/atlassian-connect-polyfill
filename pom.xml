@@ -31,9 +31,11 @@
         <acpolyfill.webresources.version>7.3.0</acpolyfill.webresources.version>
         <acpolyfill.velocity.version>5.0.1</acpolyfill.velocity.version>
         <acpolyfill.servlet-api.version>6.0.0</acpolyfill.servlet-api.version>
+        <acpolyfill.annotation-api.version>2.1.1</acpolyfill.annotation-api.version>
         <acpolyfill.jaxb.version>4.0.0</acpolyfill.jaxb.version>
         <acpolyfill.spring.context.version>5.3.39</acpolyfill.spring.context.version>
         <acpolyfill.gemini-blueprint.version>2.1.0.RELEASE</acpolyfill.gemini-blueprint.version>
+        <acpolyfill.osgi-framework.version>1.10.0</acpolyfill.osgi-framework.version>
         <acpolyfill.felix.version>4.0.0</acpolyfill.felix.version>
 
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -244,6 +246,12 @@
                     <groupId>org.eclipse.gemini.blueprint</groupId>
                     <artifactId>gemini-blueprint-core</artifactId>
                     <version>${acpolyfill.gemini-blueprint.version}</version>
+                    <scope>provided</scope>
+                </dependency>
+                <dependency>
+                    <groupId>org.osgi</groupId>
+                    <artifactId>org.osgi.framework</artifactId>
+                    <version>${acpolyfill.osgi-framework.version}</version>
                     <scope>provided</scope>
                 </dependency>
                 <dependency>
@@ -820,6 +828,12 @@
                     <groupId>jakarta.servlet</groupId>
                     <artifactId>jakarta.servlet-api</artifactId>
                     <version>${acpolyfill.servlet-api.version}</version>
+                    <scope>provided</scope>
+                </dependency>
+                <dependency>
+                    <groupId>jakarta.annotation</groupId>
+                    <artifactId>jakarta.annotation-api</artifactId>
+                    <version>${acpolyfill.annotation-api.version}</version>
                     <scope>provided</scope>
                 </dependency>
 
