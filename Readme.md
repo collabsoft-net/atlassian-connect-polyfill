@@ -26,14 +26,16 @@ This package is the "back-end" part and relies heavily on the "front-end" part t
 
 ## Compatibility matrix
 
-Atlassian has been publishing breaking changes between Platform 6 (Jira 9, Confluence 8, Bamboo 9 and Bitbucket 8) and 
-Platform 7 (Jira 10, Confluence 9, Bamboo 10 and Bitbucket 9), and has already announced that Platform 8 will also include breaking changes.
+Atlassian has been publishing breaking changes between Platform 6 (Jira 9, Confluence 8, Bamboo 9 and Bitbucket 8), 
+Platform 7 (Jira 10, Confluence 9, Bamboo 10 and Bitbucket 9), and Platform 8 (Jira 11, Confluence 10, Bamboo 12, Bitbucket 10).
 
 This compatibility matrix will show you which versions of IApetus can be used with specific versions of the host product.
 
 | Version | Jira           | Confluence    | Bamboo         | Bitbucket      |
 |---------|----------------|---------------|----------------|----------------|
-| 2.0.0   | 9.0.0 - 10.4.x | 8.0.0 - 9.3.x | 9.0.0 - 10.2.x | 8.0.0 - 9.5.x  |
+| 3.0.0   | N/A            | 10.0.x        | N/A            | N/A            |
+| 2.0.1   | 9.0.0 - 10.7.x | 8.0.0 - 9.5.x | 9.0.0 - 10.2.x | 8.0.0 - 9.6.x  |
+| 2.0.0   | -              | -             | -              | -              |
 | 1.6.2   | -              | -             | -              | -              |
 | 1.6.1   | -              | -             | -              | -              |
 | 1.6.0   | -              | -             | -              | -              |
