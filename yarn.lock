@@ -2,8 +2,8 @@
 # Manual changes might be lost - proceed with caution!
 
 __metadata:
-  version: 6
-  cacheKey: 8
+  version: 8
+  cacheKey: 10
 
 "@collabsoft-net/connect@npm:1.1.2-alpha.248":
   version: 1.1.2-alpha.248
@@ -18,7 +18,7 @@ __metadata:
     react: <19.0.0
     react-dom: <19.0.0
     reflect-metadata: 0.2.2
-  checksum: 864bf0680bc943819d52206895b64b216b24058fad2af9f9373c005f0b115392e2ba58ea4f0da75c325d2de109e1e89a987c3ca5558c47d7b9687df207fd091e
+  checksum: 10/a251b62edf4b2bd547a3a65b262f2381669a5510ef60c34ec01548d0dff84931d14e54bca781309dc6ae50a2f81994fdb49dba6caca5afcd0b9c97684a299e8e
   languageName: node
   linkType: hard
 
@@ -26,6 +26,6 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "atlassian-connect-polyfill@workspace:."
   dependencies:
-    "@collabsoft-net/connect": 1.1.2-alpha.248
+    "@collabsoft-net/connect": "npm:1.1.2-alpha.248"
   languageName: unknown
   linkType: soft

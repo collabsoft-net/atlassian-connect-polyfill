@@ -12,5 +12,6 @@
   },
   "dependencies": {
     "@collabsoft-net/connect": "1.1.2-alpha.248"
-  }
+  },
+  "packageManager": "yarn@4.12.0"
 }
