@@ -888,8 +888,8 @@
                                 <include>**/fyi/iapetus/plugins/acpolyfill/shared/**/*.java</include>
                                 <include>**/fyi/iapetus/plugins/acpolyfill/confluence/**/*.java</include>
                             </includes>
-                            <source>8</source>
-                            <target>8</target>
+                            <source>21</source>
+                            <target>21</target>
                         </configuration>
                     </plugin>
                     <plugin>
