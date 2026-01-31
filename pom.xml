@@ -24,6 +24,7 @@
         <bitbucket.version>9.5.0</bitbucket.version>
 
         <amps.version>9.1.11</amps.version>
+        <nvdApiKey></nvdApiKey>
         <acpolyfill.sal.version>7.0.0</acpolyfill.sal.version>
         <acpolyfill.upm.version>7.0.23</acpolyfill.upm.version>
         <acpolyfill.plugins.version>9.0.0</acpolyfill.plugins.version>
@@ -175,12 +176,15 @@
             <plugin>
                 <groupId>org.owasp</groupId>
                 <artifactId>dependency-check-maven</artifactId>
-                <version>7.1.1</version>
+                <version>12.1.0</version>
                 <configuration>
                     <suppressionFiles>
                         <suppressionFile>https://dcapt-downloads.s3.amazonaws.com/atlassian-security-scanner-dc-apps-suppressions.xml</suppressionFile>
                     </suppressionFiles>
+                    <nvdApiKey>${nvdApiKey}</nvdApiKey>
+                    <skipSystemScope>true</skipSystemScope>
                     <skipProvidedScope>true</skipProvidedScope>
+                    <ossindexAnalyzerEnabled>false</ossindexAnalyzerEnabled>
                 </configuration>
                 <executions>
                     <execution>
@@ -189,7 +193,7 @@
                         </goals>
                     </execution>
                 </executions>
-            </plugin>
+            </plugin>                       
         </plugins>
 
         <!-- Wagon for S3 repository -->

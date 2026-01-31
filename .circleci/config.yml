@@ -135,6 +135,7 @@ commands:
             atlas-mvn clean deploy \
               -P confluence \
               -DskipTests \
+              -DnvdApiKey=${NVD_API_KEY} \
               -Drelease=<< parameters.release >> \
               -Djira.version=<< parameters.jira >> \
               -Dconfluence.version=<< parameters.confluence>> \
@@ -194,6 +195,7 @@ commands:
             atlas-mvn clean deploy \
               -P servlet \
               -DskipTests \
+              -DnvdApiKey=${NVD_API_KEY} \
               -Drelease=<< parameters.release >> \
               -Djira.version=<< parameters.jira >> \
               -Dconfluence.version=<< parameters.confluence>> \
