@@ -1,75 +1,43 @@
 version: 2.1
 
 orbs:
-  aws-cli: circleci/aws-cli@5.2.0
-  node: circleci/node@7.1.0
+  aws-cli: circleci/aws-cli@5.4.1
+  node: circleci/node@7.2.1
 
 jobs:
 
-  fyi-iapetus-plugins-compile-platform-6-lowest:
+  fyi-iapetus-plugins-compile-platform-8-lowest:
     executor: server
     steps:
       - server:
-          platform: "6 (lowest version)"
-          jira: "9.0.0"
-          confluence: "8.0.0"
-          bamboo: "9.0.0"        
-          bitbucket: "8.0.0"
-          sal: "5.0.0"
-          upm: "6.0.2"
-          plugins: "7.0.0"
-          webresources: "6.0.1"
-          velocity: "4.0.0"
-          spring: "5.3.19"
-
-  fyi-iapetus-plugins-compile-platform-6-highest:
-    executor: server
-    steps:
-      - server:
-          platform: "6 (highest version)"
-          jira: "9.17.0"
-          confluence: "8.9.0"
-          bamboo: "9.6.0"        
-          bitbucket: "8.19.0"
-          sal: "5.2.0"
-          upm: "6.5.3"
-          plugins: "7.5.3"
-          webresources: "6.3.1"
-          velocity: "4.0.4"
-          spring: "5.3.32"
-
-  fyi-iapetus-plugins-compile-platform-7-lowest:
-    executor: server
-    steps:
-      - server:
-          platform: "7 (lowest version)"
-          jira: "10.0.0"
-          confluence: "9.0.1"
-          bamboo: "10.0.0"        
-          bitbucket: "9.0.0"
-          sal: "6.0.4"
+          platform: "8 (lowest version)"
+          jira: "11.0.0"
+          confluence: "10.0.0"
+          bamboo: "12.0.0"        
+          bitbucket: "10.0.0"
+          sal: "7.0.0"
           upm: "7.0.23"
-          plugins: "8.1.0"
-          webresources: "7.3.0"
+          plugins: "9.0.0"
+          webresources: "8.0.0"
           velocity: "5.0.1"
-          spring: "5.3.39"
+          spring: "6.2.9"
 
   fyi-iapetus-plugins-deploy:
     executor: server
     steps:
       - server:
           release: "true"
-          platform: "6"
+          platform: "8"
           jira: "10.4.0"
           confluence: "9.3.1"
           bamboo: "10.2.0"        
           bitbucket: "9.5.0"
-          sal: "6.0.4"
+          sal: "7.0.0"
           upm: "7.0.23"
-          plugins: "8.1.0"
-          webresources: "7.3.0"
+          plugins: "9.0.0"
+          webresources: "8.0.0"
           velocity: "5.0.1"
-          spring: "5.3.39"
+          spring: "6.2.9"
 
 executors:
 
@@ -247,20 +215,8 @@ workflows:
   deploy:
     jobs:
 
-      - fyi-iapetus-plugins-compile-platform-6-lowest:
-          name: Atlassian Connect Polyfill - Platform 6 (lowest)
-          filters:
-            branches:
-              ignore: main
-
-      - fyi-iapetus-plugins-compile-platform-6-highest:
-          name: Atlassian Connect Polyfill - Platform 6 (highest)
-          filters:
-            branches:
-              ignore: main
-
-      - fyi-iapetus-plugins-compile-platform-7-lowest:
-          name: Atlassian Connect Polyfill - Platform 7 (lowest)
+      - fyi-iapetus-plugins-compile-platform-8-lowest:
+          name: Atlassian Connect Polyfill - Platform 8 (lowest)
           filters:
             branches:
               ignore: main
