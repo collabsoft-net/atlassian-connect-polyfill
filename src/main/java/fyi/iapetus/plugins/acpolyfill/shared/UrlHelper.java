@@ -5,8 +5,8 @@ import com.atlassian.sal.api.ApplicationProperties;
 import com.atlassian.sal.api.UrlMode;
 import org.springframework.util.ReflectionUtils;
 
-import javax.annotation.Nullable;
-import javax.servlet.http.HttpServletRequest;
+import jakarta.annotation.Nullable;
+import jakarta.servlet.http.HttpServletRequest;
 import java.lang.reflect.Method;
 import java.net.URLEncoder;
 import java.util.Arrays;
@@ -152,7 +152,7 @@ public class UrlHelper {
     private String getQueryString(HttpServletRequest req) {
         try {
             // Check if the query string object exists (for some reason, it doesn't always exist)
-            Method getQueryStringMethod = ReflectionUtils.findMethod(req.getClass(), "getQueryString");
+            Method getQueryStringMethod = ReflectionUtils.findMethod(req.getClass(), "getQueryString", (Class<?>[]) null);
             if (null == getQueryStringMethod) throw new IllegalArgumentException();
 
             // Check if we can get the value and make sure that the value != null

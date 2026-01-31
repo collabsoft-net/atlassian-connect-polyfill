@@ -14,7 +14,7 @@ import com.atlassian.webresource.api.assembler.resource.ResourcePhase;
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import fyi.iapetus.plugins.acpolyfill.UserThemeService;
 
-import javax.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletRequest;
 import java.io.IOException;
 import java.io.StringWriter;
 import java.io.Writer;

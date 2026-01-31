@@ -11,7 +11,7 @@ import com.atlassian.webresource.api.assembler.PageBuilderService;
 import com.atlassian.webresource.api.assembler.resource.ResourcePhase;
 import fyi.iapetus.plugins.acpolyfill.UserThemeService;
 
-import javax.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletRequest;
 import java.io.IOException;
 import java.nio.file.Paths;
 import java.util.HashMap;

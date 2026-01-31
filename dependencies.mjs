@@ -43,7 +43,16 @@ const productWithVersions = {
     '8.9.0',
     '9.0.1',
     '9.1.0',
-    '9.2.0'
+    '9.2.0',
+    '9.3.1',
+    '9.3.2',
+    '9.4.0',
+    '9.4.1',
+    '9.5.1',
+    '9.5.2',
+    '9.5.3',
+    '10.0.1',
+    '10.0.2'
   ],
   bitbucket: [
     '8.0.0',
@@ -99,7 +108,7 @@ const main = async () => {
         const mvn = spawn(
           'mvn',
           [
-            '-P', `servlet,servlet-for-${product}`,
+            '-P', `servlet`,
             'dependency:tree',
             `-DoutputType=json`,
             '-DoutputFile=dependencies.json',

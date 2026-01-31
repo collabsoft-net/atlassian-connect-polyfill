@@ -21,7 +21,7 @@ import org.apache.struts2.ServletActionContext;
 
 import javax.annotation.Nullable;
 import javax.inject.Inject;
-import javax.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletRequest;
 import java.util.List;
 
 @SuppressFBWarnings({ "SE_BAD_FIELD", "EI_EXPOSE_REP" })

@@ -6,7 +6,7 @@ import com.atlassian.jira.user.ApplicationUser;
 import com.atlassian.plugin.PluginParseException;
 import fyi.iapetus.plugins.acpolyfill.shared.ContextProviderHelper;
 
-import javax.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletRequest;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
