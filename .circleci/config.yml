@@ -22,16 +22,32 @@ jobs:
           velocity: "5.0.1"
           spring: "6.2.9"
 
+  fyi-iapetus-plugins-compile-platform-8-highest:
+    executor: server
+    steps:
+      - server:
+          platform: "8 (highest version)"
+          jira: "11.3.2"
+          confluence: "10.2.3"
+          bamboo: "12.1.2"        
+          bitbucket: "10.1.5"
+          sal: "7.0.0"
+          upm: "7.0.23"
+          plugins: "9.0.0"
+          webresources: "8.0.0"
+          velocity: "5.0.1"
+          spring: "6.2.9"
+
   fyi-iapetus-plugins-deploy:
     executor: server
     steps:
       - server:
           release: "true"
           platform: "8"
-          jira: "11.0.0"
-          confluence: "10.0.1"
-          bamboo: "12.0.0"        
-          bitbucket: "10.0.0"
+          jira: "11.3.2"
+          confluence: "10.2.3"
+          bamboo: "12.1.2"        
+          bitbucket: "10.1.5"
           sal: "7.0.0"
           upm: "7.0.23"
           plugins: "9.0.0"
@@ -222,6 +238,12 @@ workflows:
 
       - fyi-iapetus-plugins-compile-platform-8-lowest:
           name: Atlassian Connect Polyfill - Platform 8 (lowest)
+          filters:
+            branches:
+              ignore: main
+
+      - fyi-iapetus-plugins-compile-platform-8-highest:
+          name: Atlassian Connect Polyfill - Platform 8 (highest)
           filters:
             branches:
               ignore: main
