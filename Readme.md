@@ -113,7 +113,7 @@ you will need to add our repository to your `pom.xml`.
   <dependency>
     <groupId>fyi.iapetus.plugins</groupId>
     <artifactId>acpolyfill</artifactId>
-    <version>3.1.0-SNAPSHOT</version>
+    <version>3.1.0</version>
     <scope>provided</scope>
   </dependency>
   ...
@@ -408,7 +408,7 @@ For Atlassian Jira, you can add the following dependency:
 <dependency>
     <groupId>fyi.iapetus.plugins</groupId>
     <artifactId>acpolyfill</artifactId>
-    <version>3.1.0-SNAPSHOT</version>
+    <version>3.1.0</version>
     <classifier>jira</classifier>
 </dependency>
 ```
@@ -448,7 +448,7 @@ For Atlassian Confluence, you can add the following dependency:
 <dependency>
     <groupId>fyi.iapetus.plugins</groupId>
     <artifactId>acpolyfill</artifactId>
-    <version>3.1.0-SNAPSHOT</version>
+    <version>3.1.0</version>
     <classifier>confluence</classifier>
 </dependency>
 ```
@@ -506,7 +506,7 @@ For Atlassian Bamboo, you can add the following dependency:
 <dependency>
     <groupId>fyi.iapetus.plugins</groupId>
     <artifactId>acpolyfill</artifactId>
-    <version>3.1.0-SNAPSHOT</version>
+    <version>3.1.0</version>
     <classifier>bamboo</classifier>
 </dependency>
 ```
@@ -543,7 +543,7 @@ For Atlassian Bitbucket, you can add the following dependency:
 <dependency>
     <groupId>fyi.iapetus.plugins</groupId>
     <artifactId>acpolyfill</artifactId>
-    <version>3.1.0-SNAPSHOT</version>
+    <version>3.1.0</version>
     <classifier>bitbucket</classifier>
 </dependency>
 ```
