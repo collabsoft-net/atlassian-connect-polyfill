@@ -10,7 +10,7 @@ import com.atlassian.sal.api.user.UserKey;
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import fyi.iapetus.plugins.acpolyfill.UserThemeService;
 
-import javax.annotation.Nonnull;
+import jakarta.annotation.Nonnull;
 import java.util.Objects;
 
 @JiraComponent

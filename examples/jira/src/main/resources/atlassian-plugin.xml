@@ -7,7 +7,7 @@
         <param name="plugin-logo">images/pluginLogo.png</param>
 
         <!-- Atlassian Connect Polyfill -->
-        <param name="ac.baseurl">/plugins/servlet/jira-example/</param>
+        <param name="ac.baseurl">/plugins/servlet/jira-example</param>
         <param name="ac.context">jira-example-atlassian-connect</param>
     </plugin-info>
 

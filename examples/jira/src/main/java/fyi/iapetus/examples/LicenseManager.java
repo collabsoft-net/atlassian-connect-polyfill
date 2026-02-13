@@ -13,7 +13,7 @@ import com.atlassian.upm.api.license.PluginLicenseManager;
 import fyi.iapetus.plugins.acpolyfill.PluginLicenseRepository;
 import org.springframework.stereotype.Component;
 
-import javax.inject.Inject;
+import jakarta.inject.Inject;
 
 @Component
 public class LicenseManager {

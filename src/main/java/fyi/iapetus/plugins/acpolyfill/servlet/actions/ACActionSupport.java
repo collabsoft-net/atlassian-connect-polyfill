@@ -19,10 +19,10 @@ import fyi.iapetus.plugins.acpolyfill.UserThemeService;
 import fyi.iapetus.plugins.acpolyfill.shared.*;
 import org.apache.struts2.ServletActionContext;
 
-import javax.annotation.Nullable;
-import javax.inject.Inject;
+import jakarta.annotation.Nullable;
+import jakarta.inject.Inject;
 import jakarta.servlet.http.HttpServletRequest;
-import java.util.List;
+import jakarta.util.List;
 
 @SuppressFBWarnings({ "SE_BAD_FIELD", "EI_EXPOSE_REP" })
 public class ACActionSupport extends BambooActionSupport {

@@ -6,7 +6,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>fyi.iapetus.examples</groupId>
     <artifactId>bamboo-example</artifactId>
-    <version>3.0.0-SNAPSHOT</version>
+    <version>3.1.0-SNAPSHOT</version>
 
     <organization>
         <name>Example Company</name>
@@ -18,7 +18,7 @@
     <packaging>atlassian-plugin</packaging>
 
     <properties>
-        <bamboo.version>10.2.0</bamboo.version>
+        <bamboo.version>12.0.0</bamboo.version>
         <bamboo.data.version>${bamboo.version}</bamboo.data.version>
         <acpolyfill.version>${project.version}</acpolyfill.version>
         <!-- This property ensures consistency between the key in atlassian-plugin.xml and the OSGi bundle's key. -->
@@ -145,9 +145,9 @@
             <scope>provided</scope>
         </dependency>
         <dependency>
-            <groupId>javax.inject</groupId>
-            <artifactId>javax.inject</artifactId>
-            <version>1</version>
+            <groupId>jakarta.servlet</groupId>
+            <artifactId>jakarta.servlet-api</artifactId>
+            <version>6.0.0</version>
             <scope>provided</scope>
         </dependency>
     </dependencies>
@@ -258,6 +258,7 @@
                         </Require-Bundle>
                         <Import-Package>
                             fyi.iapetus.plugins.acpolyfill;resolution:="optional",
+                            jakarta.servlet;resolution:=optional,
                             *;resolution:=optional
                         </Import-Package>
                     </instructions>

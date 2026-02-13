@@ -7,7 +7,7 @@
         <param name="plugin-logo">images/pluginLogo.png</param>
 
         <!-- Atlassian Connect Polyfill -->
-        <param name="ac.baseurl">/plugins/servlet/confluence-example/</param>
+        <param name="ac.baseurl">/plugins/servlet/confluence-example</param>
         <param name="ac.context">confluence-example-atlassian-connect</param>
     </plugin-info>
 

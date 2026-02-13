@@ -31,20 +31,21 @@ Platform 7 (Jira 10, Confluence 9, Bamboo 10 and Bitbucket 9), and Platform 8 (J
 
 This compatibility matrix will show you which versions of IApetus can be used with specific versions of the host product.
 
-| Version | Jira           | Confluence    | Bamboo         | Bitbucket      |
-|---------|----------------|---------------|----------------|----------------|
-| 3.0.0   | N/A            | 10.0.x        | N/A            | N/A            |
-| 2.0.1   | 9.0.0 - 10.7.x | 8.0.0 - 9.5.x | 9.0.0 - 10.2.x | 8.0.0 - 9.6.x  |
-| 2.0.0   | -              | -             | -              | -              |
-| 1.6.2   | -              | -             | -              | -              |
-| 1.6.1   | -              | -             | -              | -              |
-| 1.6.0   | -              | -             | -              | -              |
-| 1.5.0   | -              | -             | -              | -              |
-| 1.4.0   | -              | -             | -              | -              |
-| 1.3.0   | -              | -             | -              | -              |
-| 1.2.0   | -              | -             | -              | -              |
-| 1.1.0   | -              | -             | -              | -              |
-| 1.0.0   | 9.0.0 - 9.17.x | 8.0.0 - 8.9.x | 9.0.0 - 9.6.x  | 8.0.x - 8.19.x |
+| Version | Jira            | Confluence      | Bamboo          | Bitbucket       |
+|---------|-----------------|-----------------|-----------------|-----------------|
+| 3.1.0   | 11.0.x - 11.3.x | 10.0.x - 10.2.x | 12.0.x - 12.1.x | 10.0.x - 10.1.x |
+| 3.0.0   | N/A             | -               | N/A             | N/A             |
+| 2.0.1   | 9.0.0 - 10.7.x  | 8.0.0 - 9.5.x   | 9.0.0 - 10.2.x  | 8.0.0 - 9.6.x   |
+| 2.0.0   | -               | -               | -               | -               |
+| 1.6.2   | -               | -               | -               | -               |
+| 1.6.1   | -               | -               | -               | -               |
+| 1.6.0   | -               | -               | -               | -               |
+| 1.5.0   | -               | -               | -               | -               |
+| 1.4.0   | -               | -               | -               | -               |
+| 1.3.0   | -               | -               | -               | -               |
+| 1.2.0   | -               | -               | -               | -               |
+| 1.1.0   | -               | -               | -               | -               |
+| 1.0.0   | 9.0.0 - 9.17.x  | 8.0.0 - 8.9.x   | 9.0.0 - 9.6.x   | 8.0.x - 8.19.x  |
 
 _The last verified version range will continue to apply until otherwise specified_
 
@@ -112,7 +113,7 @@ you will need to add our repository to your `pom.xml`.
   <dependency>
     <groupId>fyi.iapetus.plugins</groupId>
     <artifactId>acpolyfill</artifactId>
-    <version>3.0.0-SNAPSHOT</version>
+    <version>3.1.0-SNAPSHOT</version>
     <scope>provided</scope>
   </dependency>
   ...
@@ -407,7 +408,7 @@ For Atlassian Jira, you can add the following dependency:
 <dependency>
     <groupId>fyi.iapetus.plugins</groupId>
     <artifactId>acpolyfill</artifactId>
-    <version>3.0.0-SNAPSHOT</version>
+    <version>3.1.0-SNAPSHOT</version>
     <classifier>jira</classifier>
 </dependency>
 ```
@@ -447,7 +448,7 @@ For Atlassian Confluence, you can add the following dependency:
 <dependency>
     <groupId>fyi.iapetus.plugins</groupId>
     <artifactId>acpolyfill</artifactId>
-    <version>3.0.0-SNAPSHOT</version>
+    <version>3.1.0-SNAPSHOT</version>
     <classifier>confluence</classifier>
 </dependency>
 ```
@@ -505,7 +506,7 @@ For Atlassian Bamboo, you can add the following dependency:
 <dependency>
     <groupId>fyi.iapetus.plugins</groupId>
     <artifactId>acpolyfill</artifactId>
-    <version>3.0.0-SNAPSHOT</version>
+    <version>3.1.0-SNAPSHOT</version>
     <classifier>bamboo</classifier>
 </dependency>
 ```
@@ -542,7 +543,7 @@ For Atlassian Bitbucket, you can add the following dependency:
 <dependency>
     <groupId>fyi.iapetus.plugins</groupId>
     <artifactId>acpolyfill</artifactId>
-    <version>3.0.0-SNAPSHOT</version>
+    <version>3.1.0-SNAPSHOT</version>
     <classifier>bitbucket</classifier>
 </dependency>
 ```

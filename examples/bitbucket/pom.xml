@@ -4,7 +4,7 @@
 
     <groupId>fyi.iapetus.examples</groupId>
     <artifactId>bitbucket-example</artifactId>
-    <version>3.0.0-SNAPSHOT</version>
+    <version>3.1.0-SNAPSHOT</version>
     <packaging>atlassian-plugin</packaging>
 
     <name>bitbucket-example</name>
@@ -16,7 +16,7 @@
     </organization>
 
     <properties>
-        <bitbucket.version>9.5.0</bitbucket.version>
+        <bitbucket.version>10.0.0</bitbucket.version>
         <bitbucket.data.version>${bitbucket.version}</bitbucket.data.version>
         <acpolyfill.version>${project.version}</acpolyfill.version>
         <!-- This property ensures consistency between the key in atlassian-plugin.xml and the OSGi bundle's key. -->
@@ -156,9 +156,9 @@
             <scope>provided</scope>
         </dependency>
         <dependency>
-            <groupId>javax.servlet</groupId>
-            <artifactId>javax.servlet-api</artifactId>
-            <version>3.1.0</version>
+            <groupId>jakarta.servlet</groupId>
+            <artifactId>jakarta.servlet-api</artifactId>
+            <version>6.0.0</version>
             <scope>provided</scope>
         </dependency>
         <dependency>
@@ -282,6 +282,7 @@
                         </Require-Bundle>
                         <Import-Package>
                             fyi.iapetus.plugins.acpolyfill;resolution:="optional",
+                            jakarta.servlet;resolution:=optional,
                             *;resolution:=optional
                         </Import-Package>
                     </instructions>

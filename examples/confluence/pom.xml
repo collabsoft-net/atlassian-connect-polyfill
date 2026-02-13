@@ -7,7 +7,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>fyi.iapetus.examples</groupId>
     <artifactId>confluence-example</artifactId>
-    <version>3.0.0-SNAPSHOT</version>
+    <version>3.1.0-SNAPSHOT</version>
 
     <organization>
         <name>Example Company</name>
@@ -185,9 +185,9 @@
             <scope>provided</scope>
         </dependency>
         <dependency>
-            <groupId>javax.servlet</groupId>
-            <artifactId>javax.servlet-api</artifactId>
-            <version>4.0.1</version>
+            <groupId>jakarta.servlet</groupId>
+            <artifactId>jakarta.servlet-api</artifactId>
+            <version>6.0.0</version>
             <scope>provided</scope>
         </dependency>
     </dependencies>
@@ -299,6 +299,7 @@
                         </Require-Bundle>
                         <Import-Package>
                             fyi.iapetus.plugins.acpolyfill;resolution:="optional",
+                            jakarta.servlet;resolution:=optional,
                             *;resolution:=optional
                         </Import-Package>
                     </instructions>
