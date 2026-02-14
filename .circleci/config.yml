@@ -125,25 +125,25 @@ commands:
     steps:
       - prepare
 
-      # - run:
-      #     name: Publish Atlassian Connect Polyfill helper classes for Jira - Platform << parameters.platform >>
-      #     command: |
-      #       atlas-mvn clean deploy \
-      #         -P jira \
-      #         -DskipTests \
-      #         -DnvdApiKey=${NVD_API_KEY} \
-      #         -Drelease=<< parameters.release >> \
-      #         -Djira.version=<< parameters.jira >> \
-      #         -Dconfluence.version=<< parameters.confluence>> \
-      #         -Dbamboo.version=<< parameters.bamboo >> \
-      #         -Dbitbucket.version=<< parameters.bitbucket >> \
-      #         -Dacpolyfill.sal.version=<< parameters.sal >> \
-      #         -Dacpolyfill.upm.version=<< parameters.upm >> \
-      #         -Dacpolyfill.plugins.version=<< parameters.plugins >> \
-      #         -Dacpolyfill.webresources.version=<< parameters.webresources >> \
-      #         -Dacpolyfill.velocity.version=<< parameters.velocity >> \
-      #         -Dacpolyfill.spring.context.version=<< parameters.spring >>
-      #     no_output_timeout: 60m
+      - run:
+          name: Publish Atlassian Connect Polyfill helper classes for Jira - Platform << parameters.platform >>
+          command: |
+            atlas-mvn clean deploy \
+              -P jira \
+              -DskipTests \
+              -DnvdApiKey=${NVD_API_KEY} \
+              -Drelease=<< parameters.release >> \
+              -Djira.version=<< parameters.jira >> \
+              -Dconfluence.version=<< parameters.confluence>> \
+              -Dbamboo.version=<< parameters.bamboo >> \
+              -Dbitbucket.version=<< parameters.bitbucket >> \
+              -Dacpolyfill.sal.version=<< parameters.sal >> \
+              -Dacpolyfill.upm.version=<< parameters.upm >> \
+              -Dacpolyfill.plugins.version=<< parameters.plugins >> \
+              -Dacpolyfill.webresources.version=<< parameters.webresources >> \
+              -Dacpolyfill.velocity.version=<< parameters.velocity >> \
+              -Dacpolyfill.spring.context.version=<< parameters.spring >>
+          no_output_timeout: 60m
 
       - run:
           name: Publish Atlassian Connect Polyfill helper classes for Confluence - Platform << parameters.platform >>
@@ -165,45 +165,45 @@ commands:
               -Dacpolyfill.spring.context.version=<< parameters.spring >>
           no_output_timeout: 60m
 
-      # - run:
-      #     name: Publish Atlassian Connect Polyfill helper classes for Bitbucket - Platform << parameters.platform >>
-      #     command: |
-      #       atlas-mvn clean deploy \
-      #         -P bitbucket \
-      #         -DskipTests \
-      #         -DnvdApiKey=${NVD_API_KEY} \
-      #         -Drelease=<< parameters.release >> \
-      #         -Djira.version=<< parameters.jira >> \
-      #         -Dconfluence.version=<< parameters.confluence>> \
-      #         -Dbamboo.version=<< parameters.bamboo >> \
-      #         -Dbitbucket.version=<< parameters.bitbucket >> \
-      #         -Dacpolyfill.sal.version=<< parameters.sal >> \
-      #         -Dacpolyfill.upm.version=<< parameters.upm >> \
-      #         -Dacpolyfill.plugins.version=<< parameters.plugins >> \
-      #         -Dacpolyfill.webresources.version=<< parameters.webresources >> \
-      #         -Dacpolyfill.velocity.version=<< parameters.velocity >> \
-      #         -Dacpolyfill.spring.context.version=<< parameters.spring >>
-      #     no_output_timeout: 60m
+      - run:
+          name: Publish Atlassian Connect Polyfill helper classes for Bitbucket - Platform << parameters.platform >>
+          command: |
+            atlas-mvn clean deploy \
+              -P bitbucket \
+              -DskipTests \
+              -DnvdApiKey=${NVD_API_KEY} \
+              -Drelease=<< parameters.release >> \
+              -Djira.version=<< parameters.jira >> \
+              -Dconfluence.version=<< parameters.confluence>> \
+              -Dbamboo.version=<< parameters.bamboo >> \
+              -Dbitbucket.version=<< parameters.bitbucket >> \
+              -Dacpolyfill.sal.version=<< parameters.sal >> \
+              -Dacpolyfill.upm.version=<< parameters.upm >> \
+              -Dacpolyfill.plugins.version=<< parameters.plugins >> \
+              -Dacpolyfill.webresources.version=<< parameters.webresources >> \
+              -Dacpolyfill.velocity.version=<< parameters.velocity >> \
+              -Dacpolyfill.spring.context.version=<< parameters.spring >>
+          no_output_timeout: 60m
 
-      # - run:
-      #     name: Publish Atlassian Connect Polyfill helper classes for Bamboo - Platform << parameters.platform >>
-      #     command: |
-      #       atlas-mvn clean deploy \
-      #         -P bamboo \
-      #         -DskipTests \
-      #         -DnvdApiKey=${NVD_API_KEY} \
-      #         -Drelease=<< parameters.release >> \
-      #         -Djira.version=<< parameters.jira >> \
-      #         -Dconfluence.version=<< parameters.confluence>> \
-      #         -Dbamboo.version=<< parameters.bamboo >> \
-      #         -Dbitbucket.version=<< parameters.bitbucket >> \
-      #         -Dacpolyfill.sal.version=<< parameters.sal >> \
-      #         -Dacpolyfill.upm.version=<< parameters.upm >> \
-      #         -Dacpolyfill.plugins.version=<< parameters.plugins >> \
-      #         -Dacpolyfill.webresources.version=<< parameters.webresources >> \
-      #         -Dacpolyfill.velocity.version=<< parameters.velocity >> \
-      #         -Dacpolyfill.spring.context.version=<< parameters.spring >>
-      #     no_output_timeout: 60m
+      - run:
+          name: Publish Atlassian Connect Polyfill helper classes for Bamboo - Platform << parameters.platform >>
+          command: |
+            atlas-mvn clean deploy \
+              -P bamboo \
+              -DskipTests \
+              -DnvdApiKey=${NVD_API_KEY} \
+              -Drelease=<< parameters.release >> \
+              -Djira.version=<< parameters.jira >> \
+              -Dconfluence.version=<< parameters.confluence>> \
+              -Dbamboo.version=<< parameters.bamboo >> \
+              -Dbitbucket.version=<< parameters.bitbucket >> \
+              -Dacpolyfill.sal.version=<< parameters.sal >> \
+              -Dacpolyfill.upm.version=<< parameters.upm >> \
+              -Dacpolyfill.plugins.version=<< parameters.plugins >> \
+              -Dacpolyfill.webresources.version=<< parameters.webresources >> \
+              -Dacpolyfill.velocity.version=<< parameters.velocity >> \
+              -Dacpolyfill.spring.context.version=<< parameters.spring >>
+          no_output_timeout: 60m
 
       - run:
           name: Publish Atlassian Connect Polyfill - Platform << parameters.platform >>
