@@ -19,6 +19,8 @@ package fyi.iapetus.plugins.acpolyfill.shared;
  */
 
 import java.time.Duration;
+
+import com.atlassian.sal.api.component.ComponentLocator;
 import org.eclipse.gemini.blueprint.context.BundleContextAware;
 import org.eclipse.gemini.blueprint.service.importer.support.Availability;
 import org.eclipse.gemini.blueprint.service.importer.support.OsgiServiceProxyFactoryBean;
@@ -31,9 +33,15 @@ import org.springframework.beans.factory.InitializingBean;
 public final class OsgiServices {
 
     public static <T> T importOsgiService(Class<T> serviceClass) {
-        return invokeFactoryBean(factoryBeanForOsgiService(serviceClass));
+        try {
+            T result = ComponentLocator.getComponent(serviceClass);
+            return null != result ? result : invokeFactoryBean(factoryBeanForOsgiService(serviceClass));
+        } catch (Exception ignored) {
+            return invokeFactoryBean(factoryBeanForOsgiService(serviceClass));
+        }
     }
 
+    @SuppressWarnings("unchecked")
     private static <T> FactoryBean<T> factoryBeanForOsgiService(Class<T> serviceInterface) {
         OsgiServiceProxyFactoryBean factoryBean = new OsgiServiceProxyFactoryBean();
         factoryBean.setAvailability(Availability.MANDATORY);
