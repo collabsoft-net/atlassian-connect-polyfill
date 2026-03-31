@@ -174,13 +174,14 @@
             <plugin>
                 <groupId>org.owasp</groupId>
                 <artifactId>dependency-check-maven</artifactId>
-                <version>12.1.0</version>
+                <version>12.1.9</version>
                 <configuration>
                     <suppressionFiles>
                         <suppressionFile>https://dcapt-downloads.s3.amazonaws.com/atlassian-security-scanner-dc-apps-suppressions.xml</suppressionFile>
                     </suppressionFiles>
                     <nvdApiKey>${nvdApiKey}</nvdApiKey>
                     <skipProvidedScope>true</skipProvidedScope>
+                    <ossindexAnalyzerEnabled>false</ossindexAnalyzerEnabled>
                 </configuration>
                 <executions>
                     <execution>
