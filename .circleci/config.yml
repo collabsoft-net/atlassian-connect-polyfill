@@ -270,7 +270,9 @@ workflows:
           type: approval
           filters:
             branches:
-              only: main
+              only: 
+               - main
+               - 2.0.3
 
       - fyi-iapetus-plugins-deploy:
           name: Atlassian Connect Polyfill - Deploy
@@ -278,7 +280,9 @@ workflows:
             - Atlassian Connect Polyfill - Release
           filters:
             branches:
-              only: main
+              only: 
+               - main
+               - 2.0.3
 
 
 
