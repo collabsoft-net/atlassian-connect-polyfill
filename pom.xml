@@ -24,6 +24,7 @@
         <bitbucket.version>10.0.0</bitbucket.version>
         <platform.version>8.3.0</platform.version>
 
+        <nvdApiKey></nvdApiKey>
         <amps.version>9.1.11</amps.version>
         <nvdApiKey>${env.NVD_API_KEY}</nvdApiKey>
         <acpolyfill.sal.version>7.0.0</acpolyfill.sal.version>
