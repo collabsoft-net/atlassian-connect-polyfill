@@ -5,7 +5,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>fyi.iapetus.plugins</groupId>
     <artifactId>acpolyfill</artifactId>
-    <version>3.1.0</version>
+    <version>3.2.0-SNAPSHOT</version>
     <packaging>${packaging}</packaging>
 
     <organization>
@@ -24,6 +24,7 @@
         <bitbucket.version>10.0.0</bitbucket.version>
         <platform.version>8.3.0</platform.version>
 
+        <nvdApiKey></nvdApiKey>
         <amps.version>9.1.11</amps.version>
         <nvdApiKey>${env.NVD_API_KEY}</nvdApiKey>
         <acpolyfill.sal.version>7.0.0</acpolyfill.sal.version>
