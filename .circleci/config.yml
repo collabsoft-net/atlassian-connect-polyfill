@@ -251,19 +251,26 @@ workflows:
           name: Atlassian Connect Polyfill - Platform 6 (lowest)
           filters:
             branches:
-              ignore: main
+              ignore:
+                - main
+                - 2.0.3
+
 
       - fyi-iapetus-plugins-compile-platform-6-highest:
           name: Atlassian Connect Polyfill - Platform 6 (highest)
           filters:
             branches:
-              ignore: main
+              ignore:
+                - main
+                - 2.0.3
 
       - fyi-iapetus-plugins-compile-platform-7-lowest:
           name: Atlassian Connect Polyfill - Platform 7 (lowest)
           filters:
             branches:
-              ignore: main
+              ignore:
+                - main
+                - 2.0.3
 
       - fyi-iapetus-plugins-release:
           name: Atlassian Connect Polyfill - Release
